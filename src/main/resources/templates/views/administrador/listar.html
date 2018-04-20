@@ -1,0 +1,50 @@
+<h1>Administradores</h1>
+<table class="table table-striped">
+	<tr>
+		<th>Nombre</th>
+		<th>Email</th>
+		<th>Acciones</th>
+	</tr>
+	<tr th:each="administrador:${administradores}">
+		<div th:if="${usuarioactivo.id!=administrador.id}">
+			<td th:text="${administrador.nombre}"></td>
+			<td th:text="${administrador.email}"></td>
+			<td class="acciones">
+				<form action=""><!-- enviar un mensaje -->
+					<input type="text" name="id" hidden="true" th:value="${administrador.id}" />
+					<button class="btn btn-info">
+          				<span class="fa fa-envelope"></span>
+        			</button>
+				</form>
+			
+				<div th:if="${!usuarioactivo.borrable}">
+				
+					<form action="/administrador/borrar" method="post" onsubmit="return confirm('¿Desea borrarlo?')">
+						<input type="text" name="id" hidden="true" th:value="${administrador.id}" />
+						<button class="btn btn-info">
+          					<span class="fa fa-trash"></span>
+        				</button>
+					</form>
+				</div>
+			</td>
+				
+			
+		</div>
+	</tr>
+	<div th:if="${!usuarioactivo.borrable}">
+		<tr>
+			<td colspan="3">
+				<a href="/administrador/crear" class="btn btn-info" role="button" style="color:white;display:block">Crear</a>
+			</td>
+		</tr>
+	</div>
+</table>
+<!-- <button class="btn btn-info">
+          <span class="fa fa-envelope"></span> Correo 
+        </button>
+        <button class="btn btn-info">
+          <span class="fa fa-pencil"></span> Crear 
+        </button>
+        <button class="btn btn-info">
+          <span class="fa fa-trash"></span> Borrar 
+        </button>  -->

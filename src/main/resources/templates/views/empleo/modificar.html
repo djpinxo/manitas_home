@@ -1,0 +1,14 @@
+<form method="post" onsubmit="validar()">
+	<h1>Modificar empleo</h1>
+   
+	 		<h6>Nombre:</h6>
+			<input type="text" name="nombre" th:value="${empleo.nombre}"/><br/>
+			<h6>Categoria:</h6>
+			<select name="idcategoria">
+				<div th:each="categoria:${categorias}">
+					<option th:value="${categoria.id}" th:text="${categoria.nombre}" th:selected="${(empleo.categoria.id==categoria.id)?'true':'false'}"></option>
+				</div>
+			</select><br/>
+			
+			<button>modificar empleo</button>
+</form>

@@ -1,0 +1,14 @@
+<form method="post" onsubmit="validar()">
+	<h1>Crear empleo</h1>
+   
+	 		<h6>Nombre:</h6>
+			<input type="text" name="nombre"/><br/>
+			<h6>Categoria:</h6>
+			<select name="idcategoria">
+				<div th:each="categoria:${categorias}">
+					<option th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
+				</div>
+			</select><br/>
+			
+			<button>crear empleo</button>
+</form>

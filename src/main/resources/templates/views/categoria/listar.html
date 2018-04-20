@@ -1,0 +1,29 @@
+<h1>Categorias</h1>
+<table class="table table-striped">
+	<tr>
+		<th>Nombre</th>
+		<th>Acciones</th>
+	</tr>
+	<tr th:each="categoria:${categorias}">
+		<td th:text="${categoria.nombre}"></td>
+		<td class="acciones">
+			<form action="/categoria/modificar">
+				<input type="text" name="id" hidden="true" th:value="${categoria.id}" />
+				<button class="btn btn-info">
+         			<span class="fa fa-pencil"></span> 
+        		</button>
+			</form> 
+			<form action="/categoria/borrar" onsubmit="return confirm('¿Desea borrarlo?')">
+				<input type="text" name="id" hidden="true" th:value="${categoria.id}" />
+				<button class="btn btn-info">
+          			<span class="fa fa-trash"></span>
+        		</button>
+			</form>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<a href="/categoria/crear" class="btn btn-info" role="button" style="color:white;display:block">Crear</a>
+		</td>
+	</tr>
+</table>

@@ -1,0 +1,64 @@
+<header>
+<nav class="navbar navbar-expand-xl fixed-top" role="navigation">
+<div class="container">
+    
+          <a class="navbar-brand" href="/"><img class="logo" src="/img/logo.png" height="75" /></a>
+
+          <button class="navbar-toggler navbar-toggler-right custom-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbarLg" id="botonComprimido">
+              <span class="navbar-toggler-icon" style="color:blue" id="iconoBoton"></span>
+          </button>
+   
+    <div class="navbar-collapse collapse" id="collapsingNavbarLg">
+        <ul class="navbar-nav  ml-auto">
+            <li class="nav-item">
+                <a class="nav-link active" href="/" id="anim-underline">HOME</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="anim-underline">QUIENES SOMOS</a>
+            </li>
+
+             <li class="nav-item dropdown">
+                    <a href="centros.html" class="nav-link dropdown-toggle collapsed" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="anim-underline">PRUEBA 1</a>
+
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                          <a class="dropdown-item" href="#">1</a>
+                          <a class="dropdown-item" href="#">2</a>
+                          <a class="dropdown-item" href="#">3</a>
+                          <a class="dropdown-item" href="#">4</a>
+                        </div>
+             </li>
+
+             <li class="nav-item dropdown">
+                    <a href="servicios.html" class="nav-link dropdown-toggle collapsed" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="anim-underline">PRUEBA 2</a>
+
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                          <a class="dropdown-item" href="#">1</a>
+                          <a class="dropdown-item" href="#">2</a>
+                          <a class="dropdown-item" href="#">3</a>
+                          <a class="dropdown-item" href="#">4</a>
+                          <a class="dropdown-item" href="#">5</a>
+                        </div>
+             </li>
+
+            <li class="nav-item">
+                 <a class="nav-link" id="anim-underline" href="#">PRUEBA 3</a>
+            </li>
+          	<div th:if="${usuarioactivo!=null}">
+          	<li>
+              <a class="nav-link" id="anim-underline" href="/login/logout" th:text="${usuarioactivo.nombre.toUpperCase()}+' (DESCONECTAR)'"></a>
+            </li>
+            </div>
+          	<div th:if="${usuarioactivo==null}">
+            <li>
+              <a class="nav-link" id="anim-underline" href="/login/login">INICIA SESION</a>
+            </li>
+            </div>
+        </ul>
+
+        
+        
+    </div>
+    </div>
+</nav>
+
+</header>

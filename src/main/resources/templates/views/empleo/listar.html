@@ -1,0 +1,31 @@
+<h1>Empleos</h1>
+<table class="table table-striped">
+	<tr>
+		<th>Nombre</th>
+		<th>Categoria</th>
+		<th>Acciones</th>
+	</tr>
+	<tr th:each="empleo:${empleos}">
+		<td th:text="${empleo.nombre}"></td>
+		<td th:text="${empleo.categoria.nombre}"></td>
+		<td class="acciones">
+			<form action="/empleo/modificar">
+				<input type="text" name="id" hidden="true" th:value="${empleo.id}" />
+				<button class="btn btn-info">
+         			<span class="fa fa-pencil"></span> 
+        		</button>
+			</form> 
+			<form action="/empleo/borrar" onsubmit="return confirm('¿Desea borrarlo?')">
+				<input type="text" name="id" hidden="true" th:value="${empleo.id}" />
+				<button class="btn btn-info">
+          			<span class="fa fa-trash"></span>
+        		</button>
+			</form>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">
+			<a href="/empleo/crear" class="btn btn-info" role="button" style="color:white;display:block">Crear</a>
+		</td>
+	</tr>
+</table>
