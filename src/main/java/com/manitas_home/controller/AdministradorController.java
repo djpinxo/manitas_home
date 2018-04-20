@@ -64,7 +64,7 @@ public class AdministradorController {
 				salida="redirect:/administrador/crear";
 				System.out.println("no se puede borrar el usuario "+((Administrador)session.getAttribute("user")).getNombre());
 			}
-		}*/
+		}  */
 		if(permisosBorrar(session)&&RAdministrador.exists(((Administrador)session.getAttribute("user")).getId()))
 			RAdministrador.delete(((Administrador)session.getAttribute("user")).getId());
 		return permisosBorrar("redirect:/login/logout","redirect:/administrador/listar",session);
