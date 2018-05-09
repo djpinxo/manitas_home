@@ -38,6 +38,7 @@ public class AdministradorController {
 		else salida=funciones.funcionstart.funcionArranque(session,m,this.RAdministrador,"views/_t/main");
 		return salida;*/
 		m.put("usuarioactivo", session.getAttribute("user"));
+		if(session.getAttribute("user")!=null)
 		m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 		m.put("view","administrador/crear");
 		return permisosCrear("views/_t/main", "redirect:/administrador/listar",session);
