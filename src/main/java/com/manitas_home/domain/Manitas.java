@@ -1,11 +1,15 @@
 package com.manitas_home.domain;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Manitas {
+public class Manitas extends Usuario{
 	
 	@Id
 	@GeneratedValue
@@ -16,20 +20,26 @@ public class Manitas {
 	private String email;
 	private String password;
 	private String direccion;
+	private String descripcion;
 	private int radioAccion;
 	private boolean habilitado;
+	@ManyToMany
+	private Collection<Empleo> empleos;
+	@OneToMany(mappedBy = "manitas")
+	private Collection<Opinion> opiniones;
 
 
 	public Manitas() {
 		this.habilitado=false;
 	}
-	public Manitas(String nombre,String apellidos,String telefono, String email, String password,String direccion,int radioAccion) {
+	public Manitas(String nombre,String apellidos,String telefono, String email, String password,String direccion,String descripcion,int radioAccion) {
 	this.nombre=nombre;
 	this.apellidos=apellidos;
 	this.telefono=telefono;
 	this.email=email;
 	this.password=password;
 	this.direccion=direccion;
+	this.descripcion=descripcion;
 	this.radioAccion=radioAccion;
 	this.habilitado=false;
 	}
@@ -75,6 +85,12 @@ public class Manitas {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 	public boolean isHabilitado() {
 		return habilitado;
 	}
@@ -86,6 +102,18 @@ public class Manitas {
 	}
 	public void setRadioAccion(int radioAccion) {
 		this.radioAccion = radioAccion;
+	}
+	public Collection<Empleo> getEmpleos() {
+		return empleos;
+	}
+	public void setEmpleos(Collection<Empleo> empleos) {
+		this.empleos = empleos;
+	}
+	public Collection<Opinion> getOpiniones() {
+		return opiniones;
+	}
+	public void setOpiniones(Collection<Opinion> opiniones) {
+		this.opiniones = opiniones;
 	}
 	
 

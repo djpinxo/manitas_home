@@ -1,0 +1,18 @@
+<h1>Bandeja de entrada</h1>
+<table class="table table-striped">
+	<tr>
+		<th>Mensaje</th>
+		<th>Remitente</th>
+		<th>fecha</th>
+		<th>Acciones</th>
+	</tr>
+	<tr th:each="mensaje:${mensajes}">
+		
+			<td th:text="${mensaje.mensaje}"></td>
+			<td th:text="${mensaje.remitente}"></td>
+			<td th:text="${mensaje.fecha.toLocaleString()}"></td>
+			<td class="acciones">
+				<a th:href="'/mensaje/ver?id='+${mensaje.id}" class="btn btn-info" role="button"><span class="fa fa-envelope"></span></a>
+			</td>
+	</tr>
+</table>

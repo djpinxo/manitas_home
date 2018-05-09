@@ -1,12 +1,14 @@
 package com.manitas_home.domain;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Cliente {
+public class Cliente extends Usuario{
 
 	@Id
 	@GeneratedValue
@@ -18,6 +20,8 @@ public class Cliente {
 	private String password;
 	private String direccion;
 	private boolean habilitado;
+	@OneToMany(mappedBy = "cliente")
+	private Collection<Opinion> opiniones;
 
 	public Cliente() {
 		this.habilitado = false;
@@ -96,5 +100,10 @@ public class Cliente {
 	public void setHabilitado(boolean habilitado) {
 		this.habilitado = habilitado;
 	}
-
+	public Collection<Opinion> getOpiniones() {
+		return opiniones;
+	}
+	public void setOpiniones(Collection<Opinion> opiniones) {
+		this.opiniones = opiniones;
+	}
 }

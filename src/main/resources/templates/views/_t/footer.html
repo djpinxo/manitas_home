@@ -2,28 +2,29 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-3">
-                   <a href="#"> <img class="logo" src="/img/logo.png" /> </a>
+                   <a href="/"  id="logoFooter"> <img class="logo" src="/img/logo.png"  /> </a>
+                    <a href="/"  id="logoFooterHome"> <img class="logo" src="/img/logoManitas.png"  /> </a>
                 </div>
                 <div class="col-sm-3">
                     <h5>¿Qué reforma necesitas?</h5>
                     <ul>
-                        <li><a href="#">Pintores</a></li>
-                        <li><a href="#">Tapiceros</a></li>
-                        <li><a href="#">Albañiles</a></li>
-                        <li><a href="#">Electricistas</a></li>
-                        <li><a href="#">Parquetistas</a></li>
-                        <li><a href="#">Carpinteros</a></li>
-                        <li><a href="#">Mudanzas</a></li>
-                        <li><a href="#">Cerrajeros</a></li>
+                        <li><a href="/manitas/listar?filtro=pintor">Pintores</a></li>
+                        <li><a href="/manitas/listar?filtro=tapicero">Tapiceros</a></li>
+                        <li><a href="/manitas/listar?filtro=albañil">Albañiles</a></li>
+                        <li><a href="/manitas/listar?filtro=electricista">Electricistas</a></li>
+                        <li><a href="/manitas/listar?filtro=parquetista">Parquetistas</a></li>
+                        <li><a href="/manitas/listar?filtro=carpintero">Carpinteros</a></li>
+                        <li><a href="/manitas/listar?filtro=mudanzas">Mudanzas</a></li>
+                        <li><a href="/manitas/listar?filtro=cerrajeri">Cerrajeros</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-3">
                     <h5>Acerca de nosotros</h5>
                     <ul>
-                        <li><a href="#">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a href="#">Informacion de la compañia</a></li>
-                        <li><a href="#">Contacto</a></li>
-                        <li><a href="#">Registrate</a></li>
+                        <li><a th:href="${usuarioactivo==null}?'/mensaje/crear?anonimo=true':'/mensaje/crear?emaildestinatario=administradores'">Contacto</a></li>
+                        <li><a href="/login/crear">Registrate</a></li>
                     </ul>
                 </div>
                 
@@ -33,7 +34,7 @@
                         <a href="https://es-es.facebook.com/" class="facebook"><i class="fa fa-facebook"></i></a>
                         <a href="https://plus.google.com/discover?hl=es" class="google"><i class="fa fa-google-plus"></i></a>
                     </div>
-                    <a href="http://www.google.com" class="btn btn-default" role="button">Contactanos</a>
+                    <a th:href="${usuarioactivo==null}?'/mensaje/crear?anonimo=true':'/mensaje/crear?emaildestinatario=administradores'" class="btn btn-default" role="button">Contactanos</a>
                     
                 </div>
             </div>

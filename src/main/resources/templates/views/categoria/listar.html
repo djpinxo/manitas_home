@@ -7,18 +7,8 @@
 	<tr th:each="categoria:${categorias}">
 		<td th:text="${categoria.nombre}"></td>
 		<td class="acciones">
-			<form action="/categoria/modificar">
-				<input type="text" name="id" hidden="true" th:value="${categoria.id}" />
-				<button class="btn btn-info">
-         			<span class="fa fa-pencil"></span> 
-        		</button>
-			</form> 
-			<form action="/categoria/borrar" onsubmit="return confirm('¿Desea borrarlo?')">
-				<input type="text" name="id" hidden="true" th:value="${categoria.id}" />
-				<button class="btn btn-info">
-          			<span class="fa fa-trash"></span>
-        		</button>
-			</form>
+			<a th:href="${'/categoria/modificar?id='+categoria.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>
+			<a th:href="${'/categoria/borrar?id='+categoria.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
 		</td>
 	</tr>
 	<tr>

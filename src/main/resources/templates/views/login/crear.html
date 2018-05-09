@@ -1,45 +1,317 @@
 <form method="post" onsubmit="return validar(this)" name="registro">
-	Selecciona el tipo de cuenta:
-   
-	 <select name="tipo" onChange="mostrar(this)">
-        <option value="cliente">Cliente</option>
-        <option value="manitas">Manitas</option>
-     </select>
+	 <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h2 id="registroH2">Registrese como Cliente</h2>
+                <hr/>
+            </div>
+        </div>
 
-			<h6>Nombre:</h6>
-			<input type="text" name="nombre"/><br/>
-			<h6>Apellidos:</h6>
-			<input type="text" name="apellidos"/><br/>
-			<h6>Contraseña:</h6>
-			<input type="password" name="passwordsin"/><br/>
-			<h6>Email:</h6>
-			<input type="email" name="email"/><br/>
-			<h6>Direccion:</h6><!-- usar api google maps -->
-			<input type="text" name="direccion"/> <br/>
-			<h6>Telefono:</h6>
-			<input type="text" name="telefono"/> <br/>
-			<h6 style="display:none">Radio accion:</h6>
-			<input type="number" name="radio" hidden="true" disabled="true"/><br style="display:none"/>
-			<input type="text" name="password" hidden="hidden"/>
+        <div class="row" >
+            <div class="col-xs-6 col-md-3" style="padding-bottom: 10px;">Selecciona el tipo de cuenta:</div>
+            <div class="col-xs-6 col-md-4">
+               
+                    <button type="button" class="btn btn-primary" id="botonCliente" onclick ="mostrar('cliente')">Cliente</button>
+                    
+               
+                    <button type="button" class="btn btn-warning" id="botonManitas" onclick="mostrar('manitas')">Manitas</button>
+                    
+                    <input type="text" hidden="true" value="cliente" name="tipo" class="form-control" id="tipo"/>
+                
+            </div>
+        </div>
+        
 
-			<button>crear usuario</button>
+        <br/>
+        <div class="row">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label for="name" >Nombre</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <span class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></span>
+                        <input type="text" name="nombre" class="form-control" id="nombre"
+                               placeholder="Introduzca su nombre" required="true" autofocus="true"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                            Nombre no valido
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label for="apellidos">Apellidos</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                        <input type="text" name="apellidos" class="form-control" id="apellidos"
+                               placeholder="Introduzca sus apellidos" required="true" autofocus="true"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                             Apellidos no validos
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label for="email">Correo Electronico</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                        <input type="text" name="email" class="form-control" id="email"
+                               placeholder="Introduzca su e-mail" required="true" autofocus="true"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                           El correo no es valido
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label for="tlf">Teléfono</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-phone"></i>
+                        </div>
+                        <input type="text" name="telefono" class="form-control"
+                               id="tlf" placeholder="Introduzca su teléfono" required="true"/>
+                    </div>
+                </div>
+                 <div class="col-md-3">
+                <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                           El telefono no es valido
+                        </span>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label for="passwordsin">Contraseña</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group has-danger">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                        <input type="password" name="passwordsin" class="form-control" id="password"
+                               placeholder="Introduzca su contraseña" required="true"/>
+                       	<input type="password" name="password" hidden="true"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                            <i class="fa fa-close">Contraseña no valida</i>
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label for="password-confirmation">Confirme su contraseña</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-repeat"></i>
+                        </div>
+                        <input type="password" name="password-confirmation" class="form-control"
+                               id="password-confirm" placeholder="Confirme su contraseña" required="true"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                            <i class="fa fa-close">Repita correctamente su contraseña</i>
+                        </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label for="mapa">Introduzca su dirección</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-map-marker"></i>
+                        </div>
+                    
+                        <div class="col-11" style="padding:0px">
+                            
+                            <article>
+                                <section>
+                                    <div id="map-canvas" style="height: 200px;width: auto"></div>
+                                     <script>google.maps.event.addDomListener(window,'load', initialize)</script>
+
+                                </section>
+
+                            </article>
+                        
+                            
+                                <div class="input-group add-on" style="width: auto">
+                                  <input type="text" class="form-control" placeholder="Introduzca su dirección o seleccione un punto en el mapa" id="direccion"/>
+                                  <input type="text" hidden="true" name="coordenadas" id="coordenadas"/>
+                                  <div class="input-group-btn">
+                                    <input type="button"  class="btn btn-info" id="buscar" onclick="buscarCalle()" value=">"></input>
+                                  </div>
+                                </div>
+                             
+                            
+                        </div>
+                             
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="divEmpleo" hidden="true">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label for="descripcion">Seleccione su oficio</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-wrench"></i>
+                        </div>
+                        <select multiple="true" id="idempleo" name="idempleo" required="false" disabled="true">
+                        	<option th:each="empleo:${empleos}" th:value="${empleo.id}" th:text="${'('+empleo.categoria.nombre+') - '+empleo.nombre}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="divDescripcion" hidden="true">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label for="descripcion">¿A que se dedica?</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-wrench"></i>
+                        </div>
+                        <textarea class="form-control" rows="5" id="descripcion" name="descripcion" placeholder="Exponga sus cualidades laborales"></textarea>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          <div class="row" id="divRadio" hidden="true">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label for="radio">Radio de acción</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-feed"></i>
+                        </div>
+                         <input class="form-control" type="number"  id="radio" max="1000" name="radio" placeholder="Introduzca el radio de accion en el que desea trabajar" required="false" disabled="true"/>
+                         <div class="input-group-addon" style="width: 2.6rem">
+                            <span>Km</span>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-3">
+                <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                           El radio de acción es incorrecto
+                        </span>
+                </div>
+            </div>
+            </div>
+        </div>
+
+       
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-info"  onclick="desbilitarDireccion()"><i class="fa fa-user-plus"></i> Registrar</button>
+            </div>
+        </div>
 </form>
 		<script>
-			function mostrar(camposelect){
+			/*function mostrar(camposelect){
 				var form = camposelect.parentNode;
 				console.log(form);
 				if(camposelect.value=="manitas"){
 					//cambiar h6 (children[16])
 					form.children[21].style="";
 					form.children[19].style="";
-					form.radio.hidden=false;
+					form.radio.hidden="true"=false;
 					form.radio.disabled=false;
 				}
 				else {
 					form.children[19].style="display:none";
 					form.children[21].style="display:none";
-					form.radio.hidden=true;
+					form.radio.hidden="true"=true;
 					form.radio.disabled=true;
 				}
+			}*/
+			function mostrar(tipo){
+
+	            cuenta=tipo;
+	           
+	            
+	            if(cuenta=="manitas"){
+	                 
+	                    divDescripcion.hidden=false;
+	                    divRadio.hidden=false;
+	                    divEmpleo.hidden=false;
+	                    document.getElementById("registroH2").innerHTML = "Registrese como Manitas";
+	                    document.getElementById("tipo").value="manitas";
+	                    document.getElementById("radio").disabled=false;
+	                    document.getElementById("radio").required=true;
+	                    idempleo.disabled=false;
+	                    idempleo.required=true;
+	                }
+	                else {
+	                   divRadio.hidden=true;
+	                    divDescripcion.hidden=true;
+	                    divEmpleo.hidden=true;
+
+	                     document.getElementById("registroH2").innerHTML = "Registrese como Cliente";
+	                     document.getElementById("tipo").value="cliente";
+	                     document.getElementById("radio").disabled=true;
+	                     idempleo.disabled=true;
+	                     
+	                }
+	     }
+			function desbilitarDireccion(){
+				if(document.getElementById('coordenadas').value!="")
+					document.getElementById('direccion').disabled='true';
+				
 			}
 		</script>

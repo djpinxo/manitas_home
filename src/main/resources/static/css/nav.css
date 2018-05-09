@@ -1,18 +1,38 @@
 
-/*---------------       MENU   ---------------------- */
+/*---------------       CSS REGISTRO   ---------------------- */
+div#formulario{
+  padding-top:30px;
+   margin-bottom: 30px
+}
 
-
-
-#collapsingNavbarLg ul li > div{
-   background-color: skyblue;
-   padding-bottom: 0;
-   padding-top: 0;
+/*---------------       CSS LOGIN   ---------------------- */
+div#login{
+ margin-top:30px;
+  margin-bottom: 30px
 }
 
 
 
-#collapsingNavbarLg ul li > div a{
 
+/*---------------       MENU   ---------------------- */
+
+
+#collapsingNavbarLg ul li > div{
+   background-color: #ffd83f;
+   padding-bottom: 0;
+   padding-top: 0;
+   border-radius: 5px;
+}
+#collapsingNavbarLg ul li > div a:hover{
+   background-color: #ffd700;
+  
+}
+
+
+
+
+#collapsingNavbarLg ul li > div a{
+  text-align: center
    padding-bottom: 10px;
    padding-top: 10px;
 }
@@ -25,7 +45,10 @@ nav.navbar {
    padding: 15px;
 
 }
-
+#collapsingNavbarLg ul li > div {
+  text-align: center
+  
+}
 
 
 /*---------------      COLORES MENU   ---------------------- */
@@ -40,28 +63,10 @@ nav.navbar {
     color:white;
 }
 
-/*
-#collapsingNavbarLg ul li a.active{
-    background-color:  #ff9900;
-    color: white; 
-}
 
 
 
-#collapsingNavbarLg ul > li > a:hover{
-   
-background-color: #fffc89;
-    color:navy;
-
-}
-
-
-#collapsingNavbarLg ul > li > a.dropdown-toggle:focus{
-background-color: #fffc89;
-color:navy;
-}
-
-*/
+/*---------------      ANIMACIONES NAVBAR   ---------------------- */
 
 #anim-underline {
   
@@ -109,163 +114,194 @@ color:navy;
   transition: 0.5s;
 }
 
+@media screen and (max-width: 1200px) {
+#anim-underline:hover:before {
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+}
+}
+
+
+/*---------------      BOTON COMPRIMIDO   ---------------------- */
+
+#botonComprimido {
+    border-color: white;
+}
+
+#iconoBoton{background-image:url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E")
+}
 
 
 
-/* Site Heading */
+
+
+/*---------------      CAROUSEL   ---------------------- */
+
+.carousel-item> img{
+    width: 100%;
+    height: 550px;
+}
+@media only screen and (max-width: 600px) {
+ 
+.carousel-item> img{
+    width: 100%;
+    height: 250px;
+}
+}
+
+
+
+
+
+/*---------------      TITULO CATEGORIAS   ---------------------- */
 .site-heading h3{
     font-size : 40px;
     margin-bottom: 10px;
     font-weight: 600;
 }
-.border2 {
-    background: #e8e8e8 ;
-    height: 1px;
-    width: 40%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 45px;
-    float:left;
-}
 
-.feature-box {
-    text-align: center;
-    padding: 20px;
-    transition: .5s;
-    margin-bottom: 30px;
-    border: 1px solid #e8e8e8;
 
-}
-.feature-box:hover {
-   
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-.feature-box h4 {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 25px 0 15px;
-}
 
-#boton {
-    font-size: 14px;
-    padding: 13px 30px;
-    border-radius: 5px;
-    border: 1px solid #b40028 ;
-    min-width: 200px;
-    display: inline-block;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-    color: #b40028 ;
-    background-color:transparent;
-    transition: all .25s ease-in-out;
-    margin: 10px 0px 10px 0px;
-    
-}
-#boton:hover {
-    background: #b40028 ;
-    border: 1px solid #fff;
-    font-weight:700px;
-    color:white;
-    
-}
+
+
+/*---------------      MENU MULTICATEGORIAS   ---------------------- */
 .index-content{
-  margin-top: 85px;
+  margin-top: 3%;
 }
-.btn-link:hover{
-    color:black;
-    text-decoration:none;
-}
+
+
 .index-content{
     margin-bottom:20px;
-    padding:50px 0px;
+   margin-top: 20px;
     
 }
 .index-content .row{
     margin-top:20px;
     margin-bottom:20px;
 }
-/*
-.index-content a{
-    color: black;
-}
-*/
-.btn-link{
-	 color:black;
-}
-.index-content .card{
-    background-color: #FFFFFF;
-    padding:0;
-      margin-bottom:30px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius:4px;
-    box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3);
 
-}
-.index-content .card:hover{
-    box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
-    color:black;
-}
-.index-content .card img{
-     height:150px;
-    width:100%;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-}
-.index-content .card h4{
-    margin:20px;
-}
-.index-content .card p{
-    margin:20px;
-    opacity: 0.65;
-}
-.index-content .blue-button{
-    width: 100px;
-    -webkit-transition: background-color 1s , color 1s; /* For Safari 3.1 to 6.0 */
-    transition: background-color 1s , color 1s;
-    min-height: 20px;
-    background-color: #002E5B;
-    color: #ffffff;
-    border-radius: 4px;
-    text-align: center;
-    font-weight: lighter;
-    margin: 0px 20px 15px 20px;
-    padding: 5px 0px;
-    display: inline-block;
-}
-.index-content .blue-button:hover{
-    background-color: #dadada;
-    color: #002E5B;
-}
 @media (max-width: 768px) {
-	
+
     .index-content .col-lg-4 {
         margin-top: 20px;
     }
 }
 
 
-
-/*
-@media ( max-width : 1000px) {
-	#myFooter>.container>div>div>a {
-		width: 65px;
-		height: 65px;
-		overflow: hidden;
-	}
-	#myFooter>.container>div>div>a>img {
-		height: 65px;
-		margin: -10px 0 0 -10px;
-	}
+.project {
+    margin-bottom: 30px;
+    vertical-align: top;
+    margin-right: 30px;
+    float: left;
+    cursor: pointer;
+    width:100%;
 }
-*/
-#myFooter>.container>div>div>a>img {
-       height: 130px;
- }
+
+.project figure {
+    position: relative;
+    display: inline-block;
+}
+
+.project figure img {
+    width: 100%;
+}
+
+.project figure:hover figcaption {
+    background:#d81e05;
+}
+.project figure:hover figcaption .project-details {
+    color: #fff;
+}
+
+.project figure:hover .actions {
+    background-color:rgb(255, 153, 51,.8);
+    top: 0%;
+    font-size:2.3em;
+    font-weight:700;
+    padding-top:10%;
+}
+
+.project figure .actions {
+    display: table-cell;
+    position: absolute;
+    bottom: 0px;
+    top: 50%;
+    left:0;
+    right:0;
+    z-index: 1;
+    opacity: 1;
+    background-color: rgba(29,29,29,.5);
+    -ms-transition: all .2s ease-out;
+    -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+    color:#fff;
+    font-size:2em;
+    padding:2%;
+    font-weight:400;
+    text-align:center;
+    vertical-align: middle;
+}
+
+@media (min-width: 992px) {
+    .project figure .actions {
+    top: 60%;
+    left:0;
+    right:0;
+    font-size:1.5em;
+    padding:2%;
+}
+.project figure:hover .actions {
+    top: 0%;
+    font-size:2em;
+    padding-top:20%;
+}
+}
+
+@media (min-width: 1200px) {
+    .project figure .actions {
+    top: 65%;
+    left:0;
+    right:0;
+    font-size:1.1em;
+    padding:2%;
+    font-weight:400;
+}
+.project figure:hover .actions {
+    top: 0%;
+    font-size:1.5em;
+    padding-top:25%;
+}
+}
+.img-responsive img{
+	height:200px;
+}
+
+
+
+/*--------------------------DIV PUBLICIDAD MANITAS-----------------------------------*/
+.divRegistro{
+  height:250px;
+  background-color: rgb(255, 132, 0,.3);
+}
+#publicidadManitas{
+    text-align: center;
+  
+    margin-top: 3%;
+    margin-top: 3%;
+}
+
+
+
+
+
+
+/*---------------      FOOTER   ---------------------- */
+
 #myFooter {
-    background-color: #3c3d41;
-    color: white;
+    background-color: darkgray;
+    color: black;
     padding-top: 30px;
 }
 
@@ -277,7 +313,7 @@ color:navy;
 }
 
 #myFooter .row {
-    /*margin-bottom: 60px;*/
+    margin-bottom: 30px;
 }
 
 #myFooter .navbar-brand {
@@ -298,7 +334,7 @@ color:navy;
 
 #myFooter h5 {
     font-size: 18px;
-    color: white;
+    color: #333333;
     font-weight: bold;
     margin-top: 30px;
 }
@@ -306,11 +342,11 @@ color:navy;
 #myFooter h2 a{
     font-size: 50px;
     text-align: center;
-    color: #fff;
+    color: #333333;
 }
 
 #myFooter a {
-    color: #d2d1d1;
+    color: #333333;
     text-decoration: none;
 }
 
@@ -361,55 +397,99 @@ color:navy;
     line-height: 25px;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1200px) {
     #myFooter {
         text-align: center;
     }
+    #logoFooterHome{
+     display: block;
+
+    }
+   
+    #logoFooter{
+     display: none;
     
+    }
+}
+@media screen and (min-width: 1200px) {
+    
+    #logoFooterHome{
+     display: none;
+    }
+    #logoFooter{
+     display: block;
+    }
 }
 
-/* CSS used for positioning the footers at the bottom of the page. */
-/* You can remove this. */
+/*---------------------------------------------------------------       CSS PARA REGISTRO          ------------------------------------------------ */
 
-html{
-    height: 100%;
-}
 
-body{
-    display: flex;
-    display: -webkit-flex;
-    flex-direction: column;
-    -webkit-flex-direction: column;
-    height: 100%;
-}
 
-.content{
-   flex: 1 0 auto;
-   -webkit-flex: 1 0 auto;
-   min-height: 200px;
-}
 
-#myFooter{
-   flex: 0 0 auto;
-   -webkit-flex: 0 0 auto;
-   width: 100%;
-}
 
-/*boton*/
-#botonComprimido {
-    border-color: white;
-}
 
-#iconoBoton {
-	background-image:
-		url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E")
-}
-.acciones {
-	display: flex;
+
+
+
+
+
+
+
+
+/*---------------------------------------------------------------       CSS PARA LOGIN          ------------------------------------------------ */
+
+
+
+/*---------------------------------------------------------------		CSS PARA LISTADOS		-------------------------------------------------*/
+
+.input-group-addon{
+padding:.375rem .75rem;
+margin-bottom:0;
+font-size:1rem;
+font-weight:400;
+line-height:1.5;
+color:#495057;
+text-align:center;
+background-color:#e9ecef;
+border:1px solid #ced4da;
+border-radius:.25rem;
 }
 .acciones form{
-	margin-right: 5px;
+	margin-bottom: 5px;
 }
+.acciones a{
+	margin-bottom: 5px;
+}
+.acciones{
+	text-align: center;
+}
+
 th{
-	text-align:center;
+	text-align: center;
+	background-color: #f7b62d;
+	text-shadow: 1px 1px gray;
+	color: white;
 }
+/*.table td,.table th{
+	border-right: 1px solid #f7b62d;
+	border-left: 1px solid #f7b62d;
+	border-bottom: 1px solid #f7b62d;
+	border-top: 1px solid #f7b62d;
+	vertical-align: middle;
+}*/
+.table td,.table th{
+	vertical-align: middle;
+}
+.table th{
+	border-right: 1px solid white;
+	border-left: 1px solid white;
+	border-bottom: 1px solid white;
+	border-top: 1px solid white;
+	vertical-align: middle;
+}
+#botonesOrdenar{
+padding-top: 0;
+background-color: #ff8e1c;
+border: solid 1px lightgray;
+}
+/*--------------------------------------------------------------MINIMIZADOR DE CSS---------------------------https://www.wextensible.com/herramientas/web-tools-online/-------------*/

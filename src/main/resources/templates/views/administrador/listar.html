@@ -5,31 +5,41 @@
 		<th>Email</th>
 		<th>Acciones</th>
 	</tr>
-	<tr th:each="administrador:${administradores}">
-		<div th:if="${usuarioactivo.id!=administrador.id}">
+	<tr th:each="administrador:${administradores}" th:if="${usuarioactivo.id!=administrador.id}">
+		
 			<td th:text="${administrador.nombre}"></td>
 			<td th:text="${administrador.email}"></td>
 			<td class="acciones">
-				<form action=""><!-- enviar un mensaje -->
+				<!-- <form action="">
 					<input type="text" name="id" hidden="true" th:value="${administrador.id}" />
 					<button class="btn btn-info">
           				<span class="fa fa-envelope"></span>
         			</button>
 				</form>
-			
-				<div th:if="${!usuarioactivo.borrable}">
+				 -->
+				<a th:href="''" class="btn btn-info" role="button"><span class="fa fa-envelope"></span></a>
 				
-					<form action="/administrador/borrar" method="post" onsubmit="return confirm('¿Desea borrarlo?')">
+					<!-- <form th:if="${!usuarioactivo.borrable}" action="/administrador/modificar">
+						<input type="text" name="id" hidden="true" th:value="${administrador.id}" />
+						<button class="btn btn-info">
+          					<span class="fa fa-pencil"></span> 
+        				</button>
+					</form>
+					 -->
+					<a th:if="${!usuarioactivo.borrable}" th:href="${'/administrador/modificar?id='+administrador.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>
+					
+					<!-- <form th:if="${!usuarioactivo.borrable}" action="/administrador/borrar" method="post" onsubmit="return confirm('¿Desea borrarlo?')">
 						<input type="text" name="id" hidden="true" th:value="${administrador.id}" />
 						<button class="btn btn-info">
           					<span class="fa fa-trash"></span>
         				</button>
-					</form>
-				</div>
+					</form> -->
+					<a th:if="${!usuarioactivo.borrable}" th:href="${'/administrador/borrar?id='+administrador.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
+				
 			</td>
 				
 			
-		</div>
+		
 	</tr>
 	<div th:if="${!usuarioactivo.borrable}">
 		<tr>

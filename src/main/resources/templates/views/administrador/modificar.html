@@ -1,0 +1,13 @@
+<h1>Modificar Administrador</h1>
+
+<form method="post" onsubmit="return validar(this)">
+	<h6>Nombre de la cuenta</h6>
+	<input type="text" name="nombre" th:value="${administrador.nombre}"/><br/>
+	<h6>password</h6>
+	<input type="password" name="passwordsin" value="sincambios"/><br/>
+	<h6>e-mail</h6>
+	<input type="text" name="email" th:value="${administrador.email}"/><br/>
+	<input type="text" name="password" hidden="hidden"/>
+	<input type="text" name="idh" th:value="${administrador.id}" hidden="hidden"/>
+	<button>modificar</button><a  th:if="${administrador.borrable}" th:href="${'/administrador/borrar?id='+administrador.id}" onclick="return confirm('¿Confirmar operacion?\nno se tendra acceso nunca mas al usuario')" class="btn btn-info" role="button"><span class="fa fa-trash"></span> Eliminar cuenta</a>
+</form>

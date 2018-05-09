@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.manitas_home.domain.Empleo;
+import com.manitas_home.domain.Usuario;
 import com.manitas_home.repositories.CategoriaRepository;
 import com.manitas_home.repositories.EmpleoRepository;
+import com.manitas_home.repositories.MensajeRepository;
 
 @Controller
 public class EmpleoController {
@@ -19,11 +21,14 @@ public class EmpleoController {
 	private EmpleoRepository ERepository;
 	@Autowired
 	private CategoriaRepository CRepository;
+	@Autowired
+	private MensajeRepository RMensaje;
 	
 	@GetMapping("/empleo/crear")
 	public String crear(HttpSession session,ModelMap m) {
 		//Repositories.RepositoriesStart(CRepository,ERepository);
 		m.put("usuarioactivo", session.getAttribute("user"));
+		m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 		m.put("categorias", CRepository.findAll());
 		m.put("view","empleo/crear");
 		
@@ -41,6 +46,7 @@ public class EmpleoController {
 		//Repositories.RepositoriesStart(CRepository,ERepository);
 		if(permisos(session)){
 			m.put("usuarioactivo", session.getAttribute("user"));
+			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 			m.put("empleo", ERepository.findOne(id));
 			m.put("categorias", CRepository.findAll());
 			m.put("view","empleo/modificar");
@@ -50,9 +56,10 @@ public class EmpleoController {
 	@PostMapping("/empleo/modificar")
 	public String modificar(@RequestParam("id")Long id,@RequestParam("nombre")String nombre,@RequestParam("idcategoria")Long idcategoria,HttpSession session,ModelMap m) {
 		//Repositories.RepositoriesStart(CRepository,ERepository);
-		if(permisos(session)&&ERepository.findOneByNombre(nombre)==null){//no aceptamos mismo nombre con distinta categoria
+		if(permisos(session)){//no aceptamos mismo nombre con distinta categoria
 			Empleo e=ERepository.findOne(id);
-			e.setNombre(nombre);
+			if(ERepository.findOneByNombre(nombre)==null)
+				e.setNombre(nombre);
 			if(!e.getCategoria().getId().equals(idcategoria)){//si no cambia la categoria no hacemos la operacion de busqueda
 				e.setCategoria(CRepository.findOne(idcategoria));
 			}
@@ -65,6 +72,7 @@ public class EmpleoController {
 		//Repositories.RepositoriesStart(CRepository,ERepository);
 		if (permisos(session)) {
 			m.put("usuarioactivo", session.getAttribute("user"));
+			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 			m.put("empleos", ERepository.findAll());
 			m.put("view", "empleo/listar");
 		}

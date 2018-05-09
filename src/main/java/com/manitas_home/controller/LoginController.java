@@ -1,5 +1,7 @@
 package com.manitas_home.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.manitas_home.domain.Cliente;
 import com.manitas_home.domain.Manitas;
+import com.manitas_home.funciones.funcionstart;
 import com.manitas_home.repositories.AdministradorRepository;
 import com.manitas_home.repositories.ClienteRepository;
+import com.manitas_home.repositories.EmpleoRepository;
 import com.manitas_home.repositories.ManitasRepository;
-
-import funciones.funcionstart;
 
 @Controller
 public class LoginController {
@@ -26,6 +28,8 @@ public class LoginController {
 	private ManitasRepository RManitas;
 	@Autowired
 	private ClienteRepository RCliente;
+	@Autowired
+	private EmpleoRepository REmpleo;
 	
 	@GetMapping("/login/login")
 	public String login(HttpSession session,ModelMap m,HttpServletRequest r) {
@@ -44,16 +48,16 @@ public class LoginController {
 	@PostMapping("/login/login")
 	public String login(@RequestParam("email")String email,@RequestParam("password")String password,HttpSession session) {
 		//
-		if(RCliente.findByEmailAndPassword(email, password)!=null){
-			session.setAttribute("user", RCliente.findByEmailAndPassword(email, password));
+		if(RCliente.findOneByEmailAndPassword(email, password)!=null){
+			session.setAttribute("user", RCliente.findOneByEmailAndPassword(email, password));
 			session.setAttribute("tipo","cliente");
 		}
-		else if(RManitas.findByEmailAndPassword(email, password)!=null){
-			session.setAttribute("user", RManitas.findByEmailAndPassword(email, password));
-			session.setAttribute("tipo","empleado");
+		else if(RManitas.findOneByEmailAndPassword(email, password)!=null){
+			session.setAttribute("user", RManitas.findOneByEmailAndPassword(email, password));
+			session.setAttribute("tipo","manitas");
 		}
-		else if(RAdministrador.findByEmailAndPassword(email, password)!=null){
-			session.setAttribute("user", RAdministrador.findByEmailAndPassword(email, password));
+		else if(RAdministrador.findOneByEmailAndPassword(email, password)!=null){
+			session.setAttribute("user", RAdministrador.findOneByEmailAndPassword(email, password));
 			session.setAttribute("tipo","administrador");
 		}
 		
@@ -70,18 +74,22 @@ public class LoginController {
 	public String crear(HttpSession session,ModelMap m) {
 		
 		m.put("view","login/crear");
-		
+		m.put("empleos", REmpleo.findAll());
 		//return funciones.funcionstart.funcionArranque(session,m,this.RAdministrador,"views/_t/main");
-		return (hayadmin("views/_t/main", "redirect:/administrador/crear"));
+		return (permisos("redirect:/",hayadmin("views/_t/main", "redirect:/administrador/crear"),session));
 	}
-	@PostMapping("/login/crear")//TODO modificar
-	public String crear(@RequestParam("tipo")String tipo ,@RequestParam("nombre")String nombre ,@RequestParam("apellidos")String apellidos ,@RequestParam("telefono")String telefono ,@RequestParam("email")String email ,@RequestParam("direccion")String direccion ,@RequestParam("password")String password,@RequestParam(value = "radio", defaultValue="")String radio ,HttpSession session) {
+	@PostMapping("/login/crear")//TODO modificar añadir el empleo a manitas
+	public String crear(@RequestParam("tipo")String tipo ,@RequestParam("nombre")String nombre ,@RequestParam("apellidos")String apellidos ,@RequestParam("telefono")String telefono ,@RequestParam("email")String email ,@RequestParam("coordenadas")String direccion ,@RequestParam(value = "descripcion", defaultValue="")String descripcion,@RequestParam("password")String password,@RequestParam(value = "radio", defaultValue="10")String radio, @RequestParam(value = "idempleo", defaultValue="")ArrayList <Long> idsempleos ,HttpSession session) {
 		if(session.getAttribute("user")!=null);
-		else if(RCliente.findByEmail(email)==null&&RManitas.findByEmail(email)==null&&RAdministrador.findByEmail(email)==null){
+		else if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null){
 			if(tipo.equals("cliente"))
 				RCliente.save(new Cliente(nombre,apellidos,telefono,email,password,direccion));//TODO
-			else if(tipo.equals("manitas"))
-				RManitas.save(new Manitas(nombre,apellidos,telefono,email,password,direccion,Integer.parseInt(radio)));//TODO
+			else if(tipo.equals("manitas")){
+				Manitas manitas=new Manitas(nombre,apellidos,telefono,email,password,direccion,descripcion,Integer.parseInt(radio));
+				for(int i=0;i<idsempleos.size();i++)
+					manitas.getEmpleos().add(REmpleo.findOne(idsempleos.get(i)));
+				RManitas.save(manitas);//TODO
+			}
 		}
 		return "redirect:/";
 	}

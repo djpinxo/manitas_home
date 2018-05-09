@@ -10,13 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.manitas_home.repositories.AdministradorRepository;
-
-import funciones.funcionstart;
+import com.manitas_home.repositories.MensajeRepository;
+import com.manitas_home.domain.Usuario;
+import com.manitas_home.funciones.funcionstart;
 
 @Controller
 public class HomeController /*implements ErrorController*/{
 	@Autowired
 	private AdministradorRepository RAdministrador;
+	@Autowired
+	private MensajeRepository RMensaje;
 	
 	////////////////////////////////////////////
 	/*
@@ -37,6 +40,8 @@ public class HomeController /*implements ErrorController*/{
 		
 			m.put("view","home/index");//carga la pagina por defecto
 			m.put("usuarioactivo", session.getAttribute("user"));
+			if(session.getAttribute("user")!=null)
+			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 		//return funciones.funcionstart.funcionArranque(session,m,this.RAdministrador,"views/_t/main");
 			return hayadmin("views/_t/main", "redirect:/administrador/crear");
 	}

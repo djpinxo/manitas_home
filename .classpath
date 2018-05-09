@@ -27,14 +27,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/david/.m2/repository/net/minidev/json-smart/2.2.1/json-smart-2.2.1.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="net.minidev"/>
-			<attribute name="maven.artifactId" value="json-smart"/>
-			<attribute name="maven.version" value="2.2.1"/>
-			<attribute name="maven.scope" value="test"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

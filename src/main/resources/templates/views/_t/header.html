@@ -1,5 +1,5 @@
 <header>
-<nav class="navbar navbar-expand-xl fixed-top" role="navigation">
+<nav class="navbar navbar-expand-xl " role="navigation">
 <div class="container">
     
           <a class="navbar-brand" href="/"><img class="logo" src="/img/logo.png" height="75" /></a>
@@ -8,7 +8,7 @@
               <span class="navbar-toggler-icon" style="color:blue" id="iconoBoton"></span>
           </button>
    
-    <div class="navbar-collapse collapse" id="collapsingNavbarLg">
+    <div class="navbar-collapse collapse text-center" id="collapsingNavbarLg">
         <ul class="navbar-nav  ml-auto">
             <li class="nav-item">
                 <a class="nav-link active" href="/" id="anim-underline">HOME</a>
@@ -17,42 +17,33 @@
                 <a class="nav-link" href="#" id="anim-underline">QUIENES SOMOS</a>
             </li>
 
-             <li class="nav-item dropdown">
-                    <a href="centros.html" class="nav-link dropdown-toggle collapsed" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="anim-underline">PRUEBA 1</a>
-
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                          <a class="dropdown-item" href="#">1</a>
-                          <a class="dropdown-item" href="#">2</a>
-                          <a class="dropdown-item" href="#">3</a>
-                          <a class="dropdown-item" href="#">4</a>
-                        </div>
-             </li>
-
-             <li class="nav-item dropdown">
-                    <a href="servicios.html" class="nav-link dropdown-toggle collapsed" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="anim-underline">PRUEBA 2</a>
+             <li th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle collapsed" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="anim-underline">ADMINISTRACION</a>
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                          <a class="dropdown-item" href="#">1</a>
-                          <a class="dropdown-item" href="#">2</a>
-                          <a class="dropdown-item" href="#">3</a>
-                          <a class="dropdown-item" href="#">4</a>
-                          <a class="dropdown-item" href="#">5</a>
+                          <a class="dropdown-item" href="/administrador/listar">Ver Administradores</a>
+                          <a class="dropdown-item" href="/categoria/listar">Ver Categorias</a>
+                          <a class="dropdown-item" href="/empleo/listar">Ver Empleos</a>
+                          <a class="dropdown-item" href="/cliente/listar">Ver Clientes</a>
                         </div>
              </li>
-
-            <li class="nav-item">
-                 <a class="nav-link" id="anim-underline" href="#">PRUEBA 3</a>
+			
+			<li th:if="${usuarioactivo!=null}">
+              <a class="nav-link" id="anim-underline" href="/mensaje/listar" th:title="${usuarioemails!=null and usuarioemails>0}?'VER CORREOS('+${usuarioemails}+' sin leer)':'VER CORREOS'"><i class="fa fa-envelope" style="font-size: 1.5em"/><div th:if="${usuarioemails!=null and usuarioemails>0}" style="display: inline-table;width: 1.5em;background-color:  red;border-radius: 1em;font-size: 0.75em;margin-left: -0.75em;" th:text="${usuarioemails}"/></a>
             </li>
-          	<div th:if="${usuarioactivo!=null}">
-          	<li>
-              <a class="nav-link" id="anim-underline" href="/login/logout" th:text="${usuarioactivo.nombre.toUpperCase()}+' (DESCONECTAR)'"></a>
+			<li th:if="${usuarioactivo!=null}">
+              <a class="nav-link" id="anim-underline" th:href="${'/'+usuarioactivo.getClass().getSimpleName().toLowerCase()+'/modificar'}" th:title="${usuarioactivo.nombre.toUpperCase()}"><i class="fa fa-user" style="font-size: 1.5em"/></a>
             </li>
-            </div>
-          	<div th:if="${usuarioactivo==null}">
-            <li>
-              <a class="nav-link" id="anim-underline" href="/login/login">INICIA SESION</a>
+            
+            <li th:if="${usuarioactivo!=null}" class="nav-item">
+                 <a class="nav-link" id="anim-underline" th:href="${'/'+usuarioactivo.getClass().getSimpleName().toLowerCase()+'/modificar'}" title="EDITAR TU USUARIO">EDITAR TU USUARIO <i class="fa fa-gear" style="font-size: 1.5em"/></a>
             </li>
-            </div>
+          	<li th:if="${usuarioactivo!=null}">
+              <a class="nav-link" id="anim-underline" href="/login/logout" th:text="${usuarioactivo.nombre.toUpperCase()}+' (DESCONECTAR)'" title="DESCONECTAR"><i class="fa fa-sign-out" style="font-size: 1.5em"/></a>
+            </li>
+            <li th:if="${usuarioactivo==null}">
+              <a class="nav-link" id="anim-underline" href="/login/login" title="INICIA SESION">INICIA SESION <i class="fa fa-sign-in" style="font-size: 1.5em"/></a>
+            </li>
         </ul>
 
         

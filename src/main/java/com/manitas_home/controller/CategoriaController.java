@@ -10,18 +10,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.manitas_home.domain.Categoria;
+import com.manitas_home.domain.Usuario;
 import com.manitas_home.repositories.CategoriaRepository;
+import com.manitas_home.repositories.MensajeRepository;
 
 @Controller
 public class CategoriaController {
 	@Autowired
 	private CategoriaRepository CRepository;
+	@Autowired
+	private MensajeRepository RMensaje;
 	
 	@GetMapping("/categoria/crear")
 	public String crear(HttpSession session,ModelMap m) {
 		
 			m.put("view","categoria/crear");
 			m.put("usuarioactivo", session.getAttribute("user"));
+			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 		
 		return permisos("views/_t/main","redirect:/categoria/listar",session);
 	}
@@ -61,6 +66,7 @@ public class CategoriaController {
 		m.remove("categoria");*/
 		if(permisos(session)){
 			m.put("usuarioactivo", session.getAttribute("user"));
+			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 			m.put("categoria", CRepository.findOne(id));
 			m.put("view","categoria/modificar");
 		}
@@ -86,6 +92,7 @@ public class CategoriaController {
 		
 		if(permisos(session)){
 			m.put("usuarioactivo", session.getAttribute("user"));
+			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 			m.put("categorias", CRepository.findAll());
 			m.put("view","categoria/listar");
 		}

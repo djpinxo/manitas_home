@@ -16,6 +16,7 @@ import com.manitas_home.repositories.AdministradorRepository;
 import com.manitas_home.repositories.ClienteRepository;
 import com.manitas_home.repositories.ManitasRepository;
 
+import com.manitas_home.funciones.funcionstart;
 @Controller
 public class UserController {
 	@Autowired
@@ -39,16 +40,16 @@ public class UserController {
 		
 			m.put("view","user/crear");
 		
-		return funciones.funcionstart.funcionArranque(session,m,this.RAdministrador,"views/_t/main");
+		return funcionstart.funcionArranque(session,m,this.RAdministrador,"views/_t/main");
 	}
 	@PostMapping("/user/crear")//TODO modificar
 	public String crear(@RequestParam("tipo")String tipo ,@RequestParam("nombre")String nombre ,@RequestParam("apellidos")String apellidos ,@RequestParam("telefono")String telefono ,@RequestParam("email")String email ,@RequestParam("direccion")String direccion ,@RequestParam("password")String password,@RequestParam(value = "radio", defaultValue="")String radio ,HttpSession session) {
 		if(session.getAttribute("user")!=null);
-		else if(RCliente.findByEmail(email)==null&&RManitas.findByEmail(email)==null&&RAdministrador.findByEmail(email)==null){
+		else if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null){
 			if(tipo.equals("cliente"))
 				RCliente.save(new Cliente(nombre,apellidos,telefono,email,password,direccion));//TODO
-			else if(tipo.equals("manitas"))
-				RManitas.save(new Manitas(nombre,apellidos,telefono,email,password,direccion,Integer.parseInt(radio)));//TODO
+			else if(tipo.equals("manitas"));
+				//RManitas.save(new Manitas(nombre,apellidos,telefono,email,password,direccion,Integer.parseInt(radio)));//TODO
 		}
 		return "redirect:/";
 	}
