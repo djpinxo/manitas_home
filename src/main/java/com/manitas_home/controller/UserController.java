@@ -35,7 +35,6 @@ public class UserController {
 		return funciones.funcionstart.funcionArranque(session,m,this.RAdministrador,"views/_t/main");
 	}*/
 	
-	
 	@GetMapping("/user/crear")
 	public String crear(HttpSession session,ModelMap m) {
 		
