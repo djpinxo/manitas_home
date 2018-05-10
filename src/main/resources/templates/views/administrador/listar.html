@@ -28,13 +28,13 @@
 					 -->
 					<a th:if="${!usuarioactivo.borrable}" th:href="${'/administrador/modificar?id='+administrador.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>
 					
-					<!-- <form th:if="${!usuarioactivo.borrable}" action="/administrador/borrar" method="post" onsubmit="return confirm('¿Desea borrarlo?')">
+					<!-- <form th:if="${!usuarioactivo.borrable}" action="/administrador/borrar" method="post" onsubmit="return confirm('Â¿Desea borrarlo?')">
 						<input type="text" name="id" hidden="true" th:value="${administrador.id}" />
 						<button class="btn btn-info">
           					<span class="fa fa-trash"></span>
         				</button>
 					</form> -->
-					<a th:if="${!usuarioactivo.borrable}" th:href="${'/administrador/borrar?id='+administrador.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
+					<a th:if="${!usuarioactivo.borrable}" th:href="${'/administrador/borrar?id='+administrador.id}" onclick="return confirm('Â¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
 				
 			</td>
 				

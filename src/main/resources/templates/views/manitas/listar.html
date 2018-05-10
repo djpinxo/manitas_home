@@ -33,7 +33,7 @@
 
         <a th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" th:href="${'/manitas/modificar?id='+unmanitas.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>
 
-        <a th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" th:href="${'/manitas/borrar?id='+unmanitas.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
+        <a th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" th:href="${'/manitas/borrar?id='+unmanitas.id}" onclick="return confirm('Â¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
 
     </td>
   </tr>

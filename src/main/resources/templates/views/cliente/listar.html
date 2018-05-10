@@ -12,7 +12,7 @@
 			<td class="acciones">
 				<a th:href="${'/mensaje/crear?emaildestinatario='+cliente.email}" class="btn btn-info" role="button"><span class="fa fa-envelope"></span></a>
 				<a  th:href="${'/cliente/modificar?id='+cliente.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>
-				<a  th:href="${'/cliente/borrar?id='+cliente.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
+				<a  th:href="${'/cliente/borrar?id='+cliente.id}" onclick="return confirm('Â¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
 			</td>
 	</tr>
 </table>
