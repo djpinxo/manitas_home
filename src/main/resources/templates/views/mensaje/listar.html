@@ -8,8 +8,10 @@
 	</tr>
 	<tr th:each="mensaje:${mensajes}">
 		
-			<td th:text="${mensaje.mensaje}"></td>
-			<td th:text="${mensaje.remitente}"></td>
+			<td th:if="${11>mensaje.mensaje.length()}" th:text="${mensaje.mensaje}"></td>
+			<td th:if="${mensaje.mensaje.length()>=11}" th:text="${mensaje.mensaje.substring(0,7)+'...'}"></td>
+			<td th:if="${11>mensaje.remitente.length()}" th:text="${mensaje.remitente}"></td>
+			<td th:if="${mensaje.remitente.length()>=11}" th:text="${mensaje.remitente.substring(0,7)+'...'}"></td>
 			<td th:text="${mensaje.fecha.toLocaleString()}"></td>
 			<td class="acciones">
 				<a th:href="'/mensaje/ver?id='+${mensaje.id}" class="btn btn-info" role="button"><span class="fa fa-envelope"></span></a>
