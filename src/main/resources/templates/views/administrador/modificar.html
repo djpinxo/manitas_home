@@ -9,5 +9,5 @@
 	<input type="text" name="email" th:value="${administrador.email}"/><br/>
 	<input type="text" name="password" hidden="hidden"/>
 	<input type="text" name="idh" th:value="${administrador.id}" hidden="hidden"/>
-	<button>modificar</button><a  th:if="${administrador.borrable}" th:href="${'/administrador/borrar?id='+administrador.id}" onclick="return confirm('¿Confirmar operacion?\nno se tendra acceso nunca mas al usuario')" class="btn btn-info" role="button"><span class="fa fa-trash"></span> Eliminar cuenta</a>
+	<button type="submit" class="btn btn-info"><span class="fa fa-save"></span> Modificar</button><a  th:if="${administrador.borrable}" th:href="${'/administrador/borrar?id='+administrador.id}" onclick="return confirm('¿Confirmar operacion?\nno se tendra acceso nunca mas al usuario')" class="btn btn-info" role="button"><span class="fa fa-trash"></span> Eliminar cuenta</a>
 </form>
