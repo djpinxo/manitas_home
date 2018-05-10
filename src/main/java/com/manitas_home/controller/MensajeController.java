@@ -142,9 +142,9 @@ public class MensajeController {
 	public String ver(@RequestParam(value="id" , defaultValue="")Long idmensaje,HttpSession session,ModelMap m) {
 		if(session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null&&idmensaje!=null){
 			Mensaje men=RMensaje.findOne(idmensaje);
-			String emailremitente=null;
-			emailremitente=((Usuario)session.getAttribute("user")).getEmail();
-			if(men!=null&&men.getRemitente().equals(emailremitente)){
+			String emaildestinatario=null;
+			emaildestinatario=((Usuario)session.getAttribute("user")).getEmail();
+			if(men!=null&&men.getDestinatario().equals(emaildestinatario)){
 				men.setLeido(true);
 				m.put("mensaje",men);
 				RMensaje.save(men);
@@ -154,7 +154,7 @@ public class MensajeController {
 			m.put("usuarioactivo", session.getAttribute("user"));
 			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 		}
-		return (session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null)?"views/_t/main":"redirect:/login/login";
+		return (session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null)?((m.get("mensaje")!=null)?"views/_t/main":"redirect:/mensaje/listar"):"redirect:/login/login";
 	}
 	
 	
