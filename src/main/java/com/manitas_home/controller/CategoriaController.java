@@ -26,6 +26,7 @@ public class CategoriaController {
 		
 			m.put("view","categoria/crear");
 			m.put("usuarioactivo", session.getAttribute("user"));
+			if(session.getAttribute("user")!=null)
 			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 		
 		return permisos("views/_t/main","redirect:/categoria/listar",session);

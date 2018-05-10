@@ -139,14 +139,14 @@ public class MensajeController {
 		return (session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null)?"views/_t/main":"redirect:/login/login";
 	}
 	@GetMapping("/mensaje/ver")
-	public String ver(@RequestParam(value="idmensaje" , defaultValue="")Long idmensaje,HttpSession session,ModelMap m) {
+	public String ver(@RequestParam(value="id" , defaultValue="")Long idmensaje,HttpSession session,ModelMap m) {
 		if(session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null&&idmensaje!=null){
 			Mensaje men=RMensaje.findOne(idmensaje);
 			String emailremitente=null;
 			emailremitente=((Usuario)session.getAttribute("user")).getEmail();
 			if(men!=null&&men.getRemitente().equals(emailremitente)){
-				m.put("mensaje",men);
 				men.setLeido(true);
+				m.put("mensaje",men);
 				RMensaje.save(men);
 			}
 			else m.put("mensaje",null);

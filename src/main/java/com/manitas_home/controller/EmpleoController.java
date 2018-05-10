@@ -28,6 +28,7 @@ public class EmpleoController {
 	public String crear(HttpSession session,ModelMap m) {
 		//Repositories.RepositoriesStart(CRepository,ERepository);
 		m.put("usuarioactivo", session.getAttribute("user"));
+		if(session.getAttribute("user")!=null)
 		m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 		m.put("categorias", CRepository.findAll());
 		m.put("view","empleo/crear");
