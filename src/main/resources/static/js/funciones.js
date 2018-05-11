@@ -275,6 +275,10 @@ function crearTablaMensajes(conexion){
 	mensajesSinLeer=0;
 	var xml=new DOMParser().parseFromString(conexion.responseText,"text/xml");
 	var mensajes=xml.getElementsByTagName("mensajes")[0];
+	if(mensajes.children.length<1){
+		sTable="<h3>No hay ningun mensaje</h3>";
+	}
+	else{
 	sTable="<table class='table table-striped'>";
 	sTable+="<tr>";
 	for(var i=2;i< mensajes.children[0].children.length-1;i++){
@@ -305,7 +309,8 @@ function crearTablaMensajes(conexion){
 		sTable+="</tr>";
 	}
 	sTable+="</table>";
-	document.getElementsByClassName("table-striped")[0].innerHTML=sTable;
+	}
+	document.getElementById("tablaDatos").innerHTML=sTable;
 	document.getElementById("botonRotatorio").children[0].className='fa fa-refresh';
 	try {
 		clearInterval(cambiotitulo);

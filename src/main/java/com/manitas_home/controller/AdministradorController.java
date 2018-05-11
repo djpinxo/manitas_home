@@ -126,8 +126,11 @@ public class AdministradorController {
 			if(((Administrador)session.getAttribute("user")).getBorrable()&&!((Administrador)session.getAttribute("user")).getId().equals(id))
 				id=((Administrador)session.getAttribute("user")).getId();
 			Administrador administrador=RAdministrador.findOne(id);
-			if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null)
+			if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null){
+				ThreadModificarMensajes hilo1 = new ThreadModificarMensajes(RMensaje,email,administrador.getEmail());
+				hilo1.start();
 				administrador.setEmail(email);
+			}
 			administrador.setNombre(nombre);
 			if(!password.equals("c2e5a90f5a957f5abf40377e72d0ad45594a7a257f678d5d6c4844194b86b3b3a61f733111346748c1f82629cd9c5763ba6b77f0d358fb5460bf111df785ffcd72844d1438792e8ea7566ba65f18b62ba1ba2012eef8ab917fab9ab4491b13e61aad97d902cc7ba3412e431fd8af9a66ea8366c86953a68ec3d2032fcee09e"))
 				administrador.setPassword(password);

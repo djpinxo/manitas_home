@@ -1,7 +1,6 @@
 package com.manitas_home.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,6 +17,7 @@ import com.manitas_home.domain.Categoria;
 import com.manitas_home.domain.Cliente;
 import com.manitas_home.domain.Empleo;
 import com.manitas_home.domain.Manitas;
+import com.manitas_home.domain.Mensaje;
 import com.manitas_home.domain.Usuario;
 import com.manitas_home.funciones.funcionstart;
 import com.manitas_home.repositories.AdministradorRepository;
@@ -108,8 +108,11 @@ public class ManitasController {
 	public String modificar(@RequestParam("id")Long id,@RequestParam("nombre")String nombre ,@RequestParam("apellidos")String apellidos ,@RequestParam("telefono")String telefono ,@RequestParam("email")String email ,@RequestParam("coordenadas")String direccion ,@RequestParam(value = "descripcion", defaultValue="")String descripcion,@RequestParam("password")String password,@RequestParam(value = "radio", defaultValue="10")String radio, @RequestParam(value = "idempleo", defaultValue="")ArrayList <Long> idsempleos ,HttpSession session) {
 		if(permisos(id,session)){
 			Manitas manitas=RManitas.findOne(id);
-			if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null)
+			if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null){
+				ThreadModificarMensajes hilo1 = new ThreadModificarMensajes(RMensaje,email,manitas.getEmail());
+				hilo1.start();
 				manitas.setEmail(email);
+			}
 			if(!password.equals("c2e5a90f5a957f5abf40377e72d0ad45594a7a257f678d5d6c4844194b86b3b3a61f733111346748c1f82629cd9c5763ba6b77f0d358fb5460bf111df785ffcd72844d1438792e8ea7566ba65f18b62ba1ba2012eef8ab917fab9ab4491b13e61aad97d902cc7ba3412e431fd8af9a66ea8366c86953a68ec3d2032fcee09e"))
 				manitas.setPassword(password);
 			manitas.setNombre(nombre);

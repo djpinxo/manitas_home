@@ -10,6 +10,7 @@ import com.manitas_home.domain.Mensaje;
 public interface MensajeRepository extends JpaRepository<Mensaje, Long>{
 	public <Mensaje>List findByRemitenteAndDestinatario(String remitente,String destinatario);
 	public <Mensaje>List findByDestinatario(String destinatario);
+	public <Mensaje>List findByRemitente(String remitente);
 	public <Mensaje>List findByDestinatarioAndLeido(String destinatario,boolean leido);
 	public <Mensaje>List findByDestinatarioOrderByFechaDesc(String destinatario);
 	public int countByDestinatarioAndLeido(String destinatario,boolean leido);

@@ -1,6 +1,7 @@
 package com.manitas_home.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -255,5 +256,30 @@ class ThreadEnviarMensajes extends Thread{
 				email.setFecha(horamensaje);
 				RMensaje.save(email);
 			}
+	}
+}
+class ThreadModificarMensajes extends Thread{
+	private MensajeRepository RMensaje;
+	private String emailnuevo;
+	private String emailantiguo;
+	
+	public ThreadModificarMensajes(MensajeRepository RMensaje,String emailnuevo,String emailantiguo) {
+		super();
+		this.RMensaje=RMensaje;
+		this.emailnuevo=emailnuevo;
+		this.emailantiguo=emailantiguo;
+	}
+	public void run(){
+		List emails = RMensaje.findByDestinatario(emailantiguo);
+		for(int i=0;i<emails.size();i++){
+			((Mensaje)emails.get(i)).setDestinatario(emailnuevo);
+		}
+		RMensaje.save(emails);
+		emails=RMensaje.findByRemitente(emailantiguo);
+		for(int i=0;i<emails.size();i++){
+			((Mensaje)emails.get(i)).setRemitente(emailnuevo);
+		}
+		RMensaje.save(emails);
+		System.out.println("todos los emails de "+emailantiguo+" han sido renombrados al user "+emailnuevo);
 	}
 }
