@@ -34,8 +34,8 @@ public class LoginController {
 	@GetMapping("/login/login")
 	public String login(HttpSession session,ModelMap m,HttpServletRequest r) {
 			System.out.println(r.getRemoteHost());
-			if(r.getAttribute("HTTP_X_REQUESTED_WITH")==null){
-				System.out.println("peticion no ajax");
+			if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
+				System.out.println("peticion ajax");
 			}
 			
 			m.put("view","login/login");

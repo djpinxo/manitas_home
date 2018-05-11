@@ -224,4 +224,92 @@ function sortTable2(tipo, n) {
     } 
   }
 }
+
+/*ajax*/
+function peticionAjax(direccion,method="GET",funcionRespuesta=null,formulario=null){
+	var sFormulario="";
+	if(formulario!=null){
+		if(method="GET") sFormulario="?";
+		sFormulario+=$(formulario).serialize();
+	}
+	var conexion;
+	if (window.XMLHttpRequest) {
+	    conexion = new XMLHttpRequest();
+	 }
+	else {
+	    conexion = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	if(method=="GET")
+		conexion.open('GET', direccion+sFormulario, true);
+	else if(method=="POST")
+		conexion.open('GET', direccion, true);
+	conexion.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	conexion.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	if(method=="GET")
+		conexion.send();
+	else if(method=="POST")
+		conexion.send(sFormulario);
+	conexion.onreadystatechange = function() {
+		if (conexion.readyState==4 && conexion.status==200) {
+			if(funcionRespuesta!=null)
+				funcionRespuesta(conexion);
+		}
+	}
+}
+
+/*no en uso*/
+function mostrarJSONConsola(conexion){
+	var arraymensajes=JSON.parse(conexion.responseText.replace(/\n/g,"/n").replace(/\r/g,"/r").replace(/[,][{][}]/g,"").replace(/[{][}]/g,""));
+	console.log(arraymensajes[arraymensajes.length-1]);
+	console.log(JSON.stringify(arraymensajes));
+}
+/*para hacer pruebas*/
+function mostrarDatosConsola(conexion){
+	console.log(conexion.responseText);
+}/*para hacer pruebas*/
+function mostrarXMLConsola(conexion){
+	console.log(conexion.responseXML);
+}
+/*funcionando*/
+function crearTablaMensajes(conexion){
+	mensajesSinLeer=0;
+	var xml=new DOMParser().parseFromString(conexion.responseText,"text/xml");
+	var mensajes=xml.getElementsByTagName("mensajes")[0];
+	sTable="<table class='table table-striped'>";
+	sTable+="<tr>";
+	for(var i=2;i< mensajes.children[0].children.length-1;i++){
+		sTable+="<th>"+ mensajes.children[0].children[i].nodeName+"</th>";
+	}
+	sTable+="<th>Acciones</th>";
+	sTable+="</tr>";
+	for(var a=0;a< mensajes.children.length;a++){
+		sTable+="<tr>";
+		for(var i=2;i< mensajes.children[a].children.length;i++){
+			if(mensajes.children[a].children[i].nodeName=="mensaje"||mensajes.children[a].children[i].nodeName=="remitente"){
+				if(mensajes.children[a].children[i].innerHTML.length>10)
+					sTable+="<td>"+ mensajes.children[a].children[i].innerHTML.substr(0,7)+"...</td>";
+				else
+					sTable+="<td>"+ mensajes.children[a].children[i].innerHTML+"</td>";
+			}
+			else if(mensajes.children[a].children[i].nodeName=="leido"){
+				if(mensajes.children[a].children[i].innerHTML=="false"){
+					mensajesSinLeer++;
+				}
+			}
+			else
+				sTable+="<td>"+ mensajes.children[a].children[i].innerHTML+"</td>";
+		}
+		sTable+='<td class="acciones">';
+		sTable+='<a href="/mensaje/ver?id='+mensajes.children[a].children[0].innerHTML+'" class="btn btn-info" role="button"><span class="fa fa-envelope"></span></a>';
+		sTable+='</td>';
+		sTable+="</tr>";
+	}
+	sTable+="</table>";
+	document.getElementsByClassName("table-striped")[0].innerHTML=sTable;
+	document.getElementById("botonRotatorio").children[0].className='fa fa-refresh';
+	try {
+		clearInterval(cambiotitulo);
+	}catch(err) {}
+	cambiotitulo=setInterval(function(){if(document.title=="Manitas Home")document.title="Lista De Mensajes"+((mensajesSinLeer>0)?"("+mensajesSinLeer+" sin leer)":"");else document.title="Manitas Home";},1500);
+}
 /*--------------------------------------------------------------OFUSCADOR DE JS---------------------------https://javascriptobfuscator.com/Javascript-Obfuscator.aspx-------------*/

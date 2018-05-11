@@ -2,6 +2,7 @@ package com.manitas_home.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,14 +130,20 @@ public class MensajeController {
 		return "redirect:/mensaje/listar";
 	}
 	@GetMapping("/mensaje/listar")
-	public String listar(HttpSession session,ModelMap m) {
+	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")&&session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null){
+			m.put("mensajes",RMensaje.findByDestinatarioOrderByFechaDesc(((Usuario)session.getAttribute("user")).getEmail()));
+			return "xml/mensaje/listar";
+		}
+		else{
 		if(session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null){
-			m.put("mensajes",RMensaje.findByDestinatario(((Usuario)session.getAttribute("user")).getEmail()));
+			m.put("mensajes",RMensaje.findByDestinatarioOrderByFechaDesc(((Usuario)session.getAttribute("user")).getEmail()));
 			m.put("view","mensaje/listar");
 			m.put("usuarioactivo", session.getAttribute("user"));
 			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 		}
 		return (session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null)?"views/_t/main":"redirect:/login/login";
+		}
 	}
 	@GetMapping("/mensaje/ver")
 	public String ver(@RequestParam(value="id" , defaultValue="")Long idmensaje,HttpSession session,ModelMap m) {

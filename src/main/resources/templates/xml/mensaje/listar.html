@@ -1,0 +1,10 @@
+<mensajes>
+<mensaje th:each="mensaje:${mensajes}">
+<id th:text="${mensaje.id}"/>
+<mensaje th:text="${mensaje.mensaje}"/>
+<destinatario th:text="${mensaje.destinatario}"/>
+<remitente th:text="${mensaje.remitente}"/>
+<fecha th:text="${mensaje.fecha.toLocaleString()}"/>
+<leido th:text="${mensaje.leido}"/>
+</mensaje>
+</mensajes>
