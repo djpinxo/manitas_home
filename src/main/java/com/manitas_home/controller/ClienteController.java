@@ -1,5 +1,6 @@
 package com.manitas_home.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,12 @@ public class ClienteController {
 	private MensajeRepository RMensaje;
 	
 	@GetMapping("/cliente/listar")
-	public String listar(HttpSession session,ModelMap m){
+	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")&&session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("administrador")){
+			m.put("clientes",RCliente.findAll());
+			return "xml/cliente/listar";
+		}
+		else {
 		if(session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("administrador")){
 			m.put("usuarioactivo", (Usuario)session.getAttribute("user"));
 			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
@@ -37,6 +43,7 @@ public class ClienteController {
 			m.put("view","cliente/listar");
 		}
 		return (session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("administrador"))?"views/_t/main":"redirect:/login/login";
+		}
 	}
 	@GetMapping("/cliente/modificar")
 	public String modificar(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m) {

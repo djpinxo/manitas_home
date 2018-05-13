@@ -396,4 +396,39 @@ function crearTablaAdministradores(conexion){
 	}catch(err) {}
 	cambiotitulo=setInterval(function(){if(document.title=="Manitas Home")document.title="Lista De "+administradores.nodeName;else document.title="Manitas Home";},1500);
 }
+function crearTablaClientes(conexion){
+	var xml=new DOMParser().parseFromString(conexion.responseText,"text/xml");
+	var clientes=xml.getElementsByTagName("clientes")[0];
+	if(clientes.children.length<1){
+		sTable="<h3>No hay "+clientes.nodeName+"</h3>";
+	}
+	else{
+	sTable="<table class='table table-striped'>";
+	sTable+="<tr>";
+	for(var i=1;i< clientes.children[0].children.length;i++){
+		sTable+="<th>"+ clientes.children[0].children[i].nodeName.charAt(0).toUpperCase() + clientes.children[0].children[i].nodeName.slice(1)+"</th>";
+	}
+	sTable+="<th>Acciones</th>";
+	sTable+="</tr>";
+	for(var a=0;a< clientes.children.length;a++){
+			sTable+="<tr>";
+			for(var i=1;i< clientes.children[a].children.length;i++){
+				sTable+="<td>"+ clientes.children[a].children[i].innerHTML+"</td>";
+			}
+			sTable+='<td class="acciones">';
+			sTable+='<a href="/mensaje/crear?emaildestinatario='+clientes.children[a].getElementsByTagName("email")[0].innerHTML+'" class="btn btn-info" role="button"><span class="fa fa-envelope"></span></a> ';
+			sTable+='<a href="/'+clientes.children[0].nodeName+'/modificar?id='+clientes.children[a].children[0].innerHTML+'" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a> ';
+			sTable+='<a href="/'+clientes.children[0].nodeName+'/borrar?id='+clientes.children[a].children[0].innerHTML+'" onclick="return confirm(\'¿Desea borrarlo?\')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>';
+			sTable+='</td>';
+			sTable+="</tr>";
+	}
+	sTable+="</table>";
+	}
+	document.getElementById("tablaDatos").innerHTML=sTable;
+	document.getElementById("botonRotatorio").children[0].className='fa fa-refresh';
+	try {
+		clearInterval(cambiotitulo);
+	}catch(err) {}
+	cambiotitulo=setInterval(function(){if(document.title=="Manitas Home")document.title="Lista De "+clientes.nodeName;else document.title="Manitas Home";},1500);
+}
 /*--------------------------------------------------------------OFUSCADOR DE JS---------------------------https://javascriptobfuscator.com/Javascript-Obfuscator.aspx-------------*/

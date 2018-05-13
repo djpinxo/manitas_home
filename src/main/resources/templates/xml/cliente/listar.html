@@ -1,0 +1,7 @@
+<clientes>
+<cliente th:each="cliente:${clientes}">
+<id th:text="${cliente.id}"/>
+<nombre th:text="${cliente.nombre}"/>
+<email th:text="${cliente.email}"/>
+</cliente>
+</clientes>
