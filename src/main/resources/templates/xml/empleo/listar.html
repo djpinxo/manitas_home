@@ -1,0 +1,7 @@
+<empleos>
+<empleo th:each="empleo:${empleos}">
+<id th:text="${empleo.id}"/>
+<nombre th:text="${empleo.nombre}"/>
+<categoria th:text="${empleo.categoria.nombre}"/>
+</empleo>
+</empleos>
