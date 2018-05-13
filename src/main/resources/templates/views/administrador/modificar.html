@@ -1,13 +1,120 @@
-<h1>Modificar Administrador</h1>
-
-<form method="post" onsubmit="return validar(this)">
-	<h6>Nombre de la cuenta</h6>
-	<input type="text" name="nombre" th:value="${administrador.nombre}"/><br/>
-	<h6>password</h6>
-	<input type="password" name="passwordsin" value="sincambios"/><br/>
-	<h6>e-mail</h6>
-	<input type="text" name="email" th:value="${administrador.email}"/><br/>
-	<input type="text" name="password" hidden="hidden"/>
-	<input type="text" name="idh" th:value="${administrador.id}" hidden="hidden"/>
-	<button type="submit" class="btn btn-info"><span class="fa fa-save"></span> Modificar</button><a  th:if="${administrador.borrable}" th:href="${'/administrador/borrar?id='+administrador.id}" onclick="return confirm('¿Confirmar operacion?\nno se tendra acceso nunca mas al usuario')" class="btn btn-info" role="button"><span class="fa fa-trash"></span> Eliminar cuenta</a>
-</form>
+<form class="form-horizontal" role="form" method="POST" onsubmit="return validar(this)">
+<input type="text" name="idh" th:value="${administrador.id}" hidden="hidden"/>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <h2>Modificar Administrador</h2>
+                    <hr/>
+                </div>
+            </div>
+            <div class="row">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label>Contraseña Actual</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group has-danger">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                        <input type="password" name="passwordactual" class="form-control"
+                               placeholder="Introduzca su contraseña" required="true"/>
+                       	<input type="password" name="passwordactualhash" hidden="true"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                            <i class="fa fa-close">Contraseña no valida</i>
+                        </span>
+                </div>
+            </div>
+        </div>
+             <div class="row">
+                <div class="d-none d-md-block col-md-3">Nombre del administrador</div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <label class="sr-only" for="user">Nombre de la cuenta</label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                            <input type="text" name="nombre" class="form-control" id="user" placeholder="Nombre del administrador" required="true" autofocus="true"  th:value="${administrador.nombre}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                            <i class="fa fa-close"></i> E-Mail incorrecto
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-none d-md-block col-md-3">E-mail del administrador</div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <label class="sr-only" for="email">E-Mail Address</label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                            <input type="text" name="email" class="form-control" id="email" placeholder="Introduce su E-Mail" required="true" autofocus="true" th:value="${administrador.email}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                            <i class="fa fa-close"></i> E-Mail incorrecto
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-none d-md-block col-md-3">Contraseña del administrador</div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="sr-only" for="passwordsin">Password</label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                            <input type="password" name="passwordsin" class="form-control" id="password" placeholder="Introuce su contraseña" required="true" value="sincambios"/>
+                            <input type="text" name="password" hidden="true"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                        Contraseña incorrecta  
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label for="password-confirmation">Confirme su contraseña</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-repeat"></i>
+                        </div>
+                        <input type="password" name="password-confirmation" class="form-control"
+                               id="password-confirm" placeholder="Confirme su contraseña" required="true" value="sincambios"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                            <i class="fa fa-close">Repita correctamente su contraseña</i>
+                        </span>
+                </div>
+            </div>
+        </div>
+            
+            <div class="row" style="padding-top: 1rem">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                   <button type="submit" class="btn btn-info"><span class="fa fa-save"></span> Modificar</button> <a  th:if="${administrador.borrable}" th:href="${'/administrador/borrar?id='+administrador.id}" onclick="return confirm('¿Confirmar operacion?\nno se tendra acceso nunca mas al usuario')" class="btn btn-info" role="button"><span class="fa fa-trash"></span> Eliminar cuenta</a>
+                </div>
+            </div>
+        </form>

@@ -2,6 +2,28 @@
 
 <form method="post" onsubmit="return validar(this)">
 	<input type="text" name="id" th:value="${cliente.id}" required="true" hidden="true"/>
+	<div class="row">
+            <div class="d-none d-md-block col-md-3 field-label-responsive">
+                <label>Contraseña Actual</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group has-danger">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                        <input type="password" name="passwordactual" class="form-control"
+                               placeholder="Introduzca su contraseña" required="true"/>
+                       	<input type="password" name="passwordactualhash" hidden="true"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback" hidden="true">
+                        <span class="text-danger align-middle">
+                            <i class="fa fa-close">Contraseña no valida</i>
+                        </span>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="d-none d-md-block col-md-3 field-label-responsive">
                 <label for="name" >Nombre</label>
