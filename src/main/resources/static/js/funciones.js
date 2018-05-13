@@ -317,4 +317,42 @@ function crearTablaMensajes(conexion){
 	}catch(err) {}
 	cambiotitulo=setInterval(function(){if(document.title=="Manitas Home")document.title="Lista De Mensajes"+((mensajesSinLeer>0)?"("+mensajesSinLeer+" sin leer)":"");else document.title="Manitas Home";},1500);
 }
+
+function crearTablaCategoriaOEmpleo(conexion){
+	var xml=new DOMParser().parseFromString(conexion.responseText,"text/xml");
+	var catemp=xml.getElementsByTagName("categorias")[0];
+	if(catemp==null)
+	catemp=xml.getElementsByTagName("empleos")[0];
+	if(catemp.children.length<1){
+		sTable="<h3>No hay "+catemp.nodeName+"</h3>";
+	}
+	else{
+	sTable="<table class='table table-striped'>";
+	sTable+="<tr>";
+	for(var i=1;i< catemp.children[0].children.length;i++){
+		sTable+="<th>"+ catemp.children[0].children[i].nodeName+"</th>";
+	}
+	sTable+="<th>Acciones</th>";
+	sTable+="</tr>";
+	for(var a=0;a< catemp.children.length;a++){
+		sTable+="<tr>";
+		for(var i=1;i< catemp.children[a].children.length;i++){
+			sTable+="<td>"+ catemp.children[a].children[i].innerHTML+"</td>";
+		}
+		sTable+='<td class="acciones">';
+
+		sTable+='<a href="/'+catemp.children[0].nodeName+'/modificar?id='+catemp.children[a].children[0].innerHTML+'" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>';
+		sTable+='<a href="/'+catemp.children[0].nodeName+'/borrar?id='+catemp.children[a].children[0].innerHTML+'" onclick="return confirm(\'¿Desea borrarlo?\')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>';
+		sTable+='</td>';
+		sTable+="</tr>";
+	}
+	sTable+="</table>";
+	}
+	document.getElementById("tablaDatos").innerHTML=sTable;
+	document.getElementById("botonRotatorio").children[0].className='fa fa-refresh';
+	try {
+		clearInterval(cambiotitulo);
+	}catch(err) {}
+	cambiotitulo=setInterval(function(){if(document.title=="Manitas Home")document.title="Lista De "+catemp.nodeName;else document.title="Manitas Home";},1500);
+}
 /*--------------------------------------------------------------OFUSCADOR DE JS---------------------------https://javascriptobfuscator.com/Javascript-Obfuscator.aspx-------------*/

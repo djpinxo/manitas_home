@@ -1,5 +1,6 @@
 package com.manitas_home.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,20 +85,25 @@ public class CategoriaController {
 		return "redirect:/categoria/listar";
 	}
 	@GetMapping("/categoria/listar")
-	public String listar(HttpSession session,ModelMap m) {
-		
-		/*long antes = System.currentTimeMillis();
-		m.put("categorias", CRepository.findAll());
-		System.out.println("generico tiempo"+(System.currentTimeMillis()-antes));
-		m.remove("categoria");*/
-		
-		if(permisos(session)){
-			m.put("usuarioactivo", session.getAttribute("user"));
-			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
-			m.put("categorias", CRepository.findAll());
-			m.put("view","categoria/listar");
+	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")&&permisos(session)){
+			m.put("categorias",CRepository.findAll());
+			return "xml/categoria/listar";
 		}
+		else {
+			/*long antes = System.currentTimeMillis();
+			m.put("categorias", CRepository.findAll());
+			System.out.println("generico tiempo"+(System.currentTimeMillis()-antes));
+			m.remove("categoria");*/
+		
+			if(permisos(session)){
+				m.put("usuarioactivo", session.getAttribute("user"));
+				m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
+				m.put("categorias", CRepository.findAll());
+				m.put("view","categoria/listar");
+			}
 		return permisos("views/_t/main","redirect:/login/login",session);
+	}
 	}
 	@GetMapping("/categoria/borrar")
 	public String borrar(@RequestParam("id")Long id,HttpSession session,ModelMap m) {

@@ -1,5 +1,6 @@
 package com.manitas_home.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,15 +70,21 @@ public class EmpleoController {
 		return "redirect:/empleo/listar";
 	}
 	@GetMapping("/empleo/listar")
-	public String listar(HttpSession session,ModelMap m) {
+	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {
 		//Repositories.RepositoriesStart(CRepository,ERepository);
-		if (permisos(session)) {
-			m.put("usuarioactivo", session.getAttribute("user"));
-			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
-			m.put("empleos", ERepository.findAll());
-			m.put("view", "empleo/listar");
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")&&permisos(session)){
+			m.put("empleos",ERepository.findAll());
+			return "xml/empleo/listar";
 		}
-		return permisos("views/_t/main","redirect:/login/login",session);
+		else {
+			if (permisos(session)) {
+				m.put("usuarioactivo", session.getAttribute("user"));
+				m.put("usuarioemails", RMensaje.countByDestinatarioAndLeido(((Usuario) session.getAttribute("user")).getEmail(), false));
+				m.put("empleos", ERepository.findAll());
+				m.put("view", "empleo/listar");
+			}
+			return permisos("views/_t/main", "redirect:/login/login", session);
+		}
 	}
 	@GetMapping("/empleo/borrar")
 	public String borrar(@RequestParam("id")Long id,HttpSession session,ModelMap m) {
