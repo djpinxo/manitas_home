@@ -1,8 +1,31 @@
-<form method="post" onsubmit="validar()">
-	<h1>Crear categoria</h1>
-   
-	 		<h6>Nombre:</h6>
-			<input type="text" name="nombre"/><br/>
-			
-			<button>crear categoria</button>
-</form>
+<form class="form-horizontal" role="form" method="POST" onsubmit="validar()">
+				<div class="row">
+	                <div class="col-md-3"></div>
+	                <div class="col-md-6">
+	                    <h2>Crear categoría</h2>
+	                    <hr/>
+	                </div>
+                </div>
+                <div class="row">
+	                <div class="col-md-3"></div>
+	                <div class="col-md-6">
+	                    <div class="form-group has-danger">
+	                        <label class="sr-only" for="categoriaNueva">Nombre</label>
+	                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+	                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-pencil"></i></div>
+	                            <input type="text" name="nombre" class="form-control" id="categoriaNueva" placeholder="Introduzca una nueva categoría" required="true" autofocus="true"/>
+	                        </div>
+	                    </div>
+	                </div>
+	               
+	            </div>
+	            <div class="row">
+	                <div class="col-md-3"></div>
+	                <div class="col-md-6">
+	                    <div class="form-group has-danger">
+	                        <button type="submit" class="btn btn-info"><span class="fa fa-plus"></span> Crear</button>
+	                    </div>
+	                </div>
+	               
+	            </div>
+	</form>
