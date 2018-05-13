@@ -1,0 +1,11 @@
+<resultados>
+<administradores>
+<administrador th:each="administrador:${administradores}">
+<id th:text="${administrador.id}"/>
+<nombre th:text="${administrador.nombre}"/>
+<email th:text="${administrador.email}"/>
+</administrador>
+</administradores>
+<superadmin th:text="${superadmin}"/>
+<emailactual th:text="${emailactual}"/>
+</resultados>

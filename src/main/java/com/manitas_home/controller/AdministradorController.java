@@ -1,5 +1,6 @@
 package com.manitas_home.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,7 +141,14 @@ public class AdministradorController {
 		return (session.getAttribute("user")!=null&&((Administrador)session.getAttribute("user")).getId().equals(id))?"redirect:/login/logout":"redirect:/administrador/listar";
 	}
 	@GetMapping("/administrador/listar")
-	public String listar(HttpSession session,ModelMap m) {
+	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")&&permisos(session)){
+			m.put("administradores", RAdministrador.findAll());
+			m.put("superadmin", !((Administrador)session.getAttribute("user")).getBorrable());
+			m.put("emailactual", ((Usuario)session.getAttribute("user")).getEmail());
+			return "xml/administrador/listar";
+		}
+		else {
 		if(permisos(session)){
 			m.put("usuarioactivo", ((Administrador)session.getAttribute("user")));
 			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
@@ -148,6 +156,7 @@ public class AdministradorController {
 			m.put("view","administrador/listar");
 		}
 		return permisos("views/_t/main","redirect:/login/login",session);
+		}
 	}
 	
 	

@@ -160,7 +160,7 @@ function sortTable(objeto,n) {
 	for(var a=0;a<ths.length;a++){
 		sada=ths[a].getElementsByTagName("a").length;
 		if(ths[a].getElementsByTagName("a").length>0){
-			ths[a].getElementsByTagName("a")[0].className="fa fa-minus";
+			ths[a].getElementsByTagName("a")[0].className="fa fa-sort";
 			if(a == n)
 				ths[a].getElementsByTagName("a")[0].className="dropdown-toggle";
 		}
@@ -282,7 +282,7 @@ function crearTablaMensajes(conexion){
 	sTable="<table class='table table-striped'>";
 	sTable+="<tr>";
 	for(var i=2;i< mensajes.children[0].children.length-1;i++){
-		sTable+="<th>"+ mensajes.children[0].children[i].nodeName+"</th>";
+		sTable+="<th>"+ mensajes.children[0].children[i].nodeName.charAt(0).toUpperCase()+mensajes.children[0].children[i].nodeName.slice(1)+"</th>";
 	}
 	sTable+="<th>Acciones</th>";
 	sTable+="</tr>";
@@ -330,7 +330,7 @@ function crearTablaCategoriaOEmpleo(conexion){
 	sTable="<table class='table table-striped'>";
 	sTable+="<tr>";
 	for(var i=1;i< catemp.children[0].children.length;i++){
-		sTable+="<th>"+ catemp.children[0].children[i].nodeName+"</th>";
+		sTable+="<th>"+ catemp.children[0].children[i].nodeName.charAt(0).toUpperCase() + catemp.children[0].children[i].nodeName.slice(1)+"</th>";
 	}
 	sTable+="<th>Acciones</th>";
 	sTable+="</tr>";
@@ -341,7 +341,7 @@ function crearTablaCategoriaOEmpleo(conexion){
 		}
 		sTable+='<td class="acciones">';
 
-		sTable+='<a href="/'+catemp.children[0].nodeName+'/modificar?id='+catemp.children[a].children[0].innerHTML+'" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>';
+		sTable+='<a href="/'+catemp.children[0].nodeName+'/modificar?id='+catemp.children[a].children[0].innerHTML+'" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a> ';
 		sTable+='<a href="/'+catemp.children[0].nodeName+'/borrar?id='+catemp.children[a].children[0].innerHTML+'" onclick="return confirm(\'¿Desea borrarlo?\')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>';
 		sTable+='</td>';
 		sTable+="</tr>";
@@ -354,5 +354,46 @@ function crearTablaCategoriaOEmpleo(conexion){
 		clearInterval(cambiotitulo);
 	}catch(err) {}
 	cambiotitulo=setInterval(function(){if(document.title=="Manitas Home")document.title="Lista De "+catemp.nodeName;else document.title="Manitas Home";},1500);
+}
+
+function crearTablaAdministradores(conexion){
+	var xml=new DOMParser().parseFromString(conexion.responseText,"text/xml");
+	var administradores=xml.getElementsByTagName("administradores")[0];
+	var emailactual=xml.getElementsByTagName("emailactual")[0].innerHTML;
+	if(administradores.children.length<1){
+		sTable="<h3>No hay "+administradores.nodeName+"</h3>";
+	}
+	else{
+	sTable="<table class='table table-striped'>";
+	sTable+="<tr>";
+	for(var i=1;i< administradores.children[0].children.length;i++){
+		sTable+="<th>"+ administradores.children[0].children[i].nodeName.charAt(0).toUpperCase() + administradores.children[0].children[i].nodeName.slice(1)+"</th>";
+	}
+	sTable+="<th>Acciones</th>";
+	sTable+="</tr>";
+	for(var a=0;a< administradores.children.length;a++){
+		if(administradores.children[a].getElementsByTagName("email")[0].innerHTML!=emailactual){
+			sTable+="<tr>";
+			for(var i=1;i< administradores.children[a].children.length;i++){
+				sTable+="<td>"+ administradores.children[a].children[i].innerHTML+"</td>";
+			}
+			sTable+='<td class="acciones">';
+			sTable+='<a href="/mensaje/crear?emaildestinatario='+administradores.children[a].getElementsByTagName("email")[0].innerHTML+'" class="btn btn-info" role="button"><span class="fa fa-envelope"></span></a> ';
+			if(xml.getElementsByTagName("superadmin")[0].innerHTML=="true"){
+				sTable+='<a href="/'+administradores.children[0].nodeName+'/modificar?id='+administradores.children[a].children[0].innerHTML+'" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a> ';
+				sTable+='<a href="/'+administradores.children[0].nodeName+'/borrar?id='+administradores.children[a].children[0].innerHTML+'" onclick="return confirm(\'¿Desea borrarlo?\')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>';
+			}
+			sTable+='</td>';
+			sTable+="</tr>";
+		}
+	}
+	sTable+="</table>";
+	}
+	document.getElementById("tablaDatos").innerHTML=sTable;
+	document.getElementById("botonRotatorio").children[0].className='fa fa-refresh';
+	try {
+		clearInterval(cambiotitulo);
+	}catch(err) {}
+	cambiotitulo=setInterval(function(){if(document.title=="Manitas Home")document.title="Lista De "+administradores.nodeName;else document.title="Manitas Home";},1500);
 }
 /*--------------------------------------------------------------OFUSCADOR DE JS---------------------------https://javascriptobfuscator.com/Javascript-Obfuscator.aspx-------------*/
