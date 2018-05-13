@@ -1,14 +1,52 @@
-<form method="post" onsubmit="validar()">
-	<h1>Crear empleo</h1>
-   
-	 		<h6>Nombre:</h6>
-			<input type="text" name="nombre"/><br/>
-			<h6>Categoria:</h6>
-			<select name="idcategoria">
-				<div th:each="categoria:${categorias}">
-					<option th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
-				</div>
-			</select><br/>
-			
-			<button>crear empleo</button>
-</form>
+
+<form class="form-horizontal" role="form" method="POST" onsubmit="validar()">
+				<div class="row">
+	                <div class="col-md-3"></div>
+	                <div class="col-md-6">
+	                    <h2>Crear empleo</h2>
+	                    <hr/>
+	                </div>
+                </div>
+                <div class="row">
+	                <div class="col-md-3">Introduce el nombre del empleo</div>
+	                <div class="col-md-6">
+	                    <div class="form-group has-danger">
+	                        <label class="sr-only" for="nombre">Introduce empleo nuevo</label>
+	                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+	                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-pencil-square-o"></i></div>
+	                            <input type="text" name="nombre" class="form-control" id="empleoNuevo" required="true" autofocus="true"/>
+	                        </div>
+	                    </div>
+	                </div>
+	               
+	            </div>
+	            <div class="row">
+	                <div class="col-md-3">Escoja la categoría del empleo</div>
+	                <div class="col-md-6">
+	                    <div class="form-group has-danger">
+	                        <label class="sr-only" for="categoriaEmpleoNuevo">Categoría del empleo</label>
+	                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+	                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-align-justify"></i></div>
+	                            <select name="idcategoria" class="custom-select" >
+									<div th:each="categoria:${categorias}">
+										<option th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
+									</div>
+								</select>
+	                        </div>
+	                    </div>
+	                </div>
+	               
+	            </div>
+
+	            <div class="row">
+	                <div class="col-md-3"></div>
+	                <div class="col-md-6">
+	                    <div class="form-group has-danger">
+	                        <button type="submit" class="btn btn-info"><span class="fa fa-plus"></span> Crear</button>
+	                    </div>
+	                </div>
+	               
+	            </div>
+            
+
+	</form>

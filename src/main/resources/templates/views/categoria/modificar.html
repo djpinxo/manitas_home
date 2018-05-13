@@ -1,8 +1,31 @@
-<form method="post" onsubmit="validar()">
-	<h1>Modificar categoria</h1>
-   
-	 		<h6>Nombre:</h6>
-			<input type="text" name="nombre" th:value="${categoria.nombre}"/><br/>
-					
-			<button type="submit" class="btn btn-info"><span class="fa fa-save"></span> Modificar</button>
-</form>
+	<form class="form-horizontal" role="form" method="POST" onsubmit="validar()">
+				<div class="row">
+	                <div class="col-md-3"></div>
+	                <div class="col-md-6">
+	                    <h2>Modificar categoría</h2>
+	                    <hr/>
+	                </div>
+                </div>
+                <div class="row">
+	                <div class="col-md-3"></div>
+	                <div class="col-md-6">
+	                    <div class="form-group has-danger">
+	                        <label class="sr-only" for="categoriaActual">Categoría actual</label>
+	                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+	                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-pencil-square-o"></i></div>
+	                            <input type="text" name="nombre" class="form-control" id="categoriaActual" th:value="${categoria.nombre}" required="true" autofocus="true"/>
+	                        </div>
+	                    </div>
+	                </div>
+	               
+	            </div>
+	            <div class="row">
+	                <div class="col-md-3"></div>
+	                <div class="col-md-6">
+	                    <div class="form-group has-danger">
+	                        <button type="submit" class="btn btn-info"><span class="fa fa-save"></span> Modificar</button>
+	                    </div>
+	                </div>
+	               
+	            </div>
+	</form>
