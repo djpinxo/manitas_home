@@ -12,7 +12,18 @@
           </div>
            -->
     </th>
-    <th>Email <a role="button" aria-expanded="true" onclick="sortTable(this,1)" class="fa fa-sort"></a>
+    <th>
+    	Empleos <a role="button" aria-expanded="true" onclick="sortTable(this,1)" class="fa fa-sort"></a>
+    </th>
+    <th>
+    	Teléfono <a role="button" aria-expanded="true" onclick="sortTable(this,2)" class="fa fa-sort"></a>
+    </th>
+    <th>
+    	Descripcion <a role="button" aria-expanded="true" onclick="sortTable(this,3)" class="fa fa-sort"></a>
+    </th>
+    
+    
+    <th>Email <a role="button" aria-expanded="true" onclick="sortTable(this,4)" class="fa fa-sort"></a>
       <!-- 
       <div>
         <button id="botonesOrdenar" onclick="sortTable('asc',1)"><i class="fa fa-angle-double-up"></i></button>
@@ -27,7 +38,17 @@
   
   <tr th:each="unmanitas:${manitas}" th:onclick="${'location.assign(''/manitas/ver?id='+unmanitas.id+''')'}" style="cursor:pointer">
     <td th:text="${unmanitas.nombre}"></td>
-    <td th:text="${unmanitas.email}"></td>
+    <td>
+    <ul th:each="empleo:${unmanitas.empleos}">
+    	<li th:text="${empleo.nombre}"/>
+    </ul>
+    </td>
+    <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.telefono}"></td>
+    <td th:if="${usuarioactivo==null}"><a href="/login/crear" class="btn btn-info" role="button" style="color:white;display:block">Registrate gratis</a></td>
+    <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.descripcion}"></td>
+    <td th:if="${usuarioactivo==null}"><a href="/login/crear" class="btn btn-info" role="button" style="color:white;display:block">Registrate gratis</a></td>
+    <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.email}"></td>
+    <td th:if="${usuarioactivo==null}"><a href="/login/crear" class="btn btn-info" role="button" style="color:white;display:block">Registrate gratis</a></td>
     <td class="acciones">
          <a th:href="'/mensaje/crear?emaildestinatario='+${unmanitas.email}" class="btn btn-info" role="button"><span class="fa fa-envelope"></span></a>
 

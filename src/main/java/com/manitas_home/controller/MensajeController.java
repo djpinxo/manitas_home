@@ -51,8 +51,8 @@ public class MensajeController {
 		}
 		return ((session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null)||anonimo)?"views/_t/main":"redirect:/mensaje/listar";
 	}
-	@PostMapping("/mensaje/crear")//TODO modificar
-	public String crear(@RequestParam("emaildestinatario")String emaildestinatario,@RequestParam("mensaje")String mensaje,@RequestParam(value="anonimo",defaultValue="false")boolean anonimo,HttpSession session) {
+	@PostMapping("/mensaje/crear2")//TODO OLD
+	public String crear2(@RequestParam("emaildestinatario")String emaildestinatario,@RequestParam("mensaje")String mensaje,@RequestParam(value="anonimo",defaultValue="false")boolean anonimo,HttpSession session) {
 		if((session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null)||anonimo){
 			String emailremitente =null;
 			String[]destinatarios=new String[0];
@@ -125,6 +125,71 @@ public class MensajeController {
 				destinatarios=emaildestinatario.split(";");
 				emailremitente=((Usuario)session.getAttribute("user")).getEmail();
 			}
+			ThreadEnviarMensajes hilo=new ThreadEnviarMensajes(destinatarios,RMensaje,emailremitente,mensaje);
+			hilo.start();
+		}
+		return "redirect:/mensaje/listar";
+	}
+	@PostMapping("/mensaje/crear")
+	public String crear(@RequestParam("emaildestinatario")String emaildestinatario,@RequestParam("mensaje")String mensaje,@RequestParam(value="anonimo",defaultValue="false")boolean anonimo,HttpSession session) {
+		String emailremitente =null;
+		String[]destinatarios=new String[0];
+		ArrayList <String> emailsdestinatarios=new ArrayList <String> ();
+		if(anonimo){
+			if(session.getAttribute("user")!=null)
+				emailremitente=((Usuario)session.getAttribute("user")).getEmail();
+			else
+				emailremitente="anonimo";
+			List <Administrador> administradores=(List<Administrador>) RAdministrador.findAll();
+			for(int i=0;i<administradores.size();i++){
+				emailsdestinatarios.add(administradores.get(i).getEmail());
+			}
+		}
+		else if(session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null&&!anonimo){
+			emailremitente=((Usuario)session.getAttribute("user")).getEmail();
+			if(emaildestinatario.toLowerCase().contains("todos")&&session.getAttribute("tipo").equals("administrador")){
+				List <Administrador> administradores=(List<Administrador>) RAdministrador.findAll();
+				List <Cliente> clientes=(List<Cliente>) RCliente.findAll();
+				List <Manitas> manitas=(ArrayList<Manitas>) RManitas.findAll();
+				for(int i=0;i<administradores.size();i++){
+					emailsdestinatarios.add(administradores.get(i).getEmail());
+				}
+				for(int i=0;i<clientes.size();i++){
+					emailsdestinatarios.add(clientes.get(i).getEmail());
+				}
+				for(int i=0;i<manitas.size();i++){
+					emailsdestinatarios.add(manitas.get(i).getEmail());
+				}
+			}
+			else{
+				if(emaildestinatario.toLowerCase().contains("clientes")&&session.getAttribute("tipo").equals("administrador")){
+					List <Cliente> clientes=(List<Cliente>) RCliente.findAll();
+					for(int i=0;i<clientes.size();i++){
+						emailsdestinatarios.add(clientes.get(i).getEmail());
+					}
+				}
+				if(emaildestinatario.toLowerCase().contains("manitas")&&session.getAttribute("tipo").equals("administrador")){
+					List <Manitas> manitas=(ArrayList<Manitas>) RManitas.findAll();
+					for(int i=0;i<manitas.size();i++){
+						emailsdestinatarios.add(manitas.get(i).getEmail());
+					}
+				}
+				if(emaildestinatario.toLowerCase().contains("administradores")){
+					List <Administrador> administradores=(List<Administrador>) RAdministrador.findAll();
+					for(int i=0;i<administradores.size();i++){
+						emailsdestinatarios.add(administradores.get(i).getEmail());
+					}
+				}
+				String[] arraydest = emaildestinatario.split(";");
+				for(int i=0;i<arraydest.length;i++){
+					if(!emailsdestinatarios.contains(arraydest[i])&&!arraydest[i].toLowerCase().equals("todos")&&!arraydest[i].toLowerCase().equals("clientes")&&!arraydest[i].toLowerCase().equals("manitas")&&!arraydest[i].toLowerCase().equals("administradores")){
+						emailsdestinatarios.add(arraydest[i]);
+					}
+				}
+			}
+		}
+		if(emailremitente!=null){
+			destinatarios=emailsdestinatarios.toArray(new String[emailsdestinatarios.size()]);
 			ThreadEnviarMensajes hilo=new ThreadEnviarMensajes(destinatarios,RMensaje,emailremitente,mensaje);
 			hilo.start();
 		}
@@ -250,12 +315,12 @@ class ThreadEnviarMensajes extends Thread{
 	*/
 	public void run(){
 		long horamensaje=System.currentTimeMillis();
-		for(int i=0;i<destinatarios.length;i++)
-			if(!destinatarios[i].toLowerCase().trim().equals("todos")){
+		for(int i=0;i<destinatarios.length;i++){
 				Mensaje email=new Mensaje(emailremitente,destinatarios[i].trim(),mensaje);
 				email.setFecha(horamensaje);
 				RMensaje.save(email);
 			}
+		System.out.println("insertados "+destinatarios.length+" mensajes nuevos");
 	}
 }
 class ThreadModificarMensajes extends Thread{
