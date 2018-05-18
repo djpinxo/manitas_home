@@ -13,7 +13,8 @@
            -->
     </th>
     <th>
-    	Empleos <a role="button" aria-expanded="true" onclick="sortTable(this,1)" class="fa fa-sort"></a>
+    	Empleos <a role="button" aria-expanded="true" onclick="sortTable(this,1)" class="fa fa-sort"></a> <span class="fa fa-filter" onclick="ocultarMostrarFiltro(this)"></span>
+    	<input type="text" style="display:none" onkeyup="filtrarFila(this,1)" id="filtroEmpleo"/>
     </th>
     <th>
     	Teléfono <a role="button" aria-expanded="true" onclick="sortTable(this,2)" class="fa fa-sort"></a>
@@ -39,8 +40,8 @@
   <tr th:each="unmanitas:${manitas}" th:onclick="${'location.assign(''/manitas/ver?id='+unmanitas.id+''')'}" style="cursor:pointer">
     <td th:text="${unmanitas.nombre}"></td>
     <td>
-    <ul th:each="empleo:${unmanitas.empleos}">
-    	<li th:text="${empleo.nombre}"/>
+    <ul style="list-style: none">
+    	<li th:each="empleo:${unmanitas.empleos}" th:text="'('+${empleo.categoria.nombre}+')-'+${empleo.nombre}"/>
     </ul>
     </td>
     <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.telefono}"></td>
@@ -60,3 +61,13 @@
   </tr>
   
 </table>
+<script>
+function ocultarMostrarFiltro(boton){
+	if(boton.nextElementSibling.style.display=='none')
+		boton.nextElementSibling.style='display:block';
+	else
+		boton.nextElementSibling.style='display:none';
+}
+//document.getElementById("filtroEmpleo").value=location.search.slice(location.search.indexOf("filtro=")+7);
+//filtrarFila(document.getElementById("filtroEmpleo"),1);
+</script>

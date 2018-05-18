@@ -1,4 +1,7 @@
-<h1>Bandeja de entrada <a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/mensaje/listar','GET',crearTablaMensajes)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a></h1>
+<h1>Bandeja de entrada
+<a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/mensaje/listar','GET',crearTablaMensajes)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
+<a class="btn btn-info" href="/mensaje/crear" style="margin-rigth:0px;"><span class="fa fa-send"></span> Enviar un mensaje</a>
+</h1>
 <div id="tablaDatos">
 <table class="table table-striped">
 	<tr>

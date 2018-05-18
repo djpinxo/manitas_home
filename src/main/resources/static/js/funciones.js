@@ -225,6 +225,26 @@ function sortTable2(tipo, n) {
   }
 }
 
+/*filtrado de filas pruebas*/
+function filtrarFila(input,columna){
+	 var table = document.getElementById("myTable");
+	 var textofiltro =input.value.trim().toLowerCase();
+	 var arrayFiltros = textofiltro.split(" ");
+	 var fin=true;
+	 var rows = table.getElementsByTagName("TR");
+		    for (var i=1;i<rows.length;i++) {
+		    	for(var a=0;a<arrayFiltros.length;a++){
+		    	if(rows[i].getElementsByTagName("TD")[columna].innerHTML.toLowerCase().includes(arrayFiltros[a].trim())){
+		    		rows[i].style="";
+		    		a=arrayFiltros.length;
+		    	}
+		    	else
+		    		rows[i].style="display:none";
+		    	}
+		    }
+}
+
+
 /*ajax*/
 function peticionAjax(direccion,method="GET",funcionRespuesta=null,formulario=null){
 	var sFormulario="";

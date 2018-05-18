@@ -7,4 +7,6 @@ public abstract class Usuario {
 	public abstract String getNombre();
 
 	public abstract String getEmail();
+	
+	public abstract String getNombreYApellidos();
 }

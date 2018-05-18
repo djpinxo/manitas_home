@@ -63,4 +63,7 @@ public class Administrador extends Usuario{
 	public void setBorrable(boolean borrable) {
 		this.borrable = borrable;
 	}
+	public String getNombreYApellidos(){
+		return this.nombre;
+	}
 }

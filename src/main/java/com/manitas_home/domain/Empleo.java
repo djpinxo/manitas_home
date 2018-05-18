@@ -1,6 +1,6 @@
 package com.manitas_home.domain;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +17,7 @@ public class Empleo {
 	@ManyToOne
 	private Categoria categoria;
 	@ManyToMany(mappedBy="empleos")
-	private Collection<Manitas> manitas;
+	private List<Manitas> manitas;
 	
 	public Empleo(){
 	}
@@ -43,10 +43,10 @@ public class Empleo {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Collection<Manitas> getManitas() {
+	public List<Manitas> getManitas() {
 		return manitas;
 	}
-	public void setManitas(Collection<Manitas> manitas) {
+	public void setManitas(List<Manitas> manitas) {
 		this.manitas = manitas;
 	}
 	

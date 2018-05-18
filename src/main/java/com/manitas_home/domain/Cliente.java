@@ -106,4 +106,8 @@ public class Cliente extends Usuario{
 	public void setOpiniones(Collection<Opinion> opiniones) {
 		this.opiniones = opiniones;
 	}
+	public String getNombreYApellidos(){
+		return this.nombre+" "+this.apellidos;
+	}
+
 }

@@ -1,6 +1,8 @@
 package com.manitas_home.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +26,7 @@ public class Manitas extends Usuario{
 	private int radioAccion;
 	private boolean habilitado;
 	@ManyToMany
-	private Collection<Empleo> empleos;
+	private List<Empleo> empleos;
 	@OneToMany(mappedBy = "manitas")
 	private Collection<Opinion> opiniones;
 
@@ -42,6 +44,7 @@ public class Manitas extends Usuario{
 	this.descripcion=descripcion;
 	this.radioAccion=radioAccion;
 	this.habilitado=false;
+	this.empleos=new <Empleo>ArrayList();
 	}
 	public Long getId() {
 	return id;
@@ -103,10 +106,10 @@ public class Manitas extends Usuario{
 	public void setRadioAccion(int radioAccion) {
 		this.radioAccion = radioAccion;
 	}
-	public Collection<Empleo> getEmpleos() {
+	public List<Empleo> getEmpleos() {
 		return empleos;
 	}
-	public void setEmpleos(Collection<Empleo> empleos) {
+	public void setEmpleos(List<Empleo> empleos) {
 		this.empleos = empleos;
 	}
 	public Collection<Opinion> getOpiniones() {
@@ -115,6 +118,8 @@ public class Manitas extends Usuario{
 	public void setOpiniones(Collection<Opinion> opiniones) {
 		this.opiniones = opiniones;
 	}
-	
+	public String getNombreYApellidos(){
+		return this.nombre+" "+this.apellidos;
+	}
 
 }

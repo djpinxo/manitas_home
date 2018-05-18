@@ -1,6 +1,9 @@
 <form action="/mensaje/crear" method="post">
-<input th:hidden="${anonimo}" type="text" name="emaildestinatario" th:value="${emaildestinatario}"/>
+<h6 th:if="!${anonimo}">Destinatarios</h6>
+<input th:hidden="${anonimo}" type="text" name="emaildestinatario" th:value="${emaildestinatario}" placeholder="escriba los destinatarios separados por ;"/>
 <input th:if="${anonimo}" type="text" hidden="true" name="anonimo" value="true"/>
+<h6>Texto del mensaje</h6>
 <textarea rows="10" cols="100" name="mensaje" th:placeholder="${anonimo}?'escriba su correo para contactar con usted'"></textarea>
-<button>enviar mensaje</button>
+<br/>
+<button class="btn btn-info"><span  class="fa fa-send"></span> enviar mensaje</button>
 </form>

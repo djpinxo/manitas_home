@@ -17,7 +17,6 @@ import com.manitas_home.domain.Categoria;
 import com.manitas_home.domain.Cliente;
 import com.manitas_home.domain.Empleo;
 import com.manitas_home.domain.Manitas;
-import com.manitas_home.domain.Mensaje;
 import com.manitas_home.domain.Usuario;
 import com.manitas_home.funciones.funcionstart;
 import com.manitas_home.repositories.AdministradorRepository;
@@ -68,7 +67,7 @@ public class ManitasController {
 		return hayadmin("views/_t/main", "redirect:/administrador/crear");
 	}*/
 	@GetMapping("/manitas/listar")
-	public String listar(@RequestParam(value = "filtro", defaultValue="")String filtro ,HttpSession session,ModelMap m){//TODO añadir poder buscar por otras coordenadas y los filtros
+	public String listar(@RequestParam(value = "filtro", defaultValue="")String categoria ,HttpSession session,ModelMap m){//TODO añadir poder buscar por otras coordenadas y los filtros
 		List<Manitas> listaBruta = RManitas.findAll();
 		List<Manitas> lista = new ArrayList<Manitas>();
 		if(session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("cliente")&&session.getAttribute("user")!=null){
@@ -83,6 +82,19 @@ public class ManitasController {
 			}
 		}
 		else lista=listaBruta;
+		if(!categoria.equals("")){//TODO filtrado por categoria
+			listaBruta = new ArrayList<Manitas>();
+			for(int i=0;i<lista.size();i++){
+				List<Empleo> empleos = lista.get(i).getEmpleos();
+				for(int a=0;a<empleos.size();a++){
+					if(empleos.get(a).getCategoria().getNombre().equals(categoria)){
+						listaBruta.add(lista.get(i));
+						a=empleos.size();
+					}
+				}
+			}
+			lista=listaBruta;
+		}
 		m.put("usuarioactivo", session.getAttribute("user"));
 		if(session.getAttribute("user")!=null)
 		m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));

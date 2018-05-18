@@ -1,0 +1,54 @@
+<table>
+<tr th:each="dato:${datos}">
+	<td th:text="${dato.get(0).nombre}+' ('+${dato.get(0).email}+')'"/>
+	<td th:text="${dato.get(1)}"/>
+	<td th:text="${dato.get(2).mensaje}+' ('+${dato.get(2).fecha.toLocaleString()}+')'"/>
+</tr>
+</table>
+<style>
+.numMsg{
+  background-color: red;
+  text-align: center;
+  border-radius: 1000px;
+    padding: 0px;
+    width: 25px;
+    height: 25px;
+    color:white;
+
+} 
+</style>
+<table class="table table-striped">
+					
+					
+					    <thead>
+					    	<th></th>
+					        <th colspan="3">
+                    <form class="form-horizontal" role="form" method="POST" action="">
+
+                              <div class="col-md-6">
+                                  <div class="form-group has-danger">
+                                      <label class="sr-only" for="email">E-Mail Address</label>
+                                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                          <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-search"></i></div>
+                                          <input type="text" name="buscador" class="form-control" id="buscador"
+                                                 placeholder="Buscador" required="true" autofocus="true"/>
+                                      </div>
+                                  </div>
+                              </div>
+                      </form>
+					        
+							</th>
+					       
+					    </thead>
+					    <tbody>
+					      
+					        <tr th:each="dato:${datos}">
+					           
+					        	<td><b th:text="${dato.get(0).getNombreYApellidos()}+' ('+${dato.get(0).email}+')'"></b></td>
+					            <td th:text="${dato.get(2).mensaje}+' ('+${dato.get(2).fecha.toLocaleString()}+')'"></td>
+					            <td><div class="numMsg" th:if="${!dato.get(1).equals('0')}" th:text="${dato.get(1)}"></div></td>
+					         </tr>
+					        
+					    </tbody>
+					
+				</table> 

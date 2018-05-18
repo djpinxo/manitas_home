@@ -1,4 +1,7 @@
-<h1>Administradores <a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/administrador/listar','GET',crearTablaAdministradores)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a></h1>
+<h1>Administradores
+<a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/administrador/listar','GET',crearTablaAdministradores)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
+<a th:if="${!usuarioactivo.borrable}" class="btn btn-info" href="/administrador/crear" style="margin-rigth:0px;"><span class="fa fa-plus"></span> Crear</a>
+</h1>
 <div id="tablaDatos">
 <table class="table table-striped">
 	<tr>
