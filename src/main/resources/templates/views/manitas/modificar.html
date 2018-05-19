@@ -16,10 +16,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
-                            <i class="fa fa-close">Contraseña no valida</i>
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+            <div class="col-md-6">
+                <div id="errorPwdActual" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
+                            Contraseña no valida
                         </span>
                 </div>
             </div>
@@ -37,9 +41,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+        	<div class="col-md-6">
+                <div id="errorNombre" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
                             Nombre no valido
                         </span>
                 </div>
@@ -58,9 +66,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+            <div class="col-md-6">
+                <div id="errorApellidos" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
                              Apellidos no validos
                         </span>
                 </div>
@@ -79,9 +91,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+        	  <div class="col-md-6">
+                <div id="errorEmail" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
                            El correo no es valido
                         </span>
                 </div>
@@ -101,14 +117,19 @@
                                id="tlf" placeholder="Introduzca su telófono" required="true" th:value="${manitas.telefono}" />
                     </div>
                 </div>
-                 <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
+            </div>
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+            <div class="col-md-6">
+                <div id="errorTelefono" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
                            El telefono no es valido
                         </span>
                 </div>
             </div>
-            </div>
+            
         </div>
         <div class="row">
             <div class="d-none d-md-block col-md-3 field-label-responsive">
@@ -124,10 +145,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
-                            <i class="fa fa-close">Contraseña no valida</i>
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+            <div class="col-md-6">
+                <div id="errorPwd" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
+                            Contraseña no valida
                         </span>
                 </div>
             </div>
@@ -147,9 +172,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+        	<div class="col-md-6">
+                <div id="errorPwdConfirm" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
                             <i class="fa fa-close">Repita correctamente su contraseña</i>
                         </span>
                 </div>
@@ -228,7 +257,7 @@
             </div>
         </div>
 
-          <div class="row" id="divRadio">
+          <div class="row" id="divRadio" >
             <div class="d-none d-md-block col-md-3 field-label-responsive">
                 <label for="radio">Radio de acción</label>
             </div>
@@ -238,19 +267,23 @@
                         <div class="input-group-addon" style="width: 2.6rem">
                             <i class="fa fa-bullseye"></i>
                         </div>
-                         <input class="form-control" type="number"  id="radio" max="1000" name="radio" placeholder="Introduzca el radio de accion en el que desea trabajar" required="true" th:value="${manitas.radioAccion}"/>
+                         <input class="form-control" type="number"  id="radio" max="1000" name="radio" placeholder="Introduzca el radio de accion en el que desea trabajar" required="true" />
                          <div class="input-group-addon" style="width: 2.6rem">
                             <span>Km</span>
                         </div>
                     </div>
                 </div>
-                 <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
-                           El radio de acción es incorrecto
+            </div>
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+            <div class="col-md-6">
+                <div id="errorRadioAccion" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
+                            El radio de acción es incorrecto
                         </span>
                 </div>
-            </div>
             </div>
         </div>
         <div class="row">

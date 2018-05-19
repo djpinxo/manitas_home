@@ -1,51 +1,75 @@
-	<form class="form-horizontal" role="form" method="POST" onsubmit="validar()">
-				<div class="row">
-	                <div class="col-md-3"></div>
-	                <div class="col-md-6">
-	                    <h2>Modificar empleo</h2>
-	                    <hr/>
-	                </div>
-                </div>
-                <div class="row">
-	                <div class="col-md-3">Nombre empleo actual</div>
-	                <div class="col-md-6">
-	                    <div class="form-group has-danger">
-	                        <label class="sr-only" for="empleoActual">Nombre empleo actual</label>
-	                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-	                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-pencil-square-o"></i></div>
-	                            <input type="text" name="nombre" class="form-control" id="empleoActual" th:value="${empleo.nombre}" required="true" autofocus="true"/>
-	                        </div>
-	                    </div>
-	                </div>
-	               
-	            </div>
-	            <div class="row">
-	                <div class="col-md-3">Categoría del empleo</div>
-	                <div class="col-md-6">
-	                    <div class="form-group has-danger">
-	                        <label class="sr-only" for="categoriaEmpleoActual">Categoría del empleo</label>
-	                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-	                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-align-justify"></i></div>
-	                            <select name="idcategoria" class="custom-select" >
-									<div th:each="categoria:${categorias}">
-										<option th:value="${categoria.id}" th:text="${categoria.nombre}" th:selected="${(empleo.categoria.id==categoria.id)?'true':'false'}"></option>
-									</div>
-								</select>
-	                        </div>
-	                    </div>
-	                </div>
-	               
-	            </div>
 
-	            <div class="row">
-	                <div class="col-md-3"></div>
-	                <div class="col-md-6">
-	                    <div class="form-group has-danger">
-	                        <button type="submit" class="btn btn-info"><span class="fa fa-save"></span> Modificar</button>
-	                    </div>
-	                </div>
-	               
-	            </div>
-            
+<form class="form-horizontal" role="form" method="POST"
+	onsubmit="return validar(this)">
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<h2>Modificar empleo</h2>
+			<hr />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">Nombre empleo actual</div>
+		<div class="col-md-6">
+			<div class="form-group has-danger">
+				<label class="sr-only" for="empleoActual">Nombre empleo
+					actual</label>
+				<div class="input-group mb-2 mr-sm-2 mb-sm-0">
+					<div class="input-group-addon" style="width: 2.6rem">
+						<i class="fa fa-pencil-square-o"></i>
+					</div>
+					<input type="text" name="nombre" class="form-control"
+						id="empleoActual" th:value="${empleo.nombre}" required="true"
+						autofocus="true" />
+				</div>
+			</div>
+		</div>
 
-	</form>
+	</div>
+	<div class="row">
+		<div class="d-none d-md-block col-md-3 field-label-responsive">
+		</div>
+		<div class="col-md-6">
+			<div id="errorNombre"
+				class="form-control-feedback text-danger alert alert-danger align-middle"
+				hidden="true">
+				<span> Nombre no valido </span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">Categoría del empleo</div>
+		<div class="col-md-6">
+			<div class="form-group has-danger">
+				<label class="sr-only" for="categoriaEmpleoActual">Categoría
+					del empleo</label>
+				<div class="input-group mb-2 mr-sm-2 mb-sm-0">
+					<div class="input-group-addon" style="width: 2.6rem">
+						<i class="fa fa-align-justify"></i>
+					</div>
+					<select name="idcategoria" class="custom-select">
+						<div th:each="categoria:${categorias}">
+							<option th:value="${categoria.id}" th:text="${categoria.nombre}"
+								th:selected="${(empleo.categoria.id==categoria.id)?'true':'false'}"></option>
+						</div>
+					</select>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<div class="form-group has-danger">
+				<button type="submit" class="btn btn-info">
+					<span class="fa fa-save"></span> Modificar
+				</button>
+			</div>
+		</div>
+
+	</div>
+
+
+</form>

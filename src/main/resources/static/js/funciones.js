@@ -1,11 +1,20 @@
 function validar(form) {
 	var salida=false;
-	if(trim(form)&&comparacontraseña(form)){
+	/*
+	 * CON EL TRIM NO FUNCIONA AL REGISTRAR!!
+	 if(validarCampos(form)&&trim(form)&&comparacontraseña(form)){
+		codContraseña();
+		salida=true;
+	}
+	 */
+	if(validarCampos(form)&&comparacontraseña(form)){
 		codContraseña();
 		salida=true;
 	}
 	return salida;
 }
+
+
 function codContraseña() {//modificar para que acepte varios campos password en una pagina
 	var campo = document.getElementsByName("passwordsin")[0];
 	document.getElementsByName("password")[0].value = shake_256(campo.value,1023);
@@ -450,5 +459,277 @@ function crearTablaClientes(conexion){
 		clearInterval(cambiotitulo);
 	}catch(err) {}
 	cambiotitulo=setInterval(function(){if(document.title=="Manitas Home")document.title="Lista De "+clientes.nodeName;else document.title="Manitas Home";},1500);
+}
+
+function validarCampos(form) {
+	/* Divs para mostrar los errores */
+	divsError=form.getElementsByClassName('form-control-feedback');
+	
+	
+	
+	/* VALIDAR NOMBRE */
+	
+	if (form['nombre']){
+	nombre = form['nombre'].value;
+	nombre=nombre.trim();
+	nombreCorrecto=false;
+	expRegNombre = /^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\s|\ç|\Ç|\-]*)+$/;
+	
+		if (nombre.length>=3 && nombre.length<30) {
+			if(expRegNombre.test(nombre)){
+				nombreCorrecto=true;
+				if(divsError['errorNombre']){
+					divsError['errorNombre'].hidden=true;
+				}
+			}
+			else {
+				if(divsError['errorNombre']){
+					divsError['errorNombre'].hidden=false;
+					divsError['errorNombre'].getElementsByTagName('span')[0].innerHTML="Nombre incorrecto, ha introducido caracteres no permitidos.";
+				}
+			}
+		}
+		else {
+			if(divsError['errorNombre']){
+				divsError['errorNombre'].hidden=false;
+				divsError['errorNombre'].getElementsByTagName('span')[0].innerHTML="Nombre incorrecto, el nombre debe contener entre 3 y 30 caracteres.";
+			}
+		}
+		
+	}
+	
+		
+	/* VALIDAR APELLIDOS */
+	if (form['apellidos']){
+	apellidos = form['apellidos'].value;
+	apellidos=apellidos.trim();
+	apellidosCorrectos=false;
+	expRegApellidos = /^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\s|\ç|\Ç|\-]*)+$/;
+	tipo="";
+	if(form['tipo']) {
+		tipo=form['tipo'].value;
+	}
+	
+	
+	/* Para que manitas pueda dejar los apellidos vacios si asi lo desea" */
+	/* PROBLEMA, EL CAMPO ESTÁ EN REQUERIDO EN EL HTML Y NO SE PUEDE DEJAR EN VACIO
+	* SE PODRIA SOLUCIONAR FACILMENTE CON THYMELEAF
+	*/
+	if(tipo=="manitas"){
+		if(expRegApellidos.test(apellidos) || apellidos==""){
+				apellidosCorrectos=true;
+				if(divsError['errorApellidos']){
+					divsError['errorApellidos'].hidden=true;
+				}
+		}
+		
+		else {
+			if(divsError['errorApellidos']){
+				divsError['errorApellidos'].hidden=false;
+				divsError['errorApellidos'].innerHTML="Apellidos incorrectos, ha introducido caracteres no permitidos.";	
+				}
+			}
+			
+	}
+	else {
+		if (apellidos.length>=8 && apellidos.length<50) {
+				if(expRegApellidos.test(apellidos)){
+					apellidosCorrectos=true;
+					if(divsError['errorApellidos']){
+						divsError['errorApellidos'].hidden=true;
+					}
+				}
+				else {
+					if(divsError['errorApellidos']){
+						divsError['errorApellidos'].hidden=false;
+						divsError['errorApellidos'].getElementsByTagName('span')[0].innerHTML="Apellidos incorrectos, ha introducido caracteres no permitidos.";
+					}
+				}
+			}
+			else {
+				if(divsError['errorApellidos']){
+					divsError['errorApellidos'].hidden=false;
+					divsError['errorApellidos'].getElementsByTagName('span')[0].innerHTML="Apellidos incorrectos, los apellidos deben contener entre 8 y 50 caracteres.";
+				}
+			}
+	}
+	}
+	
+	
+	/* VALIDAR EMAIL */
+	if (form['email']){
+	email = form['email'].value;
+	emailCorrecto=false;
+	expRegEmail= /^([\w]+[\.|\_|\-|\@]*)+@{1}[\w]+(\.+[a-z]{2,3})+$/;
+	if(expRegEmail.test(email)){
+				emailCorrecto=true;
+				if(divsError['errorEmail']){
+					divsError['errorEmail'].hidden=true;
+				}
+				
+			}
+			else {
+			if(divsError['errorEmail']){	
+				divsError['errorEmail'].hidden=false;
+				divsError['errorEmail'].getElementsByTagName('span')[0].innerHTML="Email incorrecto.";
+				}
+			}
+	}
+	
+	
+	/* VALIDAR TELEFONO */
+	if (form['telefono']){
+	tlf = form['telefono'].value;
+	telefonoCorrecto=false;
+	expRegTelefono =/^[9|6]{1}([\d]{2}[-|\s]*){3}[\d]{2}$/;
+	
+	if (expRegTelefono.test(tlf)){
+		telefonoCorrecto=true;
+		if(divsError['errorTelefono']){
+			divsError['errorTelefono'].hidden=true;
+		}
+	}
+	else {
+		if(divsError['errorTelefono']){
+			divsError['errorTelefono'].hidden=false;
+			divsError['errorTelefono'].getElementsByTagName('span')[0].innerHTML="Telefono incorrecto. Debe comenzar por 9 ó 6 y debe contener 9 cifras";
+		}
+	}
+	}
+	
+	
+	/* VALIDAR CONTRASEÑA */
+	/* Aqui pedimos una contraseña con mayuscula, caracter especial y numero pero
+	* podría ser buena opcion no exigirlo sino ir sumando "seguridad" segun se van introduciendo esos caracteres
+	* e informar al usuario del nivel de seguridad de su contraseña
+	*/
+	
+	if (form['passwordsin']){
+	pwd = form['passwordsin'].value;
+	pwdCorrecta=false;
+	expRegPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+	
+	if (expRegPwd.test(pwd)){
+		pwdCorrecta=true;
+		if(divsError['errorPwd']){
+			divsError['errorPwd'].hidden=true;
+		}
+		
+	}
+	else {	
+		if(divsError['errorPwd']){
+			divsError['errorPwd'].hidden=false;
+			divsError['errorPwd'].getElementsByTagName('span')[0].innerHTML="Contraseña incorrecta. Debe contener entre 8 y 15 caracteres y al menos mayusculas, cifras y caracteres especiales.";
+		}
+	}
+	}
+	
+	/* CONFIRMAR PWD */
+	if (form['password-confirmation']){
+	pwd2 = form['password-confirmation'].value;
+	pwdConfirm=false;
+	
+	
+
+	if(pwd == pwd2){
+		if(divsError['errorPwdConfirm']){
+			divsError['errorPwdConfirm'].hidden=true;
+		}
+		pwdConfirm=true;
+	}
+	else {
+		if(divsError['errorPwdConfirm']){
+			divsError['errorPwdConfirm'].hidden=false;
+		divsError['errorPwdConfirm'].getElementsByTagName('span')[0].innerHTML="Las contraseñas no coinciden.";
+		}
+		
+	}
+	}
+	
+	//COINCIDIR PASSWORD ACTUAL
+	
+	
+	
+	// RADIO DE ACCION
+	if (form['tipo']){
+		if(form['tipo'].value=="cliente") {
+			
+			divsError['errorRadioAccion'].hidden=true;
+		}
+		else {
+			if (form['radio']){
+				radio = form['radio'].value;
+				radioCorrecto=false;
+				if(radio<1 || radio>500){
+						if(divsError['errorRadioAccion']){
+							if(radio<1){
+								divsError['errorRadioAccion'].hidden=false;
+								divsError['errorRadioAccion'].getElementsByTagName('span')[0].innerHTML="Rango incorrecto, no puedo introducir un rango inferior a 1.";
+							}
+							else {
+								divsError['errorRadioAccion'].hidden=false;
+								divsError['errorRadioAccion'].getElementsByTagName('span')[0].innerHTML="Rango incorrecto, no puedo introducir un rango superior a 500.";
+							}
+					}
+				}
+				
+				else{
+					if(divsError['errorRadioAccion']){
+						divsError['errorRadioAccion'].hidden=true;
+						radioCorrecto=true;
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	if ( ( (typeof nombreCorrecto == 'undefined') || (nombreCorrecto == true) ) &&
+		( (typeof apellidosCorrectos == 'undefined') || (apellidosCorrectos == true) ) &&
+		( (typeof emailCorrecto == 'undefined') || (emailCorrecto == true) ) &&
+		( (typeof telefonoCorrecto == 'undefined') || (telefonoCorrecto == true) ) && 
+		( (typeof pwdCorrecta == 'undefined') || (pwdCorrecta == true) ) &&
+		( (typeof pwdConfirm == 'undefined') || (pwdConfirm == true) ) &&
+		( (typeof radioCorrecto == 'undefined') || (radioCorrecto == true) )
+	){
+		return true;                                                                         
+	}
+	else {
+		if ((typeof nombreCorrecto !== 'undefined') && (nombreCorrecto==false)){
+			form['nombre'].focus();
+		}
+		else {
+			if( (typeof apellidosCorrectos !== 'undefined') && (apellidosCorrectos==false)){
+				form['apellidos'].focus();
+			}
+			else {
+				if((typeof emailCorrecto !== 'undefined') && emailCorrecto==false){
+					form['email'].focus();
+				}
+				else {
+					if((typeof telefonoCorrecto !== 'undefined') && telefonoCorrecto==false){
+						form['tlf'].focus();
+					}
+					else {
+						if((typeof pwdCorrecta !== 'undefined') && pwdCorrecta==false){
+							form['passwordsin'].focus();
+						}
+						else {
+							if((typeof pwdConfirm !== 'undefined') && pwdConfirm==false){
+								form['password-confirmation'].focus();
+							}
+							else {
+								form['radio'].focus();
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	return false;
 }
 /*--------------------------------------------------------------OFUSCADOR DE JS---------------------------https://javascriptobfuscator.com/Javascript-Obfuscator.aspx-------------*/

@@ -43,7 +43,7 @@
         	<div class="d-none d-md-block col-md-3 field-label-responsive">
             </div>
         	<div class="col-md-6">
-                <div class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                <div id="errorNombre" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
                         <span>
                             Nombre no valido
                         </span>
@@ -69,7 +69,7 @@
         	<div class="d-none d-md-block col-md-3 field-label-responsive">
             </div>
             <div class="col-md-6">
-                <div class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                <div id="errorApellidos" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
                         <span>
                              Apellidos no validos
                         </span>
@@ -95,7 +95,7 @@
         	<div class="d-none d-md-block col-md-3 field-label-responsive">
             </div>
         	  <div class="col-md-6">
-                <div class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                <div id="errorEmail" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
                         <span>
                            El correo no es valido
                         </span>
@@ -123,7 +123,7 @@
         	<div class="d-none d-md-block col-md-3 field-label-responsive">
             </div>
             <div class="col-md-6">
-                <div class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                <div id="errorTelefono" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
                         <span>
                            El telefono no es valido
                         </span>
@@ -151,7 +151,7 @@
         	<div class="d-none d-md-block col-md-3 field-label-responsive">
             </div>
             <div class="col-md-6">
-                <div class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                <div id="errorPwd" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
                         <span>
                             Contraseña no valida
                         </span>
@@ -169,7 +169,7 @@
                             <i class="fa fa-repeat"></i>
                         </div>
                         <input type="password" name="password-confirmation" class="form-control"
-                               id="password-confirm" placeholder="Confirme su contraseña" required="true"/>
+                               id="password-confirmation" placeholder="Confirme su contraseña" required="true"/>
                     </div>
                 </div>
             </div>
@@ -179,7 +179,7 @@
         	<div class="d-none d-md-block col-md-3 field-label-responsive">
             </div>
         	<div class="col-md-6">
-                <div class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                <div id="errorPwdConfirm" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
                         <span>
                             <i class="fa fa-close">Repita correctamente su contraseña</i>
                         </span>
@@ -274,13 +274,17 @@
                         </div>
                     </div>
                 </div>
-                 <div class="col-md-3">
-                <div class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
-                        <span class="text-danger align-middle">
-                           El radio de acción es incorrecto
+            </div>
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+            <div class="col-md-6">
+                <div id="errorRadioAccion" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
+                            El radio de acción es incorrecto
                         </span>
                 </div>
-            </div>
             </div>
         </div>
 
@@ -294,7 +298,7 @@
         </div>
 </form>
 		<script>
-			/*function mostrar(camposelect){
+			/* function mostrar(camposelect){
 				var form = camposelect.parentNode;
 				console.log(form);
 				if(camposelect.value=="manitas"){
@@ -332,10 +336,12 @@
 	                   divRadio.hidden=true;
 	                    divDescripcion.hidden=true;
 	                    divEmpleo.hidden=true;
-
+						errorRadioAccion.hidden=true;
 	                     document.getElementById("registroH2").innerHTML = "Registrese como Cliente";
 	                     document.getElementById("tipo").value="cliente";
 	                     document.getElementById("radio").disabled=true;
+	                     document.getElementById("errorRadioAccion").disabled=true;
+	                     document.getElementById("errorRadioAccion").hidden=true;
 	                     idempleo.disabled=true;
 	                     
 	                }
