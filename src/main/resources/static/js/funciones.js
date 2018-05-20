@@ -608,7 +608,6 @@ function validarCampos(form) {
 	pwd = form['passwordsin'].value;
 	pwdCorrecta=false;
 	
-	expRegPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
 	
 	if (expRegPwd.test(pwd)){
 		pwdCorrecta=true;
