@@ -16,10 +16,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
-                            <i class="fa fa-close">Contraseña no valida</i>
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+            <div class="col-md-6">
+                <div id="errorPwdActual" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
+                            Contraseña no valida
                         </span>
                 </div>
             </div>
@@ -37,9 +41,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
+            
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+        	<div class="col-md-6">
+                <div id="errorNombre" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
                             Nombre no valido
                         </span>
                 </div>
@@ -58,9 +67,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+            <div class="col-md-6">
+                <div id="errorApellidos" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
                              Apellidos no validos
                         </span>
                 </div>
@@ -79,14 +92,19 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+        	  <div class="col-md-6">
+                <div id="errorEmail" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
                            El correo no es valido
                         </span>
                 </div>
             </div>
         </div>
+        
         <div class="row">
             <div class="d-none d-md-block col-md-3 field-label-responsive">
                 <label for="tlf">Teléfono</label>
@@ -101,14 +119,19 @@
                                id="tlf" placeholder="Introduzca su teléfono" required="true" th:value="${cliente.telefono}" />
                     </div>
                 </div>
-                 <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
+            </div>
+        </div>
+        <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+            <div class="col-md-6">
+                <div id="errorTelefono" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
                            El telefono no es valido
                         </span>
                 </div>
             </div>
-            </div>
+            
         </div>
         <div class="row">
             <div class="d-none d-md-block col-md-3 field-label-responsive">
@@ -124,10 +147,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
-                            <i class="fa fa-close">Contraseña no valida</i>
+        </div>
+         <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+            <div class="col-md-6">
+                <div id="errorPwd" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
+                            Contraseña no valida
                         </span>
                 </div>
             </div>
@@ -147,9 +174,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback" hidden="true">
-                        <span class="text-danger align-middle">
+        </div>
+         <div class="row">
+        	<div class="d-none d-md-block col-md-3 field-label-responsive">
+            </div>
+        	<div class="col-md-6">
+                <div id="errorPwdConfirm" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
                             <i class="fa fa-close">Repita correctamente su contraseña</i>
                         </span>
                 </div>
