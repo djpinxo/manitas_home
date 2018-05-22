@@ -107,7 +107,7 @@ public class Cliente extends Usuario{
 		this.opiniones = opiniones;
 	}
 	public String getNombreYApellidos(){
-		return this.nombre+" "+this.apellidos;
+		return this.nombre.substring(0, 1).toUpperCase()+this.nombre.substring(1).toLowerCase()+" "+this.apellidos.substring(0, 1).toUpperCase()+this.apellidos.substring(1).toLowerCase();
 	}
 
 }
