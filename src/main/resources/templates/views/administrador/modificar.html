@@ -1,4 +1,4 @@
-<form class="form-horizontal" role="form" method="POST" onsubmit="return validar(this)">
+<form class="form-horizontal" onchange="peticionAjax('/administrador/modificar','GET',validar(this));" role="form" method="POST" onsubmit="return validar(this)">
 <input type="text" name="idh" th:value="${administrador.id}" hidden="hidden"/>
             <div class="row">
                 <div class="col-md-3"></div>

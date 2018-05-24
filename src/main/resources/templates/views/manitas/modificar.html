@@ -1,6 +1,6 @@
 <h1>Modificar Manitas</h1>
 
-<form method="post" onsubmit="return validar(this)">
+<form method="post" onchange="peticionAjax('/manitas/modificar','GET',validar(this));" onsubmit="return validar(this)">
 	<input type="text" name="id" th:value="${manitas.id}" required="true" hidden="true"/>
 	<div class="row">
             <div class="d-none d-md-block col-md-3 field-label-responsive">

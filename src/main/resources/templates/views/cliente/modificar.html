@@ -1,6 +1,6 @@
 <h1>Modificar Cliente</h1>
 
-<form method="post" onsubmit="return validar(this)">
+<form onchange="peticionAjax('/cliente/modificar','GET',validar(this));" method="post" onsubmit="return validar(this)">
 	<input type="text" name="id" th:value="${cliente.id}" required="true" hidden="true"/>
 	<div class="row">
             <div class="d-none d-md-block col-md-3 field-label-responsive">

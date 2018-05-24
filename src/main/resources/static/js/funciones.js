@@ -1,3 +1,11 @@
+$( document ).ready(function() {
+	$('#confirm-delete').on('show.bs.modal', function(e) {
+	    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+	});
+});
+
+
+
 function validar(form) {
 	var salida=false;
 	/*
@@ -653,8 +661,8 @@ function validarCampos(form) {
 		
 		if(pwdActual == pwd || pwdActual == pwd2){
 			if(divsError['errorPwdActual']){
-				divsError['errorPwdActual'].hidden=false;
-				divsError['errorPwdActual'].getElementsByTagName('span')[0].innerHTML="La contraseña debe ser distinta a la anterior del usuario.";
+				divsError['errorPwd'].hidden=false;
+				divsError['errorPwd'].getElementsByTagName('span')[0].innerHTML="La nueva contraseña no puede coincidir con la anterior.";
 			}
 		
 		}
@@ -765,4 +773,6 @@ function validarCampos(form) {
 	
 	return false;
 }
+
+
 /*--------------------------------------------------------------OFUSCADOR DE JS---------------------------https://javascriptobfuscator.com/Javascript-Obfuscator.aspx-------------*/
