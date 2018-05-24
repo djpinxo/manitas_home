@@ -51,6 +51,8 @@ public class AdministradorController {
 		this.RAdministrador.save(new Administrador(nombre,email,password,(this.RAdministrador.count()>0)?true:false));
 		return "redirect:/administrador/crear";
 		*/
+		nombre=nombre.toLowerCase();
+		email=email.toLowerCase();
 		if(permisosCrear(session)&&this.RAdministrador.findOneByEmail(email)==null&&this.RCliente.findOneByEmail(email)==null&&this.RManitas.findOneByEmail(email)==null){
 			this.RAdministrador.save(new Administrador(nombre,email,password,!(funcionstart.getFirst(RAdministrador))));
 		}
@@ -124,6 +126,8 @@ public class AdministradorController {
 	@PostMapping("/administrador/modificar")
 	public String modificar(@RequestParam("idh")Long id,@RequestParam("nombre")String nombre ,@RequestParam("email")String email ,@RequestParam("password")String password,HttpSession session) {
 		if(permisos(session)){
+			nombre=nombre.toLowerCase();
+			email=email.toLowerCase();
 			if(((Administrador)session.getAttribute("user")).getBorrable()&&!((Administrador)session.getAttribute("user")).getId().equals(id))
 				id=((Administrador)session.getAttribute("user")).getId();
 			Administrador administrador=RAdministrador.findOne(id);

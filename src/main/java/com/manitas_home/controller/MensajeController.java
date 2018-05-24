@@ -348,3 +348,21 @@ class ThreadModificarMensajes extends Thread{
 		System.out.println("todos los emails de "+emailantiguo+" han sido renombrados al user "+emailnuevo);
 	}
 }
+class ThreadMarcarMensajesLeido extends Thread{
+	private MensajeRepository RMensaje;
+	private List <Mensaje> mensajes;
+	
+	public ThreadMarcarMensajesLeido(MensajeRepository RMensaje,List <Mensaje> mensajes) {
+		super();
+		this.RMensaje=RMensaje;
+		this.mensajes=mensajes;
+	}
+	public void run(){
+		for(int i=0;i<this.mensajes.size();i++){
+			if(!this.mensajes.get(i).isLeido()){
+				this.mensajes.get(i).setLeido(true);
+				RMensaje.save(this.mensajes.get(i));
+			}
+		}
+	}
+}

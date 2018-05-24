@@ -114,8 +114,8 @@ public class ChatController {
 					env++;
 				}
 			}
-			for(int i=0;i<mensajes.size();i++)
-				System.out.println(mensajes.get(i).getDestinatario()+mensajes.get(i).getFecha());
+			ThreadMarcarMensajesLeido hilo=new ThreadMarcarMensajesLeido(RMensaje,mensajesRecibidos);
+			hilo.start();
 			m.put("mensajes", mensajes);
 		}
 		m.put("usuarioactivo", session.getAttribute("user"));

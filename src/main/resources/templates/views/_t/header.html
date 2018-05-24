@@ -29,7 +29,7 @@
              </li>
 			
 			<li th:if="${usuarioactivo!=null}">
-              <a class="nav-link" id="anim-underline" href="/mensaje/listar" th:title="${usuarioemails!=null and usuarioemails>0}?'VER CORREOS('+${usuarioemails}+' sin leer)':'VER CORREOS'"><i class="fa fa-envelope" style="font-size: 1.5em"/><div th:if="${usuarioemails!=null and usuarioemails>0}" style="display: inline-table;width: 1.5em;background-color:  red;border-radius: 1em;font-size: 0.75em;margin-left: -0.75em;" th:text="${usuarioemails}"/></a>
+              <a class="nav-link" id="anim-underline" href="/chat/contactos" th:title="${usuarioemails!=null and usuarioemails>0}?'VER CORREOS('+${usuarioemails}+' sin leer)':'VER CORREOS'"><i class="fa fa-envelope" style="font-size: 1.5em"/><div th:if="${usuarioemails!=null and usuarioemails>0}" style="display: inline-table;width: 1.5em;background-color:  red;border-radius: 1em;font-size: 0.75em;margin-left: -0.75em;" th:text="${usuarioemails}"/></a>
             </li>
 			<li th:if="${usuarioactivo!=null}">
               <a class="nav-link" id="anim-underline" th:href="${'/'+usuarioactivo.getClass().getSimpleName().toLowerCase()+'/modificar'}" th:title="${usuarioactivo.nombre.toUpperCase()}"><i class="fa fa-user" style="font-size: 1.5em"/></a>

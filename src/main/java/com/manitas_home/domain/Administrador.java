@@ -64,6 +64,6 @@ public class Administrador extends Usuario{
 		this.borrable = borrable;
 	}
 	public String getNombreYApellidos(){
-		return this.nombre;
+		return this.nombre.substring(0, 1).toUpperCase()+this.nombre.substring(1).toLowerCase();
 	}
 }

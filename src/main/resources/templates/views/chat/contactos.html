@@ -1,10 +1,7 @@
-<table>
-<tr th:each="dato:${datos}">
-	<td th:text="${dato.get(0).nombre}+' ('+${dato.get(0).email}+')'"/>
-	<td th:text="${dato.get(1)}"/>
-	<td th:text="${dato.get(2).mensaje}+' ('+${dato.get(2).fecha.toLocaleString()}+')'"/>
-</tr>
-</table>
+<h1>Bandeja de entrada
+<a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/mensaje/listar','GET',crearTablaMensajes)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
+</h1>
+<hr/>
 <style>
 .numMsg{
   background-color: red;
@@ -16,36 +13,20 @@
     color:white;
 
 } 
+.table th{
+   border-right: 0px solid white;
+    border-left: 0px solid white;
+   }
 </style>
 <table class="table table-striped">
 					
-					
-					    <thead>
-					    	<th></th>
-					        <th colspan="3">
-                    <form class="form-horizontal" role="form" method="POST" action="">
-
-                              <div class="col-md-6">
-                                  <div class="form-group has-danger">
-                                      <label class="sr-only" for="email">E-Mail Address</label>
-                                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                          <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-search"></i></div>
-                                          <input type="text" name="buscador" class="form-control" id="buscador"
-                                                 placeholder="Buscador" required="true" autofocus="true"/>
-                                      </div>
-                                  </div>
-                              </div>
-                      </form>
-					        
-							</th>
-					       
-					    </thead>
 					    <tbody>
 					      
-					        <tr th:each="dato:${datos}">
+					        <tr th:each="dato:${datos}" style="cursor:pointer" th:onclick="${'location.assign(''/chat/conversacion?email='+dato.get(0).email+''')'}">
 					           
-					        	<td><b th:text="${dato.get(0).getNombreYApellidos()}+' ('+${dato.get(0).email}+')'"></b></td>
-					            <td th:text="${dato.get(2).mensaje}+' ('+${dato.get(2).fecha.toLocaleString()}+')'"></td>
+					        	<td><b th:text="${dato.get(0).getNombreYApellidos()}"></b></td>
+					        	<td th:text="${dato.get(2).mensaje}"></td>
+					        	<td th:text="${dato.get(2).fecha.toLocaleString()}"></td>
 					            <td><div class="numMsg" th:if="${!dato.get(1).equals('0')}" th:text="${dato.get(1)}"></div></td>
 					         </tr>
 					        
