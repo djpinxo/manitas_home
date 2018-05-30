@@ -124,8 +124,8 @@ public class AdministradorController {
 		return permisos("views/_t/main","redirect:/administrador/listar",session);
 	}
 	@PostMapping("/administrador/modificar")
-	public String modificar(@RequestParam("idh")Long id,@RequestParam("nombre")String nombre ,@RequestParam("email")String email ,@RequestParam("password")String password,HttpSession session) {
-		if(permisos(session)){
+	public String modificar(@RequestParam("idh")Long id,@RequestParam("nombre")String nombre ,@RequestParam("email")String email ,@RequestParam("password")String password,@RequestParam("passwordactualhash")String passwordactual,HttpSession session) {
+		if(permisos(session)&&((Usuario)session.getAttribute("user")).getPassword().equals(passwordactual)){
 			nombre=nombre.toLowerCase();
 			email=email.toLowerCase();
 			if(((Administrador)session.getAttribute("user")).getBorrable()&&!((Administrador)session.getAttribute("user")).getId().equals(id))
@@ -137,7 +137,7 @@ public class AdministradorController {
 				administrador.setEmail(email);
 			}
 			administrador.setNombre(nombre);
-			if(!password.equals("c2e5a90f5a957f5abf40377e72d0ad45594a7a257f678d5d6c4844194b86b3b3a61f733111346748c1f82629cd9c5763ba6b77f0d358fb5460bf111df785ffcd72844d1438792e8ea7566ba65f18b62ba1ba2012eef8ab917fab9ab4491b13e61aad97d902cc7ba3412e431fd8af9a66ea8366c86953a68ec3d2032fcee09e"))
+			if(!password.equals("250e9ad7d417a14a75a46c27601ca89898554ae68dc76417eb3d1476fe24e6cd67b02858640665b13566dd2994b71cb64004cd0d8bdda30b595a3f40271eaff00df2a06d62ffd749c26d63d2844fcad907b6821c0e4a1c2c885760ba10cbb4adefc66e4c42fb0b28fb7c632e9f0894f2493552d9ff599e683c660b19b129b3"))
 				administrador.setPassword(password);
 			
 			RAdministrador.save(administrador);

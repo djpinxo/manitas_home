@@ -25,8 +25,15 @@ function validar(form) {
 
 function codContraseña() {//modificar para que acepte varios campos password en una pagina
 	var campo = document.getElementsByName("passwordsin")[0];
-	document.getElementsByName("password")[0].value = shake_256(campo.value,1023);
-	campo.disabled = true;
+	var campo2 = document.getElementsByName("passwordactual")[0];
+	if(campo!=null){
+		document.getElementsByName("password")[0].value = shake_256(campo.value,1023);
+		campo.disabled = true;
+	}
+	if(campo2!=null){
+		document.getElementsByName("passwordactualhash")[0].value = shake_256(campo2.value,1023);
+		campo2.disabled = true;
+	}
 }
 function trim(form){
 	var salida=true;
@@ -55,9 +62,9 @@ function comparacontraseña(form){
 	return salidacontraseña;
 }
 
-window.onload=setInterval('location.reload()',901000);
+var recarga=setInterval('location.reload()',901000);
 
-
+window.onload=recarga;
 
 
 /*maps*/
@@ -266,7 +273,7 @@ function filtrarFila(input,columna){
 function peticionAjax(direccion,method="GET",funcionRespuesta=null,formulario=null){
 	var sFormulario="";
 	if(formulario!=null){
-		if(method="GET") sFormulario="?";
+		if(method=="GET") sFormulario="?";
 		sFormulario+=$(formulario).serialize();
 	}
 	var conexion;
@@ -279,15 +286,19 @@ function peticionAjax(direccion,method="GET",funcionRespuesta=null,formulario=nu
 	if(method=="GET")
 		conexion.open('GET', direccion+sFormulario, true);
 	else if(method=="POST")
-		conexion.open('GET', direccion, true);
+		conexion.open('POST', direccion, true);
 	conexion.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	conexion.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	if(method=="GET")
+	if(formulario==null)
 		conexion.send();
-	else if(method=="POST")
+	else if(method=="GET"&&formulario!=null&&validar(formulario))
+		conexion.send();
+	else if(method=="POST"&&formulario!=null&&validar(formulario))
 		conexion.send(sFormulario);
 	conexion.onreadystatechange = function() {
 		if (conexion.readyState==4 && conexion.status==200) {
+			clearInterval(recarga);
+			recarga=setInterval('location.reload()',901000);
 			if(funcionRespuesta!=null)
 				funcionRespuesta(conexion);
 		}
@@ -468,7 +479,21 @@ function crearTablaClientes(conexion){
 	}catch(err) {}
 	cambiotitulo=setInterval(function(){if(document.title=="Manitas Home")document.title="Lista De "+clientes.nodeName;else document.title="Manitas Home";},1500);
 }
+function resultadoCrearCategoriaOEmpleo(conexion){
+	var respuesta=conexion.responseText;
+	var divrespuesta=document.getElementById("resultado");
+	if (respuesta=="OK"){
+		divrespuesta.innerHTML="La operación se ha efectuado correctamente";
+		divrespuesta.className="alert alert-success";
+	}
+	else if(respuesta.includes("ERROR")){
+		divrespuesta.innerHTML=conexion.responseText;
+		divrespuesta.className="alert alert-danger";
+	}
+	setTimeout(function(){ divrespuesta.innerHTML=""; divrespuesta.className=""; }, 5000);
+}
 
+/*Validaciones*/
 function validarCampos(form) {
 	/* Divs para mostrar los errores */
 	divsError=form.getElementsByClassName('form-control-feedback');

@@ -3,6 +3,8 @@ package com.manitas_home.domain;
 public abstract class Usuario {
 	
 	public abstract Long getId();
+	
+	public abstract String getPassword();
 
 	public abstract String getNombre();
 

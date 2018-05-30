@@ -33,7 +33,7 @@ public class CategoriaController {
 		return permisos("views/_t/main","redirect:/categoria/listar",session);
 	}
 	@PostMapping("/categoria/crear")
-	public String crear(@RequestParam("nombre")String nombre,HttpSession session,ModelMap m) {
+	public String crear(@RequestParam("nombre")String nombre,HttpSession session,ModelMap m,HttpServletRequest r) {
 		
 		/*// TODO principio
 		Repositories.RepositoriesStart(CRepository, ERepository);
@@ -53,9 +53,19 @@ public class CategoriaController {
 		System.out.println("generico tiempo" + (System.currentTimeMillis() - antes));*/
 		
 		//Repositories.RepositoriesStart(CRepository);
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
+			if(permisos(session)&&CRepository.findOneByNombre(nombre)==null){
+				CRepository.save(new Categoria(nombre));
+				m.put("resultado", "OK");
+			}
+			else m.put("resultado", "ERROR - La categoria ya existe");
+			return "result";
+		}
+		else {
 		if(permisos(session)&&CRepository.findOneByNombre(nombre)==null)
 			CRepository.save(new Categoria(nombre));
 		return permisos("redirect:/categoria/listar","redirect:/categoria/listar",session);
+		}
 	}
 	@GetMapping("/categoria/modificar")
 	public String modificar(@RequestParam("id")Long id,HttpSession session,ModelMap m) {

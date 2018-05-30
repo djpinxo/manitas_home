@@ -78,8 +78,8 @@ public class ChatController {
 	@GetMapping("/chat/conversacion")//TODO modificar
 	public String coversacion(@RequestParam("email")String emailremitente,HttpSession session,ModelMap m) {
 		if(session.getAttribute("user")!=null){
-			List <Mensaje> mensajesRecibidos = RMensaje.findByRemitenteAndDestinatarioOrderByFechaDesc(emailremitente,((Usuario)session.getAttribute("user")).getEmail());
-			List <Mensaje> mensajesEnviados = RMensaje.findByRemitenteAndDestinatarioOrderByFechaDesc(((Usuario)session.getAttribute("user")).getEmail(),emailremitente);
+			List <Mensaje> mensajesRecibidos = RMensaje.findByRemitenteAndDestinatarioOrderByFechaAsc(emailremitente,((Usuario)session.getAttribute("user")).getEmail());
+			List <Mensaje> mensajesEnviados = RMensaje.findByRemitenteAndDestinatarioOrderByFechaAsc(((Usuario)session.getAttribute("user")).getEmail(),emailremitente);
 			ArrayList <Mensaje> mensajes = new ArrayList();
 			boolean fin=false;
 			int env=0;
@@ -98,12 +98,12 @@ public class ChatController {
 						mensajes.add(mensajesEnviados.get(env));
 					env++;
 				}
-				else if(mensajesEnviados.get(env).getFecha().getTime()>mensajesRecibidos.get(rec).getFecha().getTime()){
+				else if(mensajesEnviados.get(env).getFecha().getTime()<mensajesRecibidos.get(rec).getFecha().getTime()){
 					if(!mensajes.contains(mensajesEnviados.get(env)))
 						mensajes.add(mensajesEnviados.get(env));
 					env++;
 				}
-				else if(mensajesEnviados.get(env).getFecha().getTime()<mensajesRecibidos.get(rec).getFecha().getTime()){
+				else if(mensajesEnviados.get(env).getFecha().getTime()>mensajesRecibidos.get(rec).getFecha().getTime()){
 					if(!mensajes.contains(mensajesRecibidos.get(rec)))
 						mensajes.add(mensajesRecibidos.get(rec));
 					rec++;

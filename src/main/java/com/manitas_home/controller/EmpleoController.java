@@ -37,11 +37,21 @@ public class EmpleoController {
 		return permisos("views/_t/main","redirect:/empleo/listar",session);
 	}
 	@PostMapping("/empleo/crear")
-	public String crear(@RequestParam("nombre")String nombre,@RequestParam("idcategoria")Long idcategoria,HttpSession session,ModelMap m) {
+	public String crear(@RequestParam("nombre")String nombre,@RequestParam("idcategoria")Long idcategoria,HttpSession session,ModelMap m,HttpServletRequest r) {
 		//Repositories.RepositoriesStart(CRepository,ERepository);
-		if(permisos(session)&&ERepository.findOneByNombre(nombre)==null)
-			ERepository.save(new Empleo(nombre,CRepository.findOne(idcategoria)));
-		return "redirect:/empleo/listar";
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
+			if(permisos(session)&&ERepository.findOneByNombre(nombre)==null){
+				ERepository.save(new Empleo(nombre,CRepository.findOne(idcategoria)));
+				m.put("resultado", "OK");
+			}
+			else m.put("resultado", "ERROR - El empleo ya existe");
+			return "result";
+		}
+		else {
+			if(permisos(session)&&ERepository.findOneByNombre(nombre)==null)
+				ERepository.save(new Empleo(nombre,CRepository.findOne(idcategoria)));
+			return "redirect:/empleo/listar";
+		}
 	}
 	@GetMapping("/empleo/modificar")
 	public String modificar(@RequestParam("id")Long id,HttpSession session,ModelMap m) {

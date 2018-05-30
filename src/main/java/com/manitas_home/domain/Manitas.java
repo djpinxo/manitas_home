@@ -119,7 +119,12 @@ public class Manitas extends Usuario{
 		this.opiniones = opiniones;
 	}
 	public String getNombreYApellidos(){
-		return this.nombre.substring(0, 1).toUpperCase()+this.nombre.substring(1).toLowerCase()+" "+this.apellidos.substring(0, 1).toUpperCase()+this.apellidos.substring(1).toLowerCase();
+		String salida=this.nombre.substring(0, 1).toUpperCase()+this.nombre.substring(1).toLowerCase()+" ";
+		String [] apellidos=this.apellidos.split(" ");
+		for(String apellido:apellidos){
+			salida+=apellido.substring(0, 1).toUpperCase()+apellido.substring(1).toLowerCase()+" ";
+		}
+		return salida.substring(0,salida.length()-1);
 	}
 
 }
