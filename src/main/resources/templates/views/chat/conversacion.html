@@ -1,22 +1,62 @@
-<table  style="width:100%">
-<tr th:each="mensaje:${mensajes}">
-<td>
-<div th:if="${usuarioactivo.email.equals(mensaje.remitente)}" style="width:45%;padding:5px;float:right;background-color: grey">
-<table style="width:100%">
-<tr>
-<td th:text="${mensaje.mensaje}"/>
-<td th:text="${mensaje.fecha.toLocaleString()}" style="float:right;"/>
-</tr>
-</table>
+
+
+<div id="frame">
+	
+	<div class="content" >
+		<div class="contact-profile">
+			
+			<p>Harvey Specter</p>
+		
+		</div>
+		<div class="messages" >
+			<ul th:each="mensaje:${mensajes}">
+				<li class="replies" th:if="${usuarioactivo.email.equals(mensaje.remitente)}">
+					<p  th:text="${mensaje.mensaje}"></p>
+					 <small class="text-muted" th:text="${mensaje.fecha.toLocaleString()}"></small>
+				</li>
+				<li class="sent" th:if="${usuarioactivo.email.equals(mensaje.destinatario) and !usuarioactivo.email.equals(mensaje.remitente)}">
+					<p  th:text="${mensaje.mensaje}"></p>
+					 <small class="text-muted"  th:text="${mensaje.fecha.toLocaleString()}"></small>
+				</li>
+				
+			</ul>
+		</div>
+		<div class="message-input">
+			<div class="wrap">
+			<input type="text" placeholder="Write your message..." />
+			<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+			<button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+			</div>
+		</div>
+	</div>
 </div>
-<div th:if="${usuarioactivo.email.equals(mensaje.destinatario) and !usuarioactivo.email.equals(mensaje.remitente)}" style="width:45%;padding:5px;float:left;background-color: aqua;">
-<table style="width:100%">
-<tr>
-<td th:text="${mensaje.mensaje}"/>
-<td th:text="${mensaje.fecha.toLocaleString()}" style="float:right;"/>
-</tr>
-</table>
-</div>
-</td>
-</tr>
-</table>
+
+<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script >
+$(".messages").animate({ scrollTop: $(document).height() }, "fast");
+
+
+function newMessage() {
+	message = $(".message-input input").val();
+	if($.trim(message) == '') {
+		return false;
+	}
+	$('<li class="replies"><p>' + message + '</p></li>').appendTo($('.messages ul'));
+	$('.message-input input').val(null);
+	$('.contact.active .preview').html('<span>You: </span>' + message);
+	$(".messages").animate({ scrollTop: $(document).height() }, "fast");
+};
+
+$('.submit').click(function() {
+  newMessage();
+});
+
+$(window).on('keydown', function(e) {
+  if (e.which == 13) {
+    newMessage();
+    return false;
+  }
+});
+
+</script>
