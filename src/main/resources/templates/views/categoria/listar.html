@@ -1,5 +1,6 @@
 <h1>Categorias
 <a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/categoria/listar','GET',crearTablaCategoriaOEmpleo)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
+<a class="btn btn-info" href="/categoria/crear" style="margin-rigth:0px;"><span class="fa fa-plus"></span> Crear</a>
 <a class="btn btn-info" data-toggle="modal" data-target="#crearCategoria" style="margin-rigth:0px;"><span class="fa fa-plus"></span> Crear</a>
 </h1>
 <div id="tablaDatos">
@@ -13,7 +14,6 @@
 		<td class="acciones">
 			<a th:href="${'/categoria/modificar?id='+categoria.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>
 			<a th:href="${'/categoria/borrar?id='+categoria.id}" onclick="return confirm('Â¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
-			
 		</td>
 	</tr>
 	<tr>
@@ -31,7 +31,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Crear categoría</h4>
+          <h4 class="modal-title">Crear categorï¿½a</h4>
         </div>
         <div class="modal-body">
           <form action="crear" onchange="peticionAjax('/categoria/listar','GET',validar(this));" class="form-horizontal" role="form" method="POST" onsubmit="return validar(this)">

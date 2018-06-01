@@ -1,6 +1,6 @@
 <h1>Modificar Manitas</h1>
 
-<form method="post" onchange="peticionAjax('/manitas/modificar','GET',validar(this));" onsubmit="return validar(this)">
+<form method="post" onsubmit="return validar(this)">
 	<input type="text" name="id" th:value="${manitas.id}" required="true" hidden="true"/>
 	<div class="row">
             <div class="d-none d-md-block col-md-3 field-label-responsive">
@@ -140,7 +140,7 @@
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
                         <input type="password" name="passwordsin" class="form-control" id="password"
-                               placeholder="Introduzca su contraseña" required="true" value="sincambios" />
+                               placeholder="Introduzca su contraseña" required="true" value="S1nC@mb1os" />
                        	<input type="password" name="password" hidden="true"/>
                     </div>
                 </div>
@@ -168,7 +168,7 @@
                             <i class="fa fa-repeat"></i>
                         </div>
                         <input type="password" name="password-confirmation" class="form-control"
-                               id="password-confirm" placeholder="Confirme su contraseña" required="true" value="sincambios"/>
+                               id="password-confirm" placeholder="Confirme su contraseña" required="true" value="S1nC@mb1os"/>
                     </div>
                 </div>
             </div>

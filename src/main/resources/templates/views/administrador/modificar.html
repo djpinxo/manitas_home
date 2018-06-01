@@ -1,4 +1,4 @@
-<form class="form-horizontal" onchange="peticionAjax('/administrador/modificar','GET',validar(this));" role="form" method="POST" onsubmit="return validar(this)">
+<form class="form-horizontal" role="form" method="POST" onsubmit="return validar(this)">
 <input type="text" name="idh" th:value="${administrador.id}" hidden="hidden"/>
             <div class="row">
                 <div class="col-md-3"></div>
@@ -86,7 +86,7 @@
                         <label class="sr-only" for="passwordsin">Password</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
-                            <input type="password" name="passwordsin" class="form-control" id="password" placeholder="Introuce su contraseña" required="true" value="sincambios"/>
+                            <input type="password" name="passwordsin" class="form-control" id="password" placeholder="Introuce su contraseña" required="true" value="S1nC@mb1os"/>
                             <input type="text" name="password" hidden="true"/>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                             <i class="fa fa-repeat"></i>
                         </div>
                         <input type="password" name="password-confirmation" class="form-control"
-                               id="password-confirm" placeholder="Confirme su contraseña" required="true" value="sincambios"/>
+                               id="password-confirm" placeholder="Confirme su contraseña" required="true" value="S1nC@mb1os"/>
                     </div>
                 </div>
             </div>

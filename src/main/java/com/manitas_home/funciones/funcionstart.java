@@ -91,6 +91,50 @@ public class funcionstart {
 			}
 		return first;
 	}
+	public static String suscriptionCoder(String emailremitente,String emaildestino){
+		String codificado="",param1="",param2="";
+		char [] codes={'q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m'};
+		int i=0;
+		while(param1==""&&param2==""){
+			if(emailremitente.equals(emaildestino)){
+				param2=emaildestino;
+				param1=emailremitente;
+			}
+			else if(emailremitente.length()==i){
+				param2=emaildestino;
+				param1=emailremitente;
+			}
+			else if(emaildestino.length()==i){
+				param1=emaildestino;
+				param2=emailremitente;
+			}
+			else if(emailremitente.toLowerCase().charAt(i)>emaildestino.toLowerCase().charAt(i)){
+				param1=emaildestino;
+				param2=emailremitente;
+			}
+			else if(emailremitente.toLowerCase().charAt(i)<emaildestino.toLowerCase().charAt(i)){
+				param2=emaildestino;
+				param1=emailremitente;
+			}
+			else if(emailremitente.toLowerCase().charAt(i)==emaildestino.toLowerCase().charAt(i)){
+				i++;
+			}
+			
+		}
+		for(i=param1.length()-1;i>=0;i--){
+			int a=(int)param1.charAt(i)*(i+1);
+			int b=a+i;
+			int c=codes[b%26];
+			codificado+=b+""+c+""+a;
+		}
+		for(i=0;i<param2.length();i++){
+			int a=(int)param2.charAt(i)*(i+1)+i;
+			int b=a+i;
+			int c=codes[b%26];
+			codificado+=a+""+c+""+b;
+		}
+		return codificado;
+	}
 	
 	
 }

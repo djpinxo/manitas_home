@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,7 @@ import com.manitas_home.domain.Cliente;
 import com.manitas_home.domain.Manitas;
 import com.manitas_home.domain.Mensaje;
 import com.manitas_home.domain.Usuario;
+import com.manitas_home.funciones.funcionstart;
 import com.manitas_home.repositories.AdministradorRepository;
 import com.manitas_home.repositories.ClienteRepository;
 import com.manitas_home.repositories.ManitasRepository;
@@ -191,10 +196,74 @@ public class MensajeController {
 		if(emailremitente!=null){
 			destinatarios=emailsdestinatarios.toArray(new String[emailsdestinatarios.size()]);
 			ThreadEnviarMensajes hilo=new ThreadEnviarMensajes(destinatarios,RMensaje,emailremitente,mensaje);
-			hilo.start();
+			hilo.start(messagingTemplate);
 		}
 		return "redirect:/mensaje/listar";
 	}
+	//TODO message para ws
+	@Autowired
+	private SimpMessageSendingOperations messagingTemplate;
+	@MessageMapping("/mensaje/crear/{emaildestinatario}")
+	public void crear(String message, SimpMessageHeaderAccessor  headerAccessor,@DestinationVariable String emaildestinatario) throws Exception {
+		HttpSession session=(HttpSession) headerAccessor.getSessionAttributes().get("HttpSession");
+		System.out.println(session.getAttribute("ip"));
+		/*delay anti spam*/if(((HttpSession) headerAccessor.getSessionAttributes().get("HttpSession")).getAttribute("ultimomensaje")==null||((int)((HttpSession) headerAccessor.getSessionAttributes().get("HttpSession")).getAttribute("ultimomensaje"))<((int)System.currentTimeMillis()/1000)){
+			((HttpSession) headerAccessor.getSessionAttributes().get("HttpSession")).setAttribute("ultimomensaje",((int)System.currentTimeMillis()/1000));
+		String emailremitente =null;
+		String[]destinatarios=new String[0];
+		ArrayList <String> emailsdestinatarios=new ArrayList <String> ();
+		if(session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null){
+			emailremitente=((Usuario)session.getAttribute("user")).getEmail();
+			if(emaildestinatario.toLowerCase().contains("todos")&&session.getAttribute("tipo").equals("administrador")){
+				List <Administrador> administradores=(List<Administrador>) RAdministrador.findAll();
+				List <Cliente> clientes=(List<Cliente>) RCliente.findAll();
+				List <Manitas> manitas=(ArrayList<Manitas>) RManitas.findAll();
+				for(int i=0;i<administradores.size();i++){
+					emailsdestinatarios.add(administradores.get(i).getEmail());
+				}
+				for(int i=0;i<clientes.size();i++){
+					emailsdestinatarios.add(clientes.get(i).getEmail());
+				}
+				for(int i=0;i<manitas.size();i++){
+					emailsdestinatarios.add(manitas.get(i).getEmail());
+				}
+			}
+			else{
+				if(emaildestinatario.toLowerCase().contains("clientes")&&session.getAttribute("tipo").equals("administrador")){
+					List <Cliente> clientes=(List<Cliente>) RCliente.findAll();
+					for(int i=0;i<clientes.size();i++){
+						emailsdestinatarios.add(clientes.get(i).getEmail());
+					}
+				}
+				if(emaildestinatario.toLowerCase().contains("manitas")&&session.getAttribute("tipo").equals("administrador")){
+					List <Manitas> manitas=(ArrayList<Manitas>) RManitas.findAll();
+					for(int i=0;i<manitas.size();i++){
+						emailsdestinatarios.add(manitas.get(i).getEmail());
+					}
+				}
+				if(emaildestinatario.toLowerCase().contains("administradores")){
+					List <Administrador> administradores=(List<Administrador>) RAdministrador.findAll();
+					for(int i=0;i<administradores.size();i++){
+						emailsdestinatarios.add(administradores.get(i).getEmail());
+					}
+				}
+				String[] arraydest = emaildestinatario.split(";");
+				for(int i=0;i<arraydest.length;i++){
+					if(!emailsdestinatarios.contains(arraydest[i])&&!arraydest[i].toLowerCase().equals("todos")&&!arraydest[i].toLowerCase().equals("clientes")&&!arraydest[i].toLowerCase().equals("manitas")&&!arraydest[i].toLowerCase().equals("administradores")){
+						emailsdestinatarios.add(arraydest[i]);
+					}
+				}
+			}
+		
+		}
+		if(emailremitente!=null){
+			destinatarios=emailsdestinatarios.toArray(new String[emailsdestinatarios.size()]);
+			ThreadEnviarMensajes hilo=new ThreadEnviarMensajes(destinatarios,RMensaje,emailremitente,message);
+			hilo.start(messagingTemplate);
+		}
+		}
+	}
+	//TODO fin mensaje ws
 	@GetMapping("/mensaje/listar")
 	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {
 		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")&&session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null){
@@ -238,6 +307,7 @@ class ThreadEnviarMensajes extends Thread{
 	private MensajeRepository RMensaje;
 	private String emailremitente;
 	private String mensaje;
+	private SimpMessageSendingOperations messagingTemplate=null;
 	/*private ArrayList <Cliente> clientes;
 	private ClienteRepository RCliente;
 	private ArrayList <Administrador> administrador;
@@ -319,9 +389,17 @@ class ThreadEnviarMensajes extends Thread{
 				Mensaje email=new Mensaje(emailremitente,destinatarios[i].trim(),mensaje);
 				email.setFecha(horamensaje);
 				RMensaje.save(email);
+				if(messagingTemplate!=null){
+					messagingTemplate.convertAndSend("/topic/conversacion/"+funcionstart.suscriptionCoder(emailremitente,destinatarios[i].trim()), email);
+				}
 			}
 		System.out.println("insertados "+destinatarios.length+" mensajes nuevos");
 	}
+	public void start(SimpMessageSendingOperations messagingTemplate) {
+		this.messagingTemplate=messagingTemplate;
+		super.start();
+	}
+	
 }
 class ThreadModificarMensajes extends Thread{
 	private MensajeRepository RMensaje;

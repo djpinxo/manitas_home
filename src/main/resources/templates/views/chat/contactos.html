@@ -22,9 +22,9 @@
 					
 					    <tbody>
 					      
-					        <tr th:each="dato:${datos}" style="cursor:pointer" th:onclick="${'location.assign(''/chat/conversacion?email='+dato.get(0).email+''')'}">
+					        <tr th:each="dato:${datos}" style="cursor:pointer" th:onclick="${'location.assign(''/chat/conversacion?email='+dato.get(2).remitente+''')'}">
 					           
-					        	<td><b th:text="${dato.get(0).getNombreYApellidos()}"></b></td>
+					        	<td><b th:text="${(dato.get(0)!=null)?dato.get(0).getNombreYApellidos():dato.get(2).remitente}"></b></td>
 					        	<td th:text="${dato.get(2).mensaje}"></td>
 					        	<td th:text="${dato.get(2).fecha.toLocaleString()}"></td>
 					            <td><div class="numMsg" th:if="${!dato.get(1).equals('0')}" th:text="${dato.get(1)}"></div></td>

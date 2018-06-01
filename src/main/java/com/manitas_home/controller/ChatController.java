@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.manitas_home.domain.Cliente;
 import com.manitas_home.domain.Mensaje;
 import com.manitas_home.domain.Usuario;
+import com.manitas_home.funciones.funcionstart;
 import com.manitas_home.repositories.AdministradorRepository;
 import com.manitas_home.repositories.ClienteRepository;
 import com.manitas_home.repositories.ManitasRepository;
@@ -58,6 +59,7 @@ public class ChatController {
 					contactos.add(RManitas.findOneByEmail(remitente));
 				else if(RCliente.findOneByEmail(remitente)!=null)
 					contactos.add(RCliente.findOneByEmail(remitente));
+				else contactos.add(null);
 			}
 			ArrayList datos=new ArrayList();
 			for(int i=0;i<contactos.size();i++){
@@ -76,10 +78,10 @@ public class ChatController {
 		return (session.getAttribute("user")!=null)?"views/_t/main":"redirect:/login/login";
 	}
 	@GetMapping("/chat/conversacion")//TODO modificar
-	public String coversacion(@RequestParam("email")String emailremitente,HttpSession session,ModelMap m) {
+	public String coversacion(@RequestParam("email")String emaildestinatario,HttpSession session,ModelMap m) {
 		if(session.getAttribute("user")!=null){
-			List <Mensaje> mensajesRecibidos = RMensaje.findByRemitenteAndDestinatarioOrderByFechaAsc(emailremitente,((Usuario)session.getAttribute("user")).getEmail());
-			List <Mensaje> mensajesEnviados = RMensaje.findByRemitenteAndDestinatarioOrderByFechaAsc(((Usuario)session.getAttribute("user")).getEmail(),emailremitente);
+			List <Mensaje> mensajesRecibidos = RMensaje.findByRemitenteAndDestinatarioOrderByFechaAsc(emaildestinatario,((Usuario)session.getAttribute("user")).getEmail());
+			List <Mensaje> mensajesEnviados = RMensaje.findByRemitenteAndDestinatarioOrderByFechaAsc(((Usuario)session.getAttribute("user")).getEmail(),emaildestinatario);
 			ArrayList <Mensaje> mensajes = new ArrayList();
 			boolean fin=false;
 			int env=0;
@@ -119,12 +121,12 @@ public class ChatController {
 			m.put("mensajes", mensajes);
 		}
 		m.put("usuarioactivo", session.getAttribute("user"));
-		if(session.getAttribute("user")!=null)
+		m.put("destinatario", emaildestinatario);
+		if(session.getAttribute("user")!=null){
 			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
+			m.put("suscripcion", funcionstart.suscriptionCoder(((Usuario)session.getAttribute("user")).getEmail(),emaildestinatario.trim()));
+		}
 		m.put("view","chat/conversacion");
 		return (session.getAttribute("user")!=null)?"views/_t/main":"redirect:/login/login";
 	}
-	
-	
-	
 }
