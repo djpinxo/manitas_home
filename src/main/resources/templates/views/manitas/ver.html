@@ -39,11 +39,32 @@
 					</p>
 					<p class="txtInfo" id="valoraciones">
 						<i class="fa fa-certificate " aria-hidden="true"></i> Valoracion:
-						<i class="fa fa-star" aria-hidden="true"></i><i
-							class="fa fa-star " aria-hidden="true"></i><i class="fa fa-star "
-							aria-hidden="true"></i><i class="fa fa-star-half-o "
-							aria-hidden="true"></i><i class="fa fa-star-o "
-							aria-hidden="true"></i>(3,5)
+								<span class="fa fa-star" aria-hidden="true"></span>
+									 
+								<i th:if="${manitas.mediaValoracionesDouble() >= 1.25 and 1.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true"></i>
+    							<span th:if="${manitas.mediaValoracionesDouble() > 1.75 and 2 > manitas.mediaValoracionesDouble() }" class="fa fa-star" aria-hidden="true"></span>
+    							<span th:if="${manitas.mediaValoracionesDouble() >= 2}" class="fa fa-star" ></span>
+    							<i th:if="${2 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o"></i>
+    							
+    									
+    							<i th:if="${manitas.mediaValoracionesDouble() >= 2.25 and 2.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true" ></i>
+    							<span th:if="${manitas.mediaValoracionesDouble() > 2.75 and 3 > manitas.mediaValoracionesDouble() }" class="fa fa-star" aria-hidden="true"></span>
+    							<span th:if="${manitas.mediaValoracionesDouble() >= 3}" class="fa fa-star" ></span>
+    							<i th:if="${3 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o"></i>
+    							
+    									
+    							<i th:if="${manitas.mediaValoracionesDouble() >= 3.25 and 3.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true"></i>
+    							<span th:if="${manitas.mediaValoracionesDouble() > 3.75 and 4 > manitas.mediaValoracionesDouble() }" class="fa fa-star" aria-hidden="true"></span>
+    							<span th:if="${manitas.mediaValoracionesDouble() >= 4}" class="fa fa-star" ></span>
+    							
+    									
+    							<i th:if="${manitas.mediaValoracionesDouble() >= 4.25 and 4.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true"></i>
+    							<span th:if="${manitas.mediaValoracionesDouble() > 4.75 and 5 > manitas.mediaValoracionesDouble() }" class="fa fa-star" aria-hidden="true"></span>
+    							<span th:if="${manitas.mediaValoracionesDouble() == 5}" class="fa fa-star" ></span>
+    							<i th:if="${4 >= manitas.mediaValoracionesDouble() }" class="fa fa-star-o"></i>
+    						
+    						
+							(<th:block th:text="${manitas.mediaValoracionesString()}"/>)
 					</p>
 				</div>
 				<hr id="barra_vertical" />
@@ -80,33 +101,41 @@
 			aqui</div>
 		<div role="tabpanel" class="tab-pane fade" id="valoracion">
 
-			<div class="row">
+			<div class="row valoracionRow" style="margin-bottom:0px;margin-top:0px">
 				<div class="col-sm-6">
 					<div class="rating-block">
 						<h4>Valoración Media</h4>
 						<h2 class="bold padding-bottom-7">
-							4.3 <small>/ 5</small>
+							<th:block th:text="${manitas.mediaValoracionesString()}"/> <small>/ 5</small>
 						</h2>
-						<button type="button" class="btn  btn-warning btn-sm"
-							aria-label="Left Align">
-							<span class="fa fa-star" aria-hidden="true"></span>
-						</button>
-						<button type="button" class="btn btn-warning btn-sm"
-							aria-label="Left Align">
-							<span class="fa fa-star" aria-hidden="true"></span>
-						</button>
-						<button type="button" class="btn btn-warning btn-sm"
-							aria-label="Left Align">
-							<span class="fa fa-star" aria-hidden="true"></span>
-						</button>
-						<button type="button" class="btn btn btn-warning btn-sm"
-							aria-label="Left Align">
-							<span class="fa fa-star" aria-hidden="true"></span>
-						</button>
-						<button type="button" class="btn btn-default btn-grey btn-sm"
-							aria-label="Left Align">
-							<span class="fa fa-star" aria-hidden="true"></span>
-						</button>
+						
+						
+								<span class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
+									 
+								<i th:if="${manitas.mediaValoracionesDouble() >= 1.25 and 1.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true" style="color:orange;font-size:24px"></i>
+    							<span th:if="${manitas.mediaValoracionesDouble() > 1.75 and 2 > manitas.mediaValoracionesDouble() }" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
+    							<span th:if="${manitas.mediaValoracionesDouble() >= 2}" class="fa fa-star estrellaOpinion" ></span>
+    							<i th:if="${2 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o" style="color:orange;font-size:24px"></i>
+    							
+    									
+    							<i th:if="${manitas.mediaValoracionesDouble() >= 2.25 and 2.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true" style="color:orange;font-size:24px"></i>
+    							<span th:if="${manitas.mediaValoracionesDouble() > 2.75 and 3 > manitas.mediaValoracionesDouble() }" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
+    							<span th:if="${manitas.mediaValoracionesDouble() >= 3}" class="fa fa-star estrellaOpinion" ></span>
+    							<i th:if="${3 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o" style="color:orange;font-size:24px"></i>
+    							
+    									
+    							<i th:if="${manitas.mediaValoracionesDouble() >= 3.25 and 3.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true" style="color:orange;font-size:24px"></i>
+    							<span th:if="${manitas.mediaValoracionesDouble() > 3.75 and 4 > manitas.mediaValoracionesDouble() }" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
+    							<span th:if="${manitas.mediaValoracionesDouble() >= 4}" class="fa fa-star estrellaOpinion" ></span>
+    							
+    									
+    							<i th:if="${manitas.mediaValoracionesDouble() >= 4.25 and 4.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true" style="color:orange;font-size:24px"></i>
+    							<span th:if="${manitas.mediaValoracionesDouble() > 4.75 and 5 > manitas.mediaValoracionesDouble() }" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
+    							<span th:if="${manitas.mediaValoracionesDouble() == 5}" class="fa fa-star estrellaOpinion" ></span>
+    							<i th:if="${4 >= manitas.mediaValoracionesDouble() }" class="fa fa-star-o" style="color:orange;font-size:24px"></i>
+    						
+    						
+    									
 
 					</div>
 				</div>
@@ -127,7 +156,7 @@
 							</div>
 						</div>
 						<div class="d-flex justify-content-center"
-							style="margin-left: 10px;">1</div>
+							style="margin-left: 10px;"><th:block th:text="${manitas.contarEstrellas(5)}"/></div>
 					</div>
 					<div class="d-flex justify-content-center">
 						<div class="d-flex justify-content-center"
@@ -144,7 +173,7 @@
 							</div>
 						</div>
 						<div class="pd-flex justify-content-center"
-							style="margin-left: 10px;">1</div>
+							style="margin-left: 10px;"><th:block th:text="${manitas.contarEstrellas(4)}"/></div>
 					</div>
 					<div class="d-flex justify-content-center">
 						<div class="d-flex justify-content-center"
@@ -161,7 +190,7 @@
 							</div>
 						</div>
 						<div class="pd-flex justify-content-center"
-							style="margin-left: 10px;">0</div>
+							style="margin-left: 10px;"><th:block th:text="${manitas.contarEstrellas(3)}"/></div>
 					</div>
 					<div class="d-flex justify-content-center">
 						<div class="d-flex justify-content-center"
@@ -178,7 +207,7 @@
 							</div>
 						</div>
 						<div class="pd-flex justify-content-center"
-							style="margin-left: 10px;">0</div>
+							style="margin-left: 10px;"><th:block th:text="${manitas.contarEstrellas(2)}"/></div>
 					</div>
 					<div class="d-flex justify-content-center">
 						<div class="d-flex justify-content-center"
@@ -195,7 +224,7 @@
 							</div>
 						</div>
 						<div class="pd-flex justify-content-center"
-							style="margin-left: 10px;">0</div>
+							style="margin-left: 10px;"><th:block th:text="${manitas.contarEstrellas(1)}"/></div>
 					</div>
 				</div>
 			</div>
@@ -204,7 +233,7 @@
 		<div role="tabpanel" class="tab-pane fade" id="comentarios">
 			<div class="row">
 				<div class="col-sm-12">
-					<h4>Opiniones de los usuarios</h4>
+					<h3>Opiniones de los usuarios</h3>
 					
 					<div class="review-block ">
 					<th:block  th:each="opinion:${manitas.opiniones}">
@@ -218,28 +247,25 @@
 							</div>
 							<div class="col-7">
 								<div class="review-block-rate">
-									<button type="button" class="btn btn-warning btn-xs"
-										aria-label="Left Align">
-										<span class="fa fa-star" aria-hidden="true"></span>
-									</button>
-									<button type="button" class="btn btn-warning btn-xs"
-										aria-label="Left Align">
-										<span class="fa fa-star" aria-hidden="true"></span>
-									</button>
-									<button type="button" class="btn btn-warning btn-xs"
-										aria-label="Left Align">
-										<span class="fa fa-star" aria-hidden="true"></span>
-									</button>
-									<button type="button" class="btn btn-warning btn-xs"
-										aria-label="Left Align">
-										<span class="fa fa-star" aria-hidden="true"></span>
-									</button>
-									<button type="button" class="btn btn-default btn-grey btn-xs"
-										aria-label="Left Align">
-										<span class="fa fa-star" aria-hidden="true"></span>
-									</button>
+										<span class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
+									 
+										<span th:if="${opinion.valoracion >= 2}" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
+    									<i th:unless="${opinion.valoracion >= 2}" class="fa fa-star-o" style="color:orange"></i>
+    						
+    									
+    									<span th:if="${opinion.valoracion >= 3}" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
+    									<i th:unless="${opinion.valoracion >= 3}" class="fa fa-star-o" style="color:orange"></i>
+    									
+    									<span th:if="${opinion.valoracion >= 4}" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
+    									<i th:unless="${opinion.valoracion >= 4}" class="fa fa-star-o" style="color:orange"></i>
+    									
+    									<span th:if="${opinion.valoracion >= 5}" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
+    									<i th:unless="${opinion.valoracion >= 5}" class="fa fa-star-o" style="color:orange"></i>
+    									
+										 
+								
 								</div>
-								<h3>Comentario</h3>
+								<div class="review-block-title">Buen trabajo</div>
 								<div class="review-block-description" th:text="${opinion.comentario}"></div>
 							</div>
 							
@@ -254,10 +280,10 @@
 
 
 		<div role="tabpanel" class="tab-pane fade" id="añadirOpinion">
-		
-			<div class="row">
+		<form action="/opinion/crear" method="post">
+			<div class="row" style="margin-bottom:0px;margin-top:0px">
 
-
+				
 				<div class="col-sm-6">
 					<div class="rating-block">
 						<h5>Seleccione su valoración</h5>
@@ -290,31 +316,41 @@
 					</div>
 				</div>
 				<div class="col-sm-6" id="rating">
-				<form action="/opinion/crear" method="post">
-	<input hidden="hidden" type="text" name="idmanitas" th:value="${manitas.id}"/>
-	<input type="text" name="valoracion" />
-					<h5>Escriba su opinión</h5>
-					<div class="d-flex justify-content-center">
-
-						<textarea class="form-control" id="comentario" rows="4" name="comentario"></textarea>
-
-					</div>
-<button  class="btn btn-info " aria-label="Left Align"
-						id="botonVotar">Enviar opinión</button>
-						</form>
+					
+						<input hidden="hidden" type="text" name="idmanitas" th:value="${manitas.id}"/>
+						<input hidden="hidden" id="valoracionHidden" type="text" name="valoracion" />
+						<h5>Resuma brevemente su experiencia</h5>
+						<div class="d-flex justify-content-center">
+					
+							<textarea class="form-control" id="titulo" rows="2" name="titulo" style="max-height: 100px;min-height:50px"></textarea>
+	
+						</div>
+						<h5>Escriba su opinión</h5>
+						<div class="d-flex justify-content-center">
+					
+							<textarea class="form-control" id="comentario" rows="4" name="comentario" style="max-height: 250px;min-height:50px"></textarea>
+	
+						</div>
+						
+							
+					
 				</div>
 			</div>
-			<div class="row">
+			<div class="row"  style="margin-top:0px">
 				<div class="col-sm-12 divBotonOpinion">
 
-					<button type="button" class="btn btn-info " aria-label="Left Align"
-						id="botonVotar">Enviar opinión</button>
+					<button type="submit" class="btn btn-info " aria-label="Left Align"
+						id="botonVotar" onclick="detectarEstrellas(this)">Enviar opinión</button>
 				</div>
 			</div>
+			</form>
 		</div>
 	</div>
 </div>
 <script>
+	function detectarEstrellas(e){
+		e.getElementsByTagName('button')
+	}
 	function cambiarColor(e) {
 		switch (e.id) {
 		case "boton1":
@@ -597,77 +633,147 @@
 	function fijarColor(e) {
 		switch (e.id) {
 		case "boton1":
+			document.getElementById("valoracionHidden").value="1";
+			
+			document.getElementById('boton1').onmouseover = null;
 			document.getElementById("boton1").classList.remove('btn-default');
 			document.getElementById("boton1").classList.remove('btn-grey');
 
 			document.getElementById("boton1").classList.add('btn-warning');
-
+			document.getElementById('boton2').onmouseover = null;
 			document.getElementById("boton2").classList.remove('btn-warning');
 			document.getElementById("boton2").classList.add('btn-default');
 			document.getElementById("boton2").classList.add('btn-grey');
 
+			document.getElementById('boton3').onmouseover = null;
 			document.getElementById("boton3").classList.remove('btn-warning');
 			document.getElementById("boton3").classList.add('btn-default');
 			document.getElementById("boton3").classList.add('btn-grey');
-
+			
+			document.getElementById('boton4').onmouseover = null;
 			document.getElementById("boton4").classList.remove('btn-warning');
 			document.getElementById("boton4").classList.add('btn-default');
 			document.getElementById("boton4").classList.add('btn-grey');
-
+			
+			document.getElementById('boton5').onmouseover = null;
 			document.getElementById("boton5").classList.remove('btn-warning');
 			document.getElementById("boton5").classList.add('btn-default');
 			document.getElementById("boton5").classList.add('btn-grey');
 
 			break;
 		case "boton2":
+			document.getElementById("valoracionHidden").value="2";
+			
+			document.getElementById('boton1').onmouseover = null;
+			document.getElementById("boton1").classList.remove('btn-default');
+			document.getElementById("boton1").classList.remove('btn-grey');
+			document.getElementById("boton1").classList.add('btn-warning');
+			
+			document.getElementById('boton2').onmouseover = null;
 			document.getElementById("boton2").classList.remove('btn-default');
 			document.getElementById("boton2").classList.remove('btn-grey');
 			document.getElementById("boton2").classList.add('btn-warning');
 
+			document.getElementById('boton3').onmouseover = null;
 			document.getElementById("boton3").classList.remove('btn-warning');
 			document.getElementById("boton3").classList.add('btn-default');
 			document.getElementById("boton3").classList.add('btn-grey');
-
+			
+			document.getElementById('boton4').onmouseover = null;
 			document.getElementById("boton4").classList.remove('btn-warning');
 			document.getElementById("boton4").classList.add('btn-default');
 			document.getElementById("boton4").classList.add('btn-grey');
-
+			
+			document.getElementById('boton5').onmouseover = null;
 			document.getElementById("boton5").classList.remove('btn-warning');
 			document.getElementById("boton5").classList.add('btn-default');
 			document.getElementById("boton5").classList.add('btn-grey');
 
 			break;
 		case "boton3":
-			console.log("hhhhhhhhhhhhhhhh")
+			document.getElementById("valoracionHidden").value="3";
+			
+			document.getElementById('boton1').onmouseover = null;
+			document.getElementById("boton1").classList.remove('btn-default');
+			document.getElementById("boton1").classList.remove('btn-grey');
+			document.getElementById("boton1").classList.add('btn-warning');
+			
+			document.getElementById('boton2').onmouseover = null;
+			document.getElementById("boton2").classList.remove('btn-default');
+			document.getElementById("boton2").classList.remove('btn-grey');
+			document.getElementById("boton2").classList.add('btn-warning');
+
+			document.getElementById('boton3').onmouseover = null;
 			document.getElementById("boton3").classList.remove('btn-default');
 			document.getElementById("boton3").classList.remove('btn-grey');
 			document.getElementById("boton3").classList.add('btn-warning');
-
+			
+			document.getElementById('boton4').onmouseover = null;
 			document.getElementById("boton4").classList.remove('btn-warning');
 			document.getElementById("boton4").classList.add('btn-default');
 			document.getElementById("boton4").classList.add('btn-grey');
-
+			
+			document.getElementById('boton5').onmouseover = null;
 			document.getElementById("boton5").classList.remove('btn-warning');
 			document.getElementById("boton5").classList.add('btn-default');
 			document.getElementById("boton5").classList.add('btn-grey');
 
 			break;
 		case "boton4":
+			document.getElementById("valoracionHidden").value="4";			
+			
+			document.getElementById('boton1').onmouseover = null;
+			document.getElementById("boton1").classList.remove('btn-default');
+			document.getElementById("boton1").classList.remove('btn-grey');
+			document.getElementById("boton1").classList.add('btn-warning');
+			
+			document.getElementById('boton2').onmouseover = null;
+			document.getElementById("boton2").classList.remove('btn-default');
+			document.getElementById("boton2").classList.remove('btn-grey');
+			document.getElementById("boton2").classList.add('btn-warning');
+
+			document.getElementById('boton3').onmouseover = null;
+			document.getElementById("boton3").classList.remove('btn-default');
+			document.getElementById("boton3").classList.remove('btn-grey');
+			document.getElementById("boton3").classList.add('btn-warning');
+			
+			document.getElementById('boton4').onmouseover = null;
 			document.getElementById("boton4").classList.remove('btn-default');
 			document.getElementById("boton4").classList.remove('btn-grey');
 			document.getElementById("boton4").classList.add('btn-warning');
-
+			
+			document.getElementById('boton5').onmouseover = null;
 			document.getElementById("boton5").classList.remove('btn-warning');
 			document.getElementById("boton5").classList.add('btn-default');
 			document.getElementById("boton5").classList.add('btn-grey');
-
 			break;
 		case "boton5":
+			document.getElementById("valoracionHidden").value="5";
+			
+			document.getElementById('boton1').onmouseover = null;
+			document.getElementById("boton1").classList.remove('btn-default');
+			document.getElementById("boton1").classList.remove('btn-grey');
+			document.getElementById("boton1").classList.add('btn-warning');
+			
+			document.getElementById('boton2').onmouseover = null;
+			document.getElementById("boton2").classList.remove('btn-default');
+			document.getElementById("boton2").classList.remove('btn-grey');
+			document.getElementById("boton2").classList.add('btn-warning');
 
+			document.getElementById('boton3').onmouseover = null;
+			document.getElementById("boton3").classList.remove('btn-default');
+			document.getElementById("boton3").classList.remove('btn-grey');
+			document.getElementById("boton3").classList.add('btn-warning');
+			
+			document.getElementById('boton4').onmouseover = null;
+			document.getElementById("boton4").classList.remove('btn-default');
+			document.getElementById("boton4").classList.remove('btn-grey');
+			document.getElementById("boton4").classList.add('btn-warning');
+			
+			document.getElementById('boton5').onmouseover = null;
 			document.getElementById("boton5").classList.remove('btn-default');
 			document.getElementById("boton5").classList.remove('btn-grey');
 			document.getElementById("boton5").classList.add('btn-warning');
-
 			break;
 		}
 	}
@@ -680,7 +786,11 @@
 	margin-left: 15%;
 	height: 800px;
 }
-
+#comentarios{
+	max-height:700px;
+    overflow-y: scroll;
+     overflow-x: hidden;
+}
 hr {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
@@ -701,6 +811,7 @@ hr {
 h3 {
 	margin-left: 30px;
 }
+
 
 .tab-content>.active {
 	border: 1px solid #ddd;
@@ -747,7 +858,10 @@ ul {
 	text-align: center;
 	height: 100%;
 }
-
+.review-block-title {
+	font-size:17px;
+	font-weight: 700;
+}
 .bold {
 	font-weight: 700;
 }
@@ -760,6 +874,12 @@ ul {
 	content: "\f005";
 	color: black;
 }
+.fa-star.estrellaOpinion:before{
+	content: "\f005";
+	color: orange;
+	font-size:24px
+}
+}
 
 button.btn.btn-default.btn-grey.btn-sm>span.fa.fa-star:before {
 	color: black;
@@ -770,7 +890,7 @@ button.btn.btn-warning.btn-sm>span.fa.fa-star:before, button.btn.btn-warning.btn
 	color: white;
 }
 
-#valoracion, #info, #mensaje, #comentarios, #a�adirOpinion {
+#valoracion, #info, #mensaje, #comentarios, #añadirOpinion {
 	margin-left: 40px;
 }
 
