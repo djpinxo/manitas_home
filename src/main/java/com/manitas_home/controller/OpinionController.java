@@ -30,7 +30,7 @@ public class OpinionController {
 	private OpinionRepository ROpinion;
 	
 	@PostMapping("/opinion/crear")//TODO por probar
-	public String crear(@RequestParam("idmanitas")Long idManitas,@RequestParam("valoracion")Double valoracion,@RequestParam(value = "comentario", defaultValue="")String comentario,HttpSession session) {
+	public String crear(@RequestParam("idmanitas")Long idManitas,@RequestParam("valoracion")Double valoracion,@RequestParam(value = "titulo", defaultValue="")String titulo,@RequestParam(value = "comentario", defaultValue="")String comentario,HttpSession session) {
 		if(session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("cliente")&&session.getAttribute("user")!=null){
 			Long idCliente=((Cliente)session.getAttribute("user")).getId();
 			Cliente cli=RCliente.findOne(idCliente);
@@ -39,7 +39,7 @@ public class OpinionController {
 			if(cli!=null&&man!=null)
 				opinion=ROpinion.findOneByClienteAndManitas(cli,man);
 			if(opinion==null){
-				ROpinion.save(new Opinion(cli,man,valoracion,comentario));
+				ROpinion.save(new Opinion(cli,man,valoracion,comentario,titulo));
 			}
 		}
 		return "redirect:/manitas/ver?id="+idManitas;
