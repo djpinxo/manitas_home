@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.manitas_home.Date;
+
 @Entity
 public class Opinion {
 	@Id
@@ -12,6 +14,8 @@ public class Opinion {
 	private Long id;
 	private String comentario;
 	private Double valoracion;
+	private String titulo;
+	private long fecha;
 	@ManyToOne
 	private Cliente cliente;
 	@ManyToOne
@@ -19,11 +23,13 @@ public class Opinion {
 	
 	public Opinion(){
 	}
-	public Opinion(Cliente cliente, Manitas manitas, Double valoracion, String comentario){
+	public Opinion(Cliente cliente, Manitas manitas, Double valoracion, String comentario, String titulo){
 		this.cliente=cliente;
 		this.manitas=manitas;
 		this.comentario=comentario;
 		this.valoracion=valoracion;
+		this.titulo=titulo;
+		this.fecha=System.currentTimeMillis();
 	}
 	public Long getId() {
 		return id;
@@ -54,6 +60,18 @@ public class Opinion {
 	}
 	public void setManitas(Manitas manitas) {
 		this.manitas = manitas;
+	}
+	public String getTitulo() {
+		return titulo;
+	}
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+	public Date getFecha() {
+		return new Date(fecha);
+	}
+	public void setFecha(long fecha) {
+		this.fecha = fecha;
 	}
 	
 }

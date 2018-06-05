@@ -28,7 +28,7 @@ public class Manitas extends Usuario{
 	@ManyToMany
 	private List<Empleo> empleos;
 	@OneToMany(mappedBy = "manitas")
-	private Collection<Opinion> opiniones;
+	private List<Opinion> opiniones;
 
 
 	public Manitas() {
@@ -115,7 +115,7 @@ public class Manitas extends Usuario{
 	public Collection<Opinion> getOpiniones() {
 		return opiniones;
 	}
-	public void setOpiniones(Collection<Opinion> opiniones) {
+	public void setOpiniones(List<Opinion> opiniones) {
 		this.opiniones = opiniones;
 	}
 	public String getNombreYApellidos(){
@@ -126,5 +126,71 @@ public class Manitas extends Usuario{
 		}
 		return salida.substring(0,salida.length()-1);
 	}
+	public String mediaValoracionesString(){
+		String retorno="";
+		double valor=0;
+		
+			for (int i=0;i<opiniones.size();i++){
+				valor+=opiniones.get(i).getValoracion();
+			}
+			String stringRetorno=String.valueOf(valor/opiniones.size());
+			if(stringRetorno.length()<5)
+				retorno=stringRetorno.substring(0, stringRetorno.length());
+			else
+				retorno=stringRetorno.substring(0, 4);
+		return retorno;
+	}
+	public double mediaValoracionesDouble(){
+		double valor=0;
+			for (int i=0;i<opiniones.size();i++){
+				valor+=opiniones.get(i).getValoracion();
+			}
+		return valor/opiniones.size();
+	}
+	public int contarEstrellas(int opcion){
+		int retorno=0;
+		int valor=0;
+		switch (opcion) {
+		case 1:
+			for (int i=0;i<opiniones.size();i++){
+				if(opiniones.get(i).getValoracion()==1)
+					valor++;
+			}
+			retorno=valor;
+			break;
+
+		case 2:
+			for (int i=0;i<opiniones.size();i++){
+				if(opiniones.get(i).getValoracion()==2)
+					valor++;
+			}
+			retorno=valor;
+			break;
+		case 3:
+			for (int i=0;i<opiniones.size();i++){
+				if(opiniones.get(i).getValoracion()==3)
+					valor++;
+			}
+			retorno=valor;
+			break;
+
+		case 4:
+			for (int i=0;i<opiniones.size();i++){
+				if(opiniones.get(i).getValoracion()==4)
+					valor++;
+			}
+			retorno=valor;
+			break;
+
+		case 5:
+			for (int i=0;i<opiniones.size();i++){
+				if(opiniones.get(i).getValoracion()==5)
+					valor++;
+			}
+			retorno=valor;
+			break;
+	}
+		return retorno;
+	}	
 
 }

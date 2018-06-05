@@ -120,8 +120,14 @@ public class ChatController {
 			hilo.start();
 			m.put("mensajes", mensajes);
 		}
+		Usuario destinatario=RCliente.findOneByEmail(emaildestinatario);
+		if(destinatario==null)
+			destinatario=RManitas.findOneByEmail(emaildestinatario);
+		if(destinatario==null)
+			destinatario=RAdministrador.findOneByEmail(emaildestinatario);
 		m.put("usuarioactivo", session.getAttribute("user"));
-		m.put("destinatario", emaildestinatario);
+		m.put("destinatario", destinatario);
+		m.put("emaildestinatario", emaildestinatario);
 		if(session.getAttribute("user")!=null){
 			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 			m.put("suscripcion", funcionstart.suscriptionCoder(((Usuario)session.getAttribute("user")).getEmail(),emaildestinatario.trim()));
