@@ -1,20 +1,134 @@
 <h1>Empleos
 <a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/empleo/listar','GET',crearTablaCategoriaOEmpleo)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
-<a class="btn btn-info" href="/empleo/crear" style="margin-rigth:0px;"><span class="fa fa-plus"></span> Crear</a>
+<!--  a class="btn btn-info" href="/empleo/crear" style="margin-rigth:0px;"><span class="fa fa-plus"></span> Crear</a -->
+<a class="btn btn-info" href="" data-toggle="modal"
+		data-target="#crear" style="margin-rigth: 0px;"><span
+		class="fa fa-plus"></span> Crear</a>
 </h1>
 <div id="tablaDatos">
 <table class="table table-striped">
 	<tr>
 		<th>Nombre</th>
-		<th>Categoria</th>
+		<th>Categoría</th>
 		<th>Acciones</th>
 	</tr>
 	<tr th:each="empleo:${empleos}">
 		<td th:text="${empleo.nombre}"></td>
 		<td th:text="${empleo.categoria.nombre}"></td>
 		<td class="acciones">
-			<a th:href="${'/empleo/modificar?id='+empleo.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>
-			<a th:href="${'/empleo/borrar?id='+empleo.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
+			<!-- a th:href="${'/empleo/modificar?id='+empleo.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a -->
+			
+			<a class="btn btn-info" data-toggle="modal"
+				th:href="'#modificarEmpleo'+${empleo.id}" role="button"><span
+					class="fa fa-pencil"></span></a> 
+					<!-- MODAL PARA MODIFICAR EMPLEO -->
+				<div class="modalesModificar modal fade" th:id="'modificarEmpleo'+${empleo.id}"
+					role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Modificar empleo</h4>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+							<form class="form-horizontal" role="form" method="POST"
+								action="modificar" onchange="peticionAjax('/empleo/listar','GET',validar(this));"
+									onsubmit="return validar(this)">
+							<div class="modal-body">
+								<div class="row">
+		<div class="col-md-12">Nombre empleo actual:</div>
+		<div class="col-md-12">
+			<div class="form-group has-danger">
+				<label class="sr-only" for="empleoActual">Nombre empleo
+					actual</label>
+				<div class="input-group mb-2 mr-sm-2 mb-sm-0">
+					<div class="input-group-addon" style="width: 2.6rem">
+						<i class="fa fa-pencil-square-o"></i>
+					</div>
+					<input type="hidden" name="id" th:value="${empleo.id}" />
+					<input type="text" name="nombre" class="form-control"
+						id="empleoActual" th:value="${empleo.nombre}" required="true"
+						autofocus="true" />
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="row">
+		<div class="d-none d-md-block col-md-3 field-label-responsive">
+		</div>
+		<div class="col-md-12">
+			<div id="errorNombre"
+				class="form-control-feedback text-danger alert alert-danger align-middle"
+				hidden="true">
+				<span> Nombre no valido </span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">Categoría del empleo:</div>
+		<div class="col-md-12">
+			<div class="form-group has-danger">
+				<label class="sr-only" for="categoriaEmpleoActual">Categoría
+					del empleo</label>
+				<div class="input-group mb-2 mr-sm-2 mb-sm-0">
+					<div class="input-group-addon" style="width: 2.6rem">
+						<i class="fa fa-align-justify"></i>
+					</div>
+					<select name="idcategoria" class="custom-select">
+						<div th:each="categoria:${categorias}">
+							<option th:value="${categoria.id}" th:text="${categoria.nombre}"
+								th:selected="${(empleo.categoria.id==categoria.id)?'true':'false'}"></option>
+						</div>
+					</select>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="resultadoModificar" />
+	
+							</div>
+							<div class="modal-footer">
+									<a href=""
+														onclick="peticionAjax('/empleo/modificar','POST',resultadoModificarCategoriaOEmpleo,this.parentElement.parentElement); return false"
+														class="btn btn-info" style="color: white;">Modificar</a>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+							</div>
+						</form>
+						</div>
+
+					</div>
+				</div> 
+			
+			
+			
+			
+			
+			
+			
+			<!--  a th:href="${'/empleo/borrar?id='+empleo.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a -->
+			
+			<a class="btn btn-info" data-toggle="modal" th:href="'#'+${empleo.id}" role="button">
+					<span class="fa fa-trash"></span>
+				</a> 
+				<!-- MODAL PARA ELIMINAR EMPLEO -->
+				<div class="modal fade" th:id="${empleo.id}" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">¿Desea borrar este empleo?</h4>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+							<div class="modal-body">
+								<a th:href="${'/empleo/borrar?id='+empleo.id}" class="btn btn-info" role="button">Confirmar</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			
+			
 		</td>
 	</tr>
 	<tr>
@@ -24,3 +138,78 @@
 	</tr>
 </table>
 </div>
+
+<!-- MODAL PARA CREAR EMPLEO -->
+<div class="modal fade" id="crear" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				
+				<h4 class="modal-title">Crear empleo</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<form action="crear"
+					onchange="peticionAjax('/empleo/listar','GET',validar(this));"
+					class="form-horizontal" role="form" method="POST"
+					onsubmit="return validar(this)">
+			
+			<div class="modal-body">
+						<div class="row">
+	                <div class="col-md-12">Introduce el nombre del empleo:</div>
+	                <div class="col-md-12">
+	                    <div class="form-group has-danger">
+	                        <label class="sr-only" for="nombre">Introduce empleo nuevo</label>
+	                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+	                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-pencil-square-o"></i></div>
+	                            <input type="text" name="nombre" class="form-control" id="empleoNuevo" required="true" autofocus="true"/>
+	                        </div>
+	                    </div>
+						
+	                </div>
+	               
+	            </div>
+	            <div class="row">
+        	
+        	<div class="col-md-12">
+                <div id="errorNombre" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
+                            Nombre no válido
+                        </span>
+                </div>
+            </div>
+        </div>
+	            <div class="row">
+	                <div class="col-md-12">Escoja la categoría del empleo:</div>
+	                <div class="col-md-12">
+	                    <div class="form-group has-danger">
+	                        <label class="sr-only" for="categoriaEmpleoNuevo">Categoría del empleo</label>
+	                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+	                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-align-justify"></i></div>
+	                            <select name="idcategoria" class="custom-select" >
+									<div th:each="categoria:${categorias}">
+										<option th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
+									</div>
+								</select>
+	                        </div>
+	                    </div>
+	                </div>
+	               
+	            </div>
+	            <div id="resultado"/>
+			</div>
+			<div class="modal-footer">
+				<a href=""
+									onclick="peticionAjax('/empleo/crear','POST',resultadoCrearCategoriaOEmpleo,this.parentElement.parentElement); return false"
+									class="btn btn-info" style="color: white;"><span
+									class="fa fa-plus"></span> Crear</a>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+			</div>
+			</form>
+		</div>
+
+	</div>
+</div>
+
+
+
+

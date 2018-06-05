@@ -58,7 +58,7 @@ public class CategoriaController {
 				CRepository.save(new Categoria(nombre));
 				m.put("resultado", "OK");
 			}
-			else m.put("resultado", "ERROR - La categoria ya existe");
+			else m.put("resultado", "ERROR - La categoría ya existe.");
 			return "result";
 		}
 		else {
@@ -85,14 +85,30 @@ public class CategoriaController {
 		return permisos("views/_t/main","redirect:/categoria/listar",session);
 	}
 	@PostMapping("/categoria/modificar")
-	public String modificar(@RequestParam("id")Long id,@RequestParam("nombre")String nombre,HttpSession session,ModelMap m) {
-		if(permisos(session)&&CRepository.findOneByNombre(nombre)==null){
-		//Repositories.RepositoriesStart(CRepository);
-			Categoria c=CRepository.findOne(id);
-			c.setNombre(nombre);
-			CRepository.save(c);
+	public String modificar(@RequestParam("id")Long id,@RequestParam("nombre")String nombre,HttpSession session,ModelMap m, HttpServletRequest r) {
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
+			if(permisos(session)&&CRepository.findOneByNombre(nombre)==null){
+				//Repositories.RepositoriesStart(CRepository);
+					Categoria c=CRepository.findOne(id);
+					c.setNombre(nombre);
+					CRepository.save(c);
+					m.put("resultado", "OK");
+				}
+				else m.put("resultado", "ERROR - La categoría ya existe.");
+				return "result";
+		
 		}
-		return "redirect:/categoria/listar";
+		else {
+			if(permisos(session)&&CRepository.findOneByNombre(nombre)==null){
+				//Repositories.RepositoriesStart(CRepository);
+					Categoria c=CRepository.findOne(id);
+					c.setNombre(nombre);
+					CRepository.save(c);
+				}
+				return "redirect:/categoria/listar";
+		}
+		
+		
 	}
 	@GetMapping("/categoria/listar")
 	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {

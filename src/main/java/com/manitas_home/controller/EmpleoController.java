@@ -44,7 +44,7 @@ public class EmpleoController {
 				ERepository.save(new Empleo(nombre,CRepository.findOne(idcategoria)));
 				m.put("resultado", "OK");
 			}
-			else m.put("resultado", "ERROR - El empleo ya existe");
+			else m.put("resultado", "ERROR - El empleo ya existe.");
 			return "result";
 		}
 		else {
@@ -66,18 +66,41 @@ public class EmpleoController {
 		return permisos("views/_t/main","redirect:/empleo/listar",session);
 	}
 	@PostMapping("/empleo/modificar")
-	public String modificar(@RequestParam("id")Long id,@RequestParam("nombre")String nombre,@RequestParam("idcategoria")Long idcategoria,HttpSession session,ModelMap m) {
+	public String modificar(@RequestParam("id")Long id,@RequestParam("nombre")String nombre,@RequestParam("idcategoria")Long idcategoria,HttpSession session,ModelMap m, HttpServletRequest r) {
 		//Repositories.RepositoriesStart(CRepository,ERepository);
-		if(permisos(session)){//no aceptamos mismo nombre con distinta categoria
-			Empleo e=ERepository.findOne(id);
-			if(ERepository.findOneByNombre(nombre)==null)
-				e.setNombre(nombre);
-			if(!e.getCategoria().getId().equals(idcategoria)){//si no cambia la categoria no hacemos la operacion de busqueda
-				e.setCategoria(CRepository.findOne(idcategoria));
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
+			if(permisos(session)){//no aceptamos mismo nombre con distinta categoria
+				Empleo e=ERepository.findOne(id);
+				if(ERepository.findOneByNombre(nombre)==null) {
+					e.setNombre(nombre);
+					m.put("resultado", "OK");
+				}
+					
+				else m.put("resultado", "ERROR - El empleo ya existe.");
+				if(!e.getCategoria().getId().equals(idcategoria)){//si no cambia la categoria no hacemos la operacion de busqueda
+					e.setCategoria(CRepository.findOne(idcategoria));
+				}
+				ERepository.save(e);
+				
 			}
-			ERepository.save(e);
+			
+			return "result";
+		
 		}
-		return "redirect:/empleo/listar";
+		else {
+			if(permisos(session)){//no aceptamos mismo nombre con distinta categoria
+				Empleo e=ERepository.findOne(id);
+				if(ERepository.findOneByNombre(nombre)==null)
+					e.setNombre(nombre);
+				if(!e.getCategoria().getId().equals(idcategoria)){//si no cambia la categoria no hacemos la operacion de busqueda
+					e.setCategoria(CRepository.findOne(idcategoria));
+				}
+				ERepository.save(e);
+			}
+			return "redirect:/empleo/listar";
+		}
+		
+		
 	}
 	@GetMapping("/empleo/listar")
 	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {
@@ -91,6 +114,7 @@ public class EmpleoController {
 				m.put("usuarioactivo", session.getAttribute("user"));
 				m.put("usuarioemails", RMensaje.countByDestinatarioAndLeido(((Usuario) session.getAttribute("user")).getEmail(), false));
 				m.put("empleos", ERepository.findAll());
+				m.put("categorias", CRepository.findAll());
 				m.put("view", "empleo/listar");
 			}
 			return permisos("views/_t/main", "redirect:/login/login", session);

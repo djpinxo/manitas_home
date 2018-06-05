@@ -1,10 +1,3 @@
-$( document ).ready(function() {
-	$('#confirm-delete').on('show.bs.modal', function(e) {
-	    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-	});
-});
-
-
 
 function validar(form) {
 	var salida=false;
@@ -491,6 +484,66 @@ function resultadoCrearCategoriaOEmpleo(conexion){
 		divrespuesta.className="alert alert-danger";
 	}
 	setTimeout(function(){ divrespuesta.innerHTML=""; divrespuesta.className=""; }, 5000);
+	
+	if(respuesta=="OK"){
+		window.setTimeout(function () {
+		      $('#crear').modal('hide');
+		}, 2000);
+		window.setTimeout(function () {
+			window.location.replace("listar");
+		}, 2000);
+	
+	}
+	             
+}
+
+function resultadoModificarCategoriaOEmpleo(conexion){
+	var respuesta=conexion.responseText;
+	
+	if (respuesta=="OK"){
+		$('.resultadoModificar').removeClass("alert alert-danger");
+		$('.resultadoModificar').html('La operación se ha efectuado correctamente');
+		$('.resultadoModificar').addClass("alert alert-success");
+		
+	}
+	else if(respuesta.includes("ERROR")){
+		$(".resultadoModificar").removeClass("alert alert-success");
+		$('.resultadoModificar').html(respuesta);
+		$('.resultadoModificar').addClass("alert alert-danger");
+	}
+	setTimeout(function(){ 
+			$('.resultadoModificar').html(""); 
+			$(".resultadoModificar").removeClass("alert alert-success");
+			$('.resultadoModificar').removeClass("alert alert-danger");
+		}, 5000);
+	
+	if(respuesta=="OK"){
+		window.setTimeout(function () {
+		      $('.modalesModificar').modal('hide');
+		}, 2000);
+		window.setTimeout(function () {
+			window.location.replace("listar");
+		}, 2000);
+	}
+
+	             
+}
+
+function resultadoLogin(conexion){
+
+	var respuesta=conexion.responseText;
+	var divrespuesta=document.getElementById("resultadoLogin");
+	if (respuesta=="OK"){
+		divrespuesta.innerHTML="La operación se ha efectuado correctamente";
+		divrespuesta.className="alert alert-success";
+	}
+	else if(respuesta.includes("ERROR")){
+		divrespuesta.innerHTML=conexion.responseText;
+		divrespuesta.className="alert alert-danger";
+	}
+	setTimeout(function(){ divrespuesta.innerHTML=""; divrespuesta.className=""; }, 5000);
+
+	             
 }
 
 /*Validaciones*/
