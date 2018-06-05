@@ -6,7 +6,7 @@
 		<li class="nav-item"><a class="nav-link active" href="#info"
 			role="tab" data-toggle="tab"><i class="fa fa-address-card-o"
 				aria-hidden="true"></i></a></li>
-		<li class="nav-item"><a class="nav-link" href="#mensaje"
+		<li class="nav-item"  th:if="${usuarioactivo!=null}"><a class="nav-link" href="#mensaje"
 			role="tab" data-toggle="tab"><i class="fa fa-envelope-o"
 				aria-hidden="true"></i></a></li>
 		<li class="nav-item"><a class="nav-link" href="#valoracion"
@@ -97,8 +97,26 @@
 
 
 		</div>
-		<div role="tabpanel" class="tab-pane fade" id="mensaje">Mensaje
-			aqui</div>
+		<div role="tabpanel" class="tab-pane fade" id="mensaje" th:if="${usuarioactivo!=null}">
+			<form  action="/chat/contactos" method="post">
+	           <div class="row justify-content-center">	
+					<div class="col-10">	
+							 <div class="media-body">
+							 		<input hidden="true" type="text" name="emaildestinatario" th:value="${manitas.email}"/>
+		               				 <h5 class="font-weight-bold text-primary"><th:block th:text="${manitas.nombre}"/></h5>
+			              				  <div class="form-group basic-textarea rounded-corners">
+			                   				 <textarea class="form-control" id="exampleFormControlTextarea3" rows="3" style="max-height: 150px;min-height: 50px" placeholder="Escribe tu mensaje..." name="mensaje"></textarea>
+		               			 </div>
+	
+		            		</div>
+					</div>
+					<div class="col-10">	
+							<button class="btn btn-outline-primary" style="margin-bottom: 30px"><span  class="fa fa-send"></span>Enviar mensaje</button>
+					</div>
+					
+	           </div>
+	           </form>	
+		</div>
 		<div role="tabpanel" class="tab-pane fade" id="valoracion">
 
 			<div class="row valoracionRow" style="margin-bottom:0px;margin-top:0px">
@@ -281,7 +299,7 @@
 
 		<div th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('cliente')}" role="tabpanel" class="tab-pane fade" id="añadirOpinion">
 		<form action="/opinion/crear" method="post">
-			<div class="row" style="margin-bottom:0px;margin-top:0px">
+			<div class="row justify-content-center" style="margin-bottom:0px;margin-top:0px">
 
 				
 				<div class="col-sm-6">
@@ -322,13 +340,13 @@
 						<h5>Resuma brevemente su experiencia</h5>
 						<div class="d-flex justify-content-center">
 					
-							<textarea class="form-control" id="titulo" rows="2" name="titulo" style="max-height: 100px;min-height:50px"></textarea>
+							<textarea class="form-control opinion" id="titulo" rows="2" name="titulo" style="max-height: 100px;min-height:50px"></textarea>
 	
 						</div>
 						<h5>Escriba su opinión</h5>
 						<div class="d-flex justify-content-center">
 					
-							<textarea class="form-control" id="comentario" rows="4" name="comentario" style="max-height: 250px;min-height:50px"></textarea>
+							<textarea class="form-control opinion" id="comentario" rows="4" name="comentario" style="max-height: 250px;min-height:50px"></textarea>
 	
 						</div>
 						
@@ -336,7 +354,7 @@
 					
 				</div>
 			</div>
-			<div class="row"  style="margin-top:0px">
+			<div class="row valoracion"  style="margin-top:0px">
 				<div class="col-sm-12 divBotonOpinion">
 
 					<button type="submit" class="btn btn-info " aria-label="Left Align"
@@ -781,9 +799,7 @@
 <style>
 #perfil {
 	margin-top: 20px;
-	width: 940px;
-	margin-left: 15%;
-	margin-left: 15%;
+	width: auto;
 	height: 800px;
 }
 #comentarios{
@@ -810,14 +826,16 @@ hr {
 
 h3 {
 	margin-left: 30px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+
 }
 
 
 .tab-content>.active {
 	border: 1px solid #ddd;
 	border-top: 0;
-	width: 900px;
-	position: absolute;
+	
 }
 
 .txtInfo {
@@ -841,9 +859,6 @@ h3 {
 	margin-top: 20px;
 }
 
-ul {
-	margin-left: 40px;
-}
 
 .btn-grey {
 	background-color: #D8D8D8;
@@ -879,7 +894,7 @@ ul {
 	color: orange;
 	font-size:24px
 }
-}
+
 
 button.btn.btn-default.btn-grey.btn-sm>span.fa.fa-star:before {
 	color: black;
@@ -890,9 +905,6 @@ button.btn.btn-warning.btn-sm>span.fa.fa-star:before, button.btn.btn-warning.btn
 	color: white;
 }
 
-#valoracion, #info, #mensaje, #comentarios, #añadirOpinion {
-	margin-left: 40px;
-}
 
 #rating {
 	margin-top: 20px;
@@ -900,10 +912,12 @@ button.btn.btn-warning.btn-sm>span.fa.fa-star:before, button.btn.btn-warning.btn
 	text-align: center;
 }
 
-.row.justify-content-center {
-	padding-bottom: 40px;
-}
 
+.row.justify-content-center{
+
+	margin-top:0;
+	margin-bottom:0;
+}
 .row>.col-sm-12>h4 {
 	padding-top: 30px;
 	padding-left: 30px;
@@ -921,21 +935,23 @@ hr.opinionHR {
 	margin-top: 0;
 }
 
-.form-control {
-	margin-right: 30px;
-}
+
 
 h5 {
 	padding-top: 20px;
 }
-
+.form-control.opinion{
+width:80%;
+}
 .col-sm-12.divBotonOpinion {
 	text-align: center;
 	border-top: 1px solid #ddd;
-	margin-left: 15px;
-	max-width: 97%;
-}
 
+}
+.row.valoracion{
+margin-right:0px;
+margin-left:0px;
+}
 #botonVotar {
 	margin-top: 20px;
 	margin-bottom: 20px;
