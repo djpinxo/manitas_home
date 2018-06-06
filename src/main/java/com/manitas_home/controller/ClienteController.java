@@ -1,5 +1,8 @@
 package com.manitas_home.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.manitas_home.domain.Administrador;
 import com.manitas_home.domain.Cliente;
+import com.manitas_home.domain.Opinion;
 import com.manitas_home.domain.Usuario;
 import com.manitas_home.repositories.AdministradorRepository;
 import com.manitas_home.repositories.ClienteRepository;
 import com.manitas_home.repositories.ManitasRepository;
 import com.manitas_home.repositories.MensajeRepository;
+import com.manitas_home.repositories.OpinionRepository;
+
 
 @Controller
 public class ClienteController {
@@ -28,6 +34,8 @@ public class ClienteController {
 	private ClienteRepository RCliente;
 	@Autowired
 	private MensajeRepository RMensaje;
+	@Autowired
+	private OpinionRepository ROpinion;
 	
 	@GetMapping("/cliente/listar")
 	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {
@@ -80,8 +88,12 @@ public class ClienteController {
 	public String borrar(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m) {
 		if(id==null && session.getAttribute("user")!=null&&session.getAttribute("user").getClass().getName().equals("com.manitas_home.domain.Cliente")) id=((Cliente)session.getAttribute("user")).getId();
 		if(permisos(id,session)){
-			if(RCliente.exists(id)&&permisos(id,session))
+			if(RCliente.exists(id)&&permisos(id,session)){
+				Cliente cliente=RCliente.findOne(id);
+				for(int i=0;i<cliente.getOpiniones().size();i++)
+					ROpinion.delete(cliente.getOpiniones().get(i));
 				RCliente.delete(id);
+			}
 		}
 		return ((session.getAttribute("user")!=null&&session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("cliente")&&((Cliente)session.getAttribute("user")).getId().equals(id)))?"redirect:/login/logout":"redirect:/cliente/listar";
 	}

@@ -266,6 +266,7 @@ function filtrarFila(input,columna){
 function peticionAjax(direccion,method="GET",funcionRespuesta=null,formulario=null){
 	var sFormulario="";
 	if(formulario!=null){
+		validar(formulario)
 		if(method=="GET") sFormulario="?";
 		sFormulario+=$(formulario).serialize();
 	}
@@ -480,11 +481,10 @@ function resultadoCrearCategoriaOEmpleo(conexion){
 		divrespuesta.className="alert alert-success";
 	}
 	else if(respuesta.includes("ERROR")){
-		divrespuesta.innerHTML=conexion.responseText;
+		divrespuesta.innerHTML=respuesta;
 		divrespuesta.className="alert alert-danger";
 	}
-	setTimeout(function(){ divrespuesta.innerHTML=""; divrespuesta.className=""; }, 5000);
-	
+	setTimeout(function(){ divrespuesta.innerHTML=""; divrespuesta.className=""; }, 5000);	
 	if(respuesta=="OK"){
 		window.setTimeout(function () {
 		      $('#crear').modal('hide');
@@ -496,7 +496,6 @@ function resultadoCrearCategoriaOEmpleo(conexion){
 	}
 	             
 }
-
 function resultadoModificarCategoriaOEmpleo(conexion){
 	var respuesta=conexion.responseText;
 	
@@ -528,22 +527,17 @@ function resultadoModificarCategoriaOEmpleo(conexion){
 
 	             
 }
-
 function resultadoLogin(conexion){
-
 	var respuesta=conexion.responseText;
-	var divrespuesta=document.getElementById("resultadoLogin");
-	if (respuesta=="OK"){
-		divrespuesta.innerHTML="La operación se ha efectuado correctamente";
-		divrespuesta.className="alert alert-success";
-	}
+	var divrespuesta=document.getElementById("resultado");
+	if(respuesta=="OK")
+		location.reload();
 	else if(respuesta.includes("ERROR")){
-		divrespuesta.innerHTML=conexion.responseText;
+		divrespuesta.innerHTML=respuesta;
 		divrespuesta.className="alert alert-danger";
+		formLogin.passwordsin.disabled=false;
 	}
 	setTimeout(function(){ divrespuesta.innerHTML=""; divrespuesta.className=""; }, 5000);
-
-	             
 }
 
 /*Validaciones*/
@@ -646,7 +640,7 @@ function validarCampos(form) {
 	if (form['email']){
 	email = form['email'].value;
 	emailCorrecto=false;
-	expRegEmail= /^([\w]+[\.|\_|\-|\@]*)+@{1}[\w]+(\.+[a-z]{2,3})+$/;
+	expRegEmail= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	if(expRegEmail.test(email)){
 				emailCorrecto=true;
 				if(divsError['errorEmail']){

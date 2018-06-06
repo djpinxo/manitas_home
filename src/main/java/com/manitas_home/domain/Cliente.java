@@ -1,6 +1,7 @@
 package com.manitas_home.domain;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ public class Cliente extends Usuario{
 	private String direccion;
 	private boolean habilitado;
 	@OneToMany(mappedBy = "cliente")
-	private Collection<Opinion> opiniones;
+	private List<Opinion> opiniones;
 
 	public Cliente() {
 		this.habilitado = false;
@@ -100,10 +101,10 @@ public class Cliente extends Usuario{
 	public void setHabilitado(boolean habilitado) {
 		this.habilitado = habilitado;
 	}
-	public Collection<Opinion> getOpiniones() {
+	public List<Opinion> getOpiniones() {
 		return opiniones;
 	}
-	public void setOpiniones(Collection<Opinion> opiniones) {
+	public void setOpiniones(List<Opinion> opiniones) {
 		this.opiniones = opiniones;
 	}
 	public String getNombreYApellidos(){

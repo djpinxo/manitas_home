@@ -148,7 +148,7 @@ public class ManitasController {
 			if(RManitas.exists(id)&&permisos(id,session))
 				RManitas.delete(id);
 		}
-		return ((session.getAttribute("user")!=null&&session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("manitas")&&((Cliente)session.getAttribute("user")).getId().equals(id)))?"redirect:/login/logout":"redirect:/manitas/listar";
+		return ((session.getAttribute("user")!=null&&session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("manitas")&&((Manitas)session.getAttribute("user")).getId().equals(id)))?"redirect:/login/logout":"redirect:/manitas/listar";
 	}
 	@GetMapping("/manitas/ver")
 	public String ver(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m){
