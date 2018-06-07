@@ -1,5 +1,7 @@
 package com.manitas_home.controller;
 
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.manitas_home.domain.Categoria;
 import com.manitas_home.domain.Usuario;
 import com.manitas_home.repositories.CategoriaRepository;
+import com.manitas_home.repositories.EmpleoRepository;
 import com.manitas_home.repositories.MensajeRepository;
 
 @Controller
@@ -21,131 +24,97 @@ public class CategoriaController {
 	private CategoriaRepository CRepository;
 	@Autowired
 	private MensajeRepository RMensaje;
+	@Autowired
+	private EmpleoRepository REmpleo;
 	
 	@GetMapping("/categoria/crear")
-	public String crear(HttpSession session,ModelMap m) {
-		
-			m.put("view","categoria/crear");
-			m.put("usuarioactivo", session.getAttribute("user"));
-			if(session.getAttribute("user")!=null)
+	public String crear(HttpSession session,ModelMap m) {//TODO probar
+		m.put("view","categoria/crear");
+		m.put("usuarioactivo", session.getAttribute("user"));
+		if(session.getAttribute("user")!=null)
 			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
-		
-		return permisos("views/_t/main","redirect:/categoria/listar",session);
+		return (permisos(session))?"views/_t/main":"redirect:/categoria/listar";
 	}
+
 	@PostMapping("/categoria/crear")
-	public String crear(@RequestParam("nombre")String nombre,HttpSession session,ModelMap m,HttpServletRequest r) {
-		
-		/*// TODO principio
-		Repositories.RepositoriesStart(CRepository, ERepository);
-		long antes = System.currentTimeMillis();
-		CRepository.findOneByNombre(nombre);
-		System.out.println("generico tiempo" + (System.currentTimeMillis() - antes));
-		antes = System.currentTimeMillis();
-		Repositories.findOneByNombre(nombre);
-		System.out.println("modificado tiempo" + (System.currentTimeMillis() - antes));
-		// TODO fin
-		if(CRepository.findOneByNombre(nombre)==null)
+	public String crear(@RequestParam(value = "nombre", defaultValue = "") String nombre, HttpSession session,ModelMap m, HttpServletRequest r) {//TODO probar
+		if (!nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session) && CRepository.findOneByNombre(nombre) == null) {
+			nombre = nombre.toLowerCase();
 			CRepository.save(new Categoria(nombre));
-		*/
-		/*long antes = System.currentTimeMillis();
-		if(CRepository.findOneByNombre(nombre)==null)
-			CRepository.save(new Categoria(nombre));
-		System.out.println("generico tiempo" + (System.currentTimeMillis() - antes));*/
-		
-		//Repositories.RepositoriesStart(CRepository);
-		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
-			if(permisos(session)&&CRepository.findOneByNombre(nombre)==null){
-				CRepository.save(new Categoria(nombre));
-				m.put("resultado", "OK");
-			}
-			else m.put("resultado", "ERROR - La categoría ya existe.");
+			m.put("resultado", "OK");
+		} else
+			m.put("resultado", "ERROR - La categoría ya existe.");
+		if (r.getHeader("X-Requested-With") != null && r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
 			return "result";
-		}
-		else {
-		if(permisos(session)&&CRepository.findOneByNombre(nombre)==null)
-			CRepository.save(new Categoria(nombre));
-		return permisos("redirect:/categoria/listar","redirect:/categoria/listar",session);
-		}
+		else
+			return "redirect:/categoria/listar";
 	}
 	@GetMapping("/categoria/modificar")
-	public String modificar(@RequestParam("id")Long id,HttpSession session,ModelMap m) {
-		
-		//TODO principio
-		//Repositories.RepositoriesStart(CRepository);
-		/*long antes = System.currentTimeMillis();
-		m.put("categoria", CRepository.findOne(id));
-		System.out.println("generico tiempo"+(System.currentTimeMillis()-antes));
-		m.remove("categoria");*/
-		if(permisos(session)){
-			m.put("usuarioactivo", session.getAttribute("user"));
-			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
-			m.put("categoria", CRepository.findOne(id));
-			m.put("view","categoria/modificar");
+	public String modificar(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m) {//TODO probar
+		if (id != null && permisos(session) && CRepository.exists(id)) {
+				m.put("usuarioactivo", session.getAttribute("user"));
+				m.put("usuarioemails", RMensaje.countByDestinatarioAndLeido(((Usuario) session.getAttribute("user")).getEmail(), false));
+				m.put("categoria", CRepository.findOne(id));
+				m.put("view", "categoria/modificar");
+			return "views/_t/main";
 		}
-		return permisos("views/_t/main","redirect:/categoria/listar",session);
+		else
+			return "redirect:/categoria/listar";
 	}
-	@PostMapping("/categoria/modificar")
-	public String modificar(@RequestParam("id")Long id,@RequestParam("nombre")String nombre,HttpSession session,ModelMap m, HttpServletRequest r) {
-		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
-			if(permisos(session)&&CRepository.findOneByNombre(nombre)==null){
-				//Repositories.RepositoriesStart(CRepository);
-					Categoria c=CRepository.findOne(id);
-					c.setNombre(nombre);
-					CRepository.save(c);
-					m.put("resultado", "OK");
-				}
-				else m.put("resultado", "ERROR - La categoría ya existe.");
-				return "result";
-		
-		}
-		else {
-			if(permisos(session)&&CRepository.findOneByNombre(nombre)==null){
-				//Repositories.RepositoriesStart(CRepository);
-					Categoria c=CRepository.findOne(id);
+	@PostMapping("/categoria/modificar")//TODO probar
+	public String modificar(@RequestParam(value="id", defaultValue="")Long id,@RequestParam(value="nombre", defaultValue="")String nombre,HttpSession session,ModelMap m, HttpServletRequest r) {
+		if(id!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session) && CRepository.findOneByNombre(nombre)==null){
+			Categoria c=CRepository.findOne(id);
+			if (c != null) {
+				nombre = nombre.toLowerCase();
+				if (!c.getNombre().equals(nombre)) {
 					c.setNombre(nombre);
 					CRepository.save(c);
 				}
-				return "redirect:/categoria/listar";
+				m.put("resultado", "OK");
+			}
+			else
+				m.put("resultado", "ERROR - La categoría no existe.");
 		}
-		
-		
+		else m.put("resultado", "ERROR - La categoría ya existe.");
+
+		if(r.getHeader("X-Requested-With")!=null && r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
+			return "result";
+		else
+			return "redirect:/categoria/listar";
 	}
 	@GetMapping("/categoria/listar")
-	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {
-		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")&&permisos(session)){
+	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {//TODO probar
+		if(r.getHeader("X-Requested-With")!=null && r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest") && permisos(session)){
 			m.put("categorias",CRepository.findAll());
 			return "xml/categoria/listar";
 		}
 		else {
-			/*long antes = System.currentTimeMillis();
-			m.put("categorias", CRepository.findAll());
-			System.out.println("generico tiempo"+(System.currentTimeMillis()-antes));
-			m.remove("categoria");*/
-		
 			if(permisos(session)){
 				m.put("usuarioactivo", session.getAttribute("user"));
 				m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 				m.put("categorias", CRepository.findAll());
 				m.put("view","categoria/listar");
+				return "views/_t/main";
 			}
-		return permisos("views/_t/main","redirect:/login/login",session);
-	}
+			else return "redirect:/login/login";
+		}
 	}
 	@GetMapping("/categoria/borrar")
-	public String borrar(@RequestParam("id")Long id,HttpSession session,ModelMap m) {
-		//Repositories.RepositoriesStart(CRepository);
-		if(permisos(session)&&CRepository.exists(id))
-			CRepository.delete(id);
-		return "redirect:/categoria/listar";
+	public String borrar(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m,HttpServletRequest r) {//TODO probar
+		if(id!=null&&permisos(session)){
+			Categoria c=CRepository.findOne(id);
+			if(c!=null&&REmpleo.findByCategoria(c).isEmpty()){
+				CRepository.delete(id);
+				m.put("resultado", "OK");
+			}
+			else m.put("resultado", "ERROR - La categoría contiene relaciones con algun Empleo.");
+		}
+		else m.put("resultado", "ERROR - No se puede realizar la operación.");
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")) return "result";
+		else return "redirect:/categoria/listar";
 	}
 	
-	//copiar cuando este terminado a empleo añadir el reenvio a administrador cuando first sea true
-	private String permisos(String destinoOk,String destinoFail,HttpSession s){
-		String pagina=destinoFail;
-		if(s.getAttribute("tipo")!=null&&s.getAttribute("tipo").equals("administrador"))
-					pagina=destinoOk;		
-		return pagina;
-	}
 	private boolean permisos(HttpSession s){
 		boolean result=false;
 		if(s.getAttribute("tipo")!=null&&s.getAttribute("tipo").equals("administrador"))
