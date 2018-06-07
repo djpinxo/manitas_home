@@ -59,7 +59,6 @@ var recarga=setInterval('location.reload()',901000);
 
 window.onload=recarga;
 
-
 /*maps*/
 
 
@@ -69,7 +68,10 @@ var markers = [];
 
 function initialize() {
    var query="España";
-   geocoder = new google.maps.Geocoder();
+   geocoder = new google.maps.Geocoder;
+   var infowindow = new google.maps.InfoWindow;
+
+   
    var mapOptions = {
     zoom:5,
     mapTypeId:google.maps.MapTypeId.roadmap  ,
@@ -85,10 +87,10 @@ function initialize() {
             setMapOnAll(null);
             markers = [];
           addMarker(event.latLng);
-          
         map.panTo(event.latLng);
+		convertirDireccion(document.getElementById("coordenadas").value);
+		document.getElementById("direccion").disabled = false;
         });
-
       function addMarker(location) {
         var marker = new google.maps.Marker({
           position: location,
@@ -142,6 +144,8 @@ function codeAddress2(direccion) {
       map.setCenter(results[0].geometry.location);
       addMarker(results[0].geometry.location);
       document.getElementById("coordenadas").value=markers[0].position;
+      convertirDireccion(document.getElementById("coordenadas").value);
+      document.getElementById("direccion").disabled = false;
     } else {
       errorPosicionar(status);
     }
@@ -169,6 +173,33 @@ function errorPosicionar(error) {
         break;  
     }  
 }
+
+
+
+/* Convertir coordenadas a una dirección en formato texto */
+function convertirDireccion(coordenadas) {
+	var direccion = "";
+	  var latlngStr = coordenadas.split(',', 2);
+	  latlngStr[0] = latlngStr[0].substr(1,);
+	  latlngStr[1] = latlngStr[1].substr(0,latlngStr[1].length-1);
+	  var point = new google.maps.LatLng(latlngStr[0], latlngStr[1]);
+	  geocoder.geocode({'latLng': point}, function(results, status) {
+	    if (status === 'OK') {
+	    	direccion=results[1].formatted_address;
+    		sacarDatos(direccion);
+	    	if (results[1]) {
+	      } 
+	    } 
+	  });
+}
+
+/* Sacar datos de ConvertirDireccion y guardarlos en el input que enviará
+ * la dirección
+ */
+function sacarDatos(datos){
+	  document.getElementById("coordenadas").value=datos;
+}
+
 
 /* ordenacion de tablas */
 function sortTable(objeto,n) {
@@ -787,6 +818,13 @@ function validarCampos(form) {
 				}
 			}
 		}
+	}
+	
+
+	// DIRECCION
+	if (form['coordenadas']){
+		convertirDireccion(form['coordenadas'].value);
+		form['direccion'].disabled = false;
 	}
 	
 	
