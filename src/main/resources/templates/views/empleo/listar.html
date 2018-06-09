@@ -1,17 +1,23 @@
-<h1>Empleos
-<a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/empleo/listar','GET',crearTablaCategoriaOEmpleo)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
-<!--  a class="btn btn-info" href="/empleo/crear" style="margin-rigth:0px;"><span class="fa fa-plus"></span> Crear</a -->
-<a class="btn btn-info" href="" data-toggle="modal"
+<h1>Empleos</h1>
+<hr/>
+<div class="btn-group" role="group" style="width:100%;">
+	<a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/empleo/listar','GET',crearTablaCategoriaOEmpleo)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
+	<a class="btn btn-info" href="" data-toggle="modal"
 		data-target="#crear" style="margin-rigth: 0px;"><span
 		class="fa fa-plus"></span> Crear</a>
-</h1>
+	<input class="form-control busqueda" type="text" placeholder="Busqueda.." style="border-radius: 0px 5px 5px 0px;"/>
+</div>
+
 <div id="tablaDatos">
-<table class="table table-striped">
-	<tr>
-		<th>Nombre</th>
-		<th>Categoría</th>
-		<th>Acciones</th>
-	</tr>
+<table id="myTable" class="table table-striped">
+	<thead>
+		<tr>
+			<th>Nombre <a role="button" aria-expanded="true" onclick="sortTable(this,0)" class="fa fa-sort"></a></th>
+			<th>Categoría <a role="button" aria-expanded="true" onclick="sortTable(this,1)" class="fa fa-sort"></a></th>
+			<th>Acciones</th>
+		</tr>
+	</thead>
+	<tbody class="myTable">
 	<tr th:each="empleo:${empleos}">
 		<td th:text="${empleo.nombre}"></td>
 		<td th:text="${empleo.categoria.nombre}"></td>
@@ -131,11 +137,8 @@
 			
 		</td>
 	</tr>
-	<tr>
-		<td colspan="3">
-			<a href="/empleo/crear" class="btn btn-info" role="button" style="color:white;display:block">Crear</a>
-		</td>
-	</tr>
+
+	</tbody>
 </table>
 </div>
 

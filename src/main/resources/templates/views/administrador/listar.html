@@ -1,14 +1,22 @@
-<h1>Administradores
-<a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/administrador/listar','GET',crearTablaAdministradores)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
-<a th:if="${!usuarioactivo.borrable}" class="btn btn-info" href="/administrador/crear" style="margin-rigth:0px;"><span class="fa fa-plus"></span> Crear</a>
-</h1>
+<h1>Administradores</h1>
+<hr/>
+<div class="btn-group" role="group" style="width:100%;">
+	<a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/administrador/listar','GET',crearTablaAdministradores)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
+	<a th:if="${!usuarioactivo.borrable}" class="btn btn-info" href="/administrador/crear" style="margin-rigth:0px;"><span class="fa fa-plus"></span> Crear</a>
+	<input class="form-control busqueda" type="text" placeholder="Busqueda.." style="border-radius: 0px 5px 5px 0px;"/>
+</div>
+
+
 <div id="tablaDatos">
-<table class="table table-striped">
-	<tr>
-		<th>Nombre</th>
-		<th>Email</th>
-		<th>Acciones</th>
-	</tr>
+<table id="myTable" class="table table-striped">
+	<thead>
+		<tr>
+			<th>Nombre <a role="button" aria-expanded="true" onclick="sortTable(this,0)" class="fa fa-sort"></a></th>
+			<th>Email <a role="button" aria-expanded="true" onclick="sortTable(this,1)" class="fa fa-sort"></a></th>
+			<th>Acciones</th>
+		</tr>
+	</thead>
+	<tbody class="myTable">
 	<tr th:each="administrador:${administradores}" th:if="${usuarioactivo.id!=administrador.id}">
 		
 			<td th:text="${administrador.nombre}"></td>
@@ -65,13 +73,7 @@
 			
 		
 	</tr>
-	<div th:if="${!usuarioactivo.borrable}">
-		<tr>
-			<td colspan="3">
-				<a href="/administrador/crear" class="btn btn-info" role="button" style="color:white;display:block">Crear</a>
-			</td>
-		</tr>
-	</div>
+	</tbody>
 </table>
 </div>
 <!-- <button class="btn btn-info">

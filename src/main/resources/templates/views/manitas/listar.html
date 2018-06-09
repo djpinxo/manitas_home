@@ -1,6 +1,10 @@
 <h1>Manitas</h1>
+<hr/>
+<div class="btn-group" role="group" style="width:100%;">
+<input class="form-control busqueda" type="text" placeholder="Busqueda.." style="border-radius: 0px 5px 5px 0px;"/>
+</div>
 <table id="myTable" class="table table-striped">
-  
+  <thead>
   <tr>
    <!--When a header is clicked, run the sortTable function, with a parameter, 0 for sorting by names, 1 for sorting by country:-->  
     <th>Nombre <a role="button" aria-expanded="true" onclick="sortTable(this,0)" class="fa fa-sort"></a>
@@ -35,6 +39,8 @@
     
     <th>Acciones</th>
   </tr>
+  </thead>
+	<tbody class="myTable">
   
   
   <tr th:each="unmanitas:${manitas}" th:onclick="${'location.assign(''/manitas/ver?id='+unmanitas.id+''')'}" style="cursor:pointer">
@@ -59,7 +65,7 @@
 
     </td>
   </tr>
-  
+  </tbody>
 </table>
 <script>
 function ocultarMostrarFiltro(boton){

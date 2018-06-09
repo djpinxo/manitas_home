@@ -1,11 +1,21 @@
-<h1>Clientes <a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/cliente/listar','GET',crearTablaClientes)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a></h1>
+<h1>Clientes</h1>
+<hr/>
+<div class="btn-group" role="group" style="width:100%;">
+ 	<a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/cliente/listar','GET',crearTablaClientes)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
+ 	<input class="form-control busqueda" type="text" placeholder="Busqueda.." style="border-radius: 0px 5px 5px 0px;"/>
+</div>
+
+
 <div id="tablaDatos">
-<table class="table table-striped">
-	<tr>
-		<th>Nombre</th>
-		<th>Email</th>
-		<th>Acciones</th>
-	</tr>
+<table id="myTable" class="table table-striped">
+	<thead>
+		<tr>
+			<th>Nombre <a role="button" aria-expanded="true" onclick="sortTable(this,0)" class="fa fa-sort"></a></th>
+			<th>Email <a role="button" aria-expanded="true" onclick="sortTable(this,1)" class="fa fa-sort"></a></th>
+			<th>Acciones</th>
+		</tr>
+	</thead>
+	<tbody class="myTable">
 	<tr th:each="cliente:${clientes}">
 		
 			<td th:text="${cliente.nombre}"></td>
@@ -36,5 +46,6 @@
 				
 			</td>
 	</tr>
+	</tbody>
 </table>
 </div>

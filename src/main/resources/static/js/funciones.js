@@ -1,4 +1,3 @@
-
 function validar(form) {
 	var salida=false;
 	/*
@@ -291,6 +290,17 @@ function filtrarFila(input,columna){
 		    	}
 		    }
 }
+
+
+//Opción de búsqueda en las tablas
+$(document).ready(function(){
+  $(".form-control.busqueda").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $(".myTable tr").filter(function() {
+      $(this).toggle($(this).find("td:not(:last-child)").text().toLowerCase().indexOf(value.trim()) > -1)
+    });
+  });
+});
 
 
 /*ajax*/
