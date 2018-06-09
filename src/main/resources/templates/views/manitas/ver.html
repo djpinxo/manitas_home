@@ -1,5 +1,4 @@
 
-
 <div id="perfil">
 
 	<ul class="nav nav-tabs" role="tablist">
@@ -39,6 +38,7 @@
 					</p>
 					<p class="txtInfo" id="valoraciones">
 						<i class="fa fa-certificate " aria-hidden="true"></i> Valoracion:
+								<th:block th:if="${!manitas.getOpiniones().isEmpty()}">
 								<span class="fa fa-star" aria-hidden="true"></span>
 									 
 								<i th:if="${manitas.mediaValoracionesDouble() >= 1.25 and 1.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true"></i>
@@ -65,6 +65,10 @@
     						
     						
 							(<th:block th:text="${manitas.mediaValoracionesString()}"/>)
+							</th:block>
+							<th:block th:if="${manitas.getOpiniones().isEmpty()}">
+							No hay valoraciones
+							</th:block>
 					</p>
 				</div>
 				<hr id="barra_vertical" />

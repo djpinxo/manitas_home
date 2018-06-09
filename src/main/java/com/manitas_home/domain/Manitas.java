@@ -45,6 +45,7 @@ public class Manitas extends Usuario{
 	this.radioAccion=radioAccion;
 	this.habilitado=false;
 	this.empleos=new <Empleo>ArrayList();
+	this.opiniones=new <Opinion>ArrayList();
 	}
 	public Long getId() {
 	return id;
@@ -112,7 +113,7 @@ public class Manitas extends Usuario{
 	public void setEmpleos(List<Empleo> empleos) {
 		this.empleos = empleos;
 	}
-	public Collection<Opinion> getOpiniones() {
+	public List<Opinion> getOpiniones() {
 		return opiniones;
 	}
 	public void setOpiniones(List<Opinion> opiniones) {
