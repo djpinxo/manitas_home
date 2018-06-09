@@ -3,6 +3,7 @@
 <div class="btn-group" role="group" style="width:100%;">
 <input class="form-control busqueda" type="text" placeholder="Busqueda.." style="border-radius: 0px 5px 5px 0px;"/>
 </div>
+<div id="tablaDatos" class="table-responsive">
 <table id="myTable" class="table table-striped">
   <thead>
   <tr>
@@ -17,18 +18,19 @@
            -->
     </th>
     <th>
-    	Empleos <a role="button" aria-expanded="true" onclick="sortTable(this,1)" class="fa fa-sort"></a> <span class="fa fa-filter" onclick="ocultarMostrarFiltro(this)"></span>
-    	<input type="text" style="display:none" onkeyup="filtrarFila(this,1)" id="filtroEmpleo"/>
+    	Empleos <a role="button" aria-expanded="true" onclick="sortTable(this,1)" class="fa fa-sort"></a> 
     </th>
-    <th>
-    	Teléfono <a role="button" aria-expanded="true" onclick="sortTable(this,2)" class="fa fa-sort"></a>
+    <th>Valoración Media <a role="button" aria-expanded="true" onclick="sortTable(this,2)" class="fa fa-sort"></a>
     </th>
-    <th>
-    	Descripcion <a role="button" aria-expanded="true" onclick="sortTable(this,3)" class="fa fa-sort"></a>
+    <th th:if="${usuarioactivo!=null}">
+    	Teléfono <a role="button" aria-expanded="true" onclick="sortTable(this,3)" class="fa fa-sort"></a>
+    </th>
+    <th th:if="${usuarioactivo!=null}">
+    	Descripcion <a role="button" aria-expanded="true" onclick="sortTable(this,4)" class="fa fa-sort"></a>
     </th>
     
     
-    <th>Email <a role="button" aria-expanded="true" onclick="sortTable(this,4)" class="fa fa-sort"></a>
+    <th th:if="${usuarioactivo!=null}">Email <a role="button" aria-expanded="true" onclick="sortTable(this,5)" class="fa fa-sort"></a>
       <!-- 
       <div>
         <button id="botonesOrdenar" onclick="sortTable('asc',1)"><i class="fa fa-angle-double-up"></i></button>
@@ -37,7 +39,8 @@
        -->
     </th>
     
-    <th>Acciones</th>
+    <th th:if="${usuarioactivo!=null}">Acciones</th>
+    
   </tr>
   </thead>
 	<tbody class="myTable">
@@ -50,13 +53,11 @@
     	<li th:each="empleo:${unmanitas.empleos}" th:text="'('+${empleo.categoria.nombre}+')-'+${empleo.nombre}"/>
     </ul>
     </td>
+    <td th:text="${(!unmanitas.getOpiniones().isEmpty())?unmanitas.mediaValoracionesString():'-'}"></td>
     <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.telefono}"></td>
-    <td th:if="${usuarioactivo==null}"><a href="/login/crear" class="btn btn-info" role="button" style="color:white;display:block">Registrate gratis</a></td>
     <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.descripcion}"></td>
-    <td th:if="${usuarioactivo==null}"><a href="/login/crear" class="btn btn-info" role="button" style="color:white;display:block">Registrate gratis</a></td>
     <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.email}"></td>
-    <td th:if="${usuarioactivo==null}"><a href="/login/crear" class="btn btn-info" role="button" style="color:white;display:block">Registrate gratis</a></td>
-    <td class="acciones">
+    <td class="acciones" th:if="${usuarioactivo!=null}">
          <a th:href="'/mensaje/crear?emaildestinatario='+${unmanitas.email}" class="btn btn-info" role="button"><span class="fa fa-envelope"></span></a>
 
         <a th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" th:href="${'/manitas/modificar?id='+unmanitas.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>
@@ -67,6 +68,7 @@
   </tr>
   </tbody>
 </table>
+</div>
 <script>
 function ocultarMostrarFiltro(boton){
 	if(boton.nextElementSibling.style.display=='none')
