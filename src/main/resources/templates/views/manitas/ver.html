@@ -308,6 +308,7 @@
 
 		<div th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('cliente')}" role="tabpanel" class="tab-pane fade" id="añadirOpinion">
 		<form th:action="${(opinionClienteManitas==null)?'/opinion/crear':'/opinion/modificar'}" method="post">
+		<input th:if="${opinionClienteManitas!=null}" type="text" hidden="true" name="id" th:value="${opinionClienteManitas.id}"/>
 			<div class="row justify-content-center" style="margin-bottom:0px;margin-top:0px">
 
 				
@@ -318,22 +319,22 @@
 							aria-label="Left Align" onclick="fijarColor(this)" id="boton1">
 							<span class="fa fa-star" aria-hidden="true"></span>
 						</button>
-						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas=>2)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
+						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas.valoracion>=2)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
 							aria-label="Left Align" onclick="fijarColor(this)"
 							onmouseover="cambiarColor(this)" id="boton2">
 							<span class="fa fa-star" aria-hidden="true"></span>
 						</button>
-						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas=>3)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
+						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas.valoracion>=3)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
 							aria-label="Left Align" onclick="fijarColor(this)"
 							onmouseover="cambiarColor(this)" id="boton3">
 							<span class="fa fa-star" aria-hidden="true"></span>
 						</button>
-						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas=>4)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
+						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas.valoracion>=4)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
 							aria-label="Left Align" onclick="fijarColor(this)"
 							onmouseover="cambiarColor(this)" id="boton4">
 							<span class="fa fa-star" aria-hidden="true"></span>
 						</button>
-						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas=>5)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
+						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas.valoracion>=5)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
 							aria-label="Left Align" onclick="fijarColor(this)"
 							onmouseover="cambiarColor(this)" id="boton5">
 							<span class="fa fa-star" aria-hidden="true"></span>
@@ -344,7 +345,7 @@
 				<div class="col-sm-6" id="rating">
 					
 						<input hidden="hidden" type="text" name="idmanitas" th:value="${manitas.id}"/>
-						<input hidden="hidden" id="valoracionHidden" type="text" name="valoracion" th:value="${(opinionClienteManitas!=null)?opinionClienteManitas.titulo:'1'}" />
+						<input hidden="hidden" id="valoracionHidden" type="text" name="valoracion" th:value="${(opinionClienteManitas!=null)?opinionClienteManitas.valoracion:'1'}" />
 						<h5>Resuma brevemente su experiencia</h5>
 						<div class="d-flex justify-content-center">
 					
