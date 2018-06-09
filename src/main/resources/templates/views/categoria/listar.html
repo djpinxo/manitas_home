@@ -1,176 +1,98 @@
-<h1>
-	Categorías <a class="btn btn-info" id="botonRotatorio"
-		onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/categoria/listar','GET',crearTablaCategoriaOEmpleo)"
-		role="button" style="color: white;"><span class="fa fa-refresh"
-		style="width: 1em;"></span></a>
-	<!--  a class="btn btn-info" href="/categoria/crear" style="margin-rigth:0px;"><span class="fa fa-plus"></span> Crear</a -->
-	<a class="btn btn-info" href="" data-toggle="modal"
-		data-target="#crear" style="margin-rigth: 0px;"><span
-		class="fa fa-plus"></span> Crear</a>
-</h1>
-<div id="tablaDatos">
-	<table class="table table-striped">
-		<tr>
-			<th>Nombre</th>
-			<th>Acciones</th>
-		</tr>
-		<tr th:each="categoria:${categorias}">
-			<td th:text="${categoria.nombre}"></td>
-			<td class="acciones"><!-- a
-				th:href="${'/categoria/modificar?id='+categoria.id}"
-				class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a -->
-				
-				<a class="btn btn-info" data-toggle="modal"
-				th:href="'#modificarCategoria'+${categoria.id}" role="button"><span
-					class="fa fa-pencil"></span></a> <!-- MODAL PARA MODIFICAR CATEGORIA -->
-				<div class="modalesModificar modal fade" th:id="'modificarCategoria'+${categoria.id}"
-					role="dialog">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title">Modificar categoría</h4>
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-							</div>
-							<form class="form-horizontal" role="form" method="POST"
-								action="modificar" onchange="peticionAjax('/categoria/listar','GET',validar(this));"
-									onsubmit="return validar(this)">
-							<div class="modal-body">
-								
-									
-									<div class="row">
-										<div class="col-md-12">
-											<div class="form-group has-danger">
-												<label class="sr-only" for="categoriaActual">Categoría
-													actual</label>
-												<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-													<div class="input-group-addon" style="width: 2.6rem">
-														<i class="fa fa-pencil-square-o"></i>
-													</div>
-													<input type="hidden" name="id" th:value="${categoria.id}" />
-													<input type="text" name="nombre" class="form-control"
-														id="categoriaActual" th:value="${categoria.nombre}"
-														required="true" autofocus="true" />
-												</div>
-											</div>
-										</div>
 
-									</div>
-									<div class="row">
-										<div class="d-none d-md-block col-md-3 field-label-responsive">
-										</div>
-										<div class="col-md-12">
-											<div id="errorNombre"
-												class="form-control-feedback text-danger alert alert-danger align-middle"
-												hidden="true">
-												<span> Nombre no valido </span>
-											</div>
-											
-										</div>
-									</div>
-									<div class="resultadoModificar" />
-							</div>
-							<div class="modal-footer">
-									<a href=""
-														onclick="peticionAjax('/categoria/modificar','POST',resultadoModificarCategoriaOEmpleo,this.parentElement.parentElement); return false"
-														class="btn btn-info" style="color: white;">Modificar</a>
-									<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-							</div>
-						</form>
-						</div>
-
-					</div>
-				</div> 
-				
-				<!--  <a th:href="${'/categoria/borrar?id='+categoria.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a -->
-				<a class="btn btn-info" data-toggle="modal" th:href="'#'+${categoria.id}" role="button">
-					<span class="fa fa-trash"></span>
-				</a> 
-				<!-- MODAL PARA ELIMINAR CATEGORIA -->
-				<div class="modal fade" th:id="${categoria.id}" role="dialog">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title">¿Desea borrar esta categoría?</h4>
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-							</div>
-							<div class="modal-body">
-								<a th:href="${'/categoria/borrar?id='+categoria.id}" class="btn btn-info" role="button">Confirmar</a>
-								<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				</td>
-		</tr>
-		<tr>
-			<td colspan="2"><a href="/categoria/crear" class="btn btn-info"
-				role="button" style="color: white; display: block">Crear</a></td>
-		</tr>
-	</table>
+<div id="cabeceraCategoria">
+<h1>Categorias</h1>
+<hr/>
+<div class="btn-group" role="group" style="width:100%;">
+  <a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/categoria/listar','GET',crearTablaCategoriaOEmpleo)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
+  <a class="btn btn-info" data-toggle="modal" data-target="#crearCategoria" style="margin-rigth:0px;color:white;"><span class="fa fa-plus"></span></a>
+  <input class="form-control busqueda" type="text" placeholder="Busqueda.." style="border-radius: 0px 5px 5px 0px;"/>
 </div>
-
-
-<!-- MODAL PARA CREAR CATEGORIA -->
-<div class="modal fade" id="crear" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				
-				<h4 class="modal-title">Crear categoría</h4>
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-			<form action="crear"
-					onchange="peticionAjax('/categoria/listar','GET',validar(this));"
-					class="form-horizontal" role="form" method="POST"
-					onsubmit="return validar(this)">
-			
-			<div class="modal-body">
-				
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group has-danger">
-								<label class="sr-only" for="categoriaNueva">Nombre</label>
-								<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-									<div class="input-group-addon" style="width: 2.6rem">
-										<i class="fa fa-pencil"></i>
-									</div>
-									<input type="text" name="nombre" class="form-control"
-										id="categoriaNueva"
-										placeholder="Introduzca una nueva categoría" required="true"
-										autofocus="true" />
-								</div>
-							</div>
-						</div>
-
-					</div>
-					<div class="row">
-
-						<div class="col-md-12">
-							<div id="errorNombre"
-								class="form-control-feedback text-danger alert alert-danger align-middle"
-								hidden="true">
-								<span> Nombre no valido </span>
-							</div>
-							<div id="resultado" />
-						</div>
-					</div>
-					
-				
-
-			</div>
-			<div class="modal-footer">
-				<a href=""
-									onclick="peticionAjax('/categoria/crear','POST',resultadoCrearCategoriaOEmpleo,this.parentElement.parentElement); return false"
-									class="btn btn-info" style="color: white;"><span
-									class="fa fa-plus"></span> Crear</a>
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-			</div>
-			</form>
-		</div>
-
-	</div>
 </div>
 
 
 
+<div id="tablaCategoria" class="table-responsive">
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th>Nombre</th>
+		<th>Acciones</th>
+	</tr>
+	</thead>
+	<tbody class="myTable">
+	<tr th:each="categoria:${categorias}">
+		<td th:text="${categoria.nombre}"></td>
+		<td class="acciones">
+			<a th:href="${'/categoria/modificar?id='+categoria.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>
+			<a th:href="${'/categoria/borrar?id='+categoria.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
+		</td>
+	</tr>
+	</tbody>
+</table>
+</div>
 
+<div class="modal fade" id="crearCategoria" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Crear categor�a</h4>
+        </div>
+        <div class="modal-body">
+          <form action="crear" onchange="peticionAjax('/categoria/listar','GET',validar(this));" class="form-horizontal" role="form" method="POST" onsubmit="return validar(this)">
+				
+                <div class="row">
+	                <div class="col-md-12">
+	                    <div class="form-group has-danger">
+	                        <label class="sr-only" for="categoriaNueva">Nombre</label>
+	                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+	                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-pencil"></i></div>
+	                            <input type="text" name="nombre" class="form-control" id="categoriaNueva" placeholder="Introduzca una nueva categoría"  required="true" autofocus="true"/>
+	                        </div>
+	                    </div>
+	                </div>
+	               
+	            </div>
+	            <div class="row">
+        	
+        	<div class="col-md-12">
+                <div id="errorNombre" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+                        <span>
+                            Nombre no valido
+                        </span>
+                </div>
+            </div>
+        </div>
+	            <div class="row">
+	                <div class="col-md-3"></div>
+	                <div class="col-md-6">
+	                    <div class="form-group has-danger">
+	                        <button type="submit" class="btn btn-info"><span class="fa fa-plus"></span> Crear</button>
+	                    </div>
+	                </div>
+	               
+	            </div>
+	</form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+<script>
+$(document).ready(function(){
+  $(".form-control.busqueda").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $(".myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+ 

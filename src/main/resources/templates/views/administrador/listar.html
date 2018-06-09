@@ -1,14 +1,25 @@
-<h1>Administradores
-<a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/administrador/listar','GET',crearTablaAdministradores)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
-<a th:if="${!usuarioactivo.borrable}" class="btn btn-info" href="/administrador/crear" style="margin-rigth:0px;"><span class="fa fa-plus"></span> Crear</a>
-</h1>
-<div id="tablaDatos">
+
+<div id="cabeceraAdministradores">
+<h1>Administradores</h1>
+<hr/>
+<div class="btn-group" role="group" style="width:100%;">
+  <a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/administrador/listar','GET',crearTablaAdministradores)" role="button" style="color:white"><span class="fa fa-refresh" style="width: 1em;"></span></a>
+  <a th:if="${!usuarioactivo.borrable}" class="btn btn-info" href="/administrador/crear" style="margin-rigth:0px;color:white;"><span class="fa fa-plus"></span></a>
+  <input class="form-control busqueda" type="text" placeholder="Busqueda.." style="border-radius: 0px 5px 5px 0px;"/>
+</div>
+</div>
+
+
+<div id="tablaAdministradores" class="table-responsive">
 <table class="table table-striped">
+	<thead>
 	<tr>
 		<th>Nombre</th>
 		<th>Email</th>
 		<th>Acciones</th>
 	</tr>
+	</thead>
+	<tbody class="myTable">
 	<tr th:each="administrador:${administradores}" th:if="${usuarioactivo.id!=administrador.id}">
 		
 			<td th:text="${administrador.nombre}"></td>
@@ -38,28 +49,8 @@
           					<span class="fa fa-trash"></span>
         				</button>
 					</form> -->
-					
-					
-					<!-- a th:if="${!usuarioactivo.borrable}" th:href="${'/administrador/borrar?id='+administrador.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a -->
+					<a th:if="${!usuarioactivo.borrable}" th:href="${'/administrador/borrar?id='+administrador.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
 				
-					<a th:if="${!usuarioactivo.borrable}" class="btn btn-info" data-toggle="modal" th:href="'#'+${administrador.id}" role="button">
-					<span class="fa fa-trash"></span>
-					</a> 
-					<!-- MODAL PARA ELIMINAR ADMINISTRADOR -->
-					<div class="modal fade" th:id="${administrador.id}" role="dialog">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h4 class="modal-title">¿Desea borrar este administrador?</h4>
-									<button type="button" class="close" data-dismiss="modal">&times;</button>
-								</div>
-								<div class="modal-body">
-									<a th:href="${'/administrador/borrar?id='+administrador.id}" class="btn btn-info" role="button">Confirmar</a>
-									<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-								</div>
-							</div>
-						</div>
-					</div>
 			</td>
 				
 			
@@ -72,8 +63,21 @@
 			</td>
 		</tr>
 	</div>
+	</tbody>
 </table>
 </div>
+  
+<script>
+$(document).ready(function(){
+  $(".form-control.busqueda").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $(".myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+ 
 <!-- <button class="btn btn-info">
           <span class="fa fa-envelope"></span> Correo 
         </button>
