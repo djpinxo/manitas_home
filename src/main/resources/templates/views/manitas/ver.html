@@ -39,29 +39,31 @@
 					<p class="txtInfo" id="valoraciones">
 						<i class="fa fa-certificate " aria-hidden="true"></i> Valoracion:
 								<th:block th:if="${!manitas.getOpiniones().isEmpty()}">
+								
 								<span class="fa fa-star" aria-hidden="true"></span>
 									 
 								<i th:if="${manitas.mediaValoracionesDouble() >= 1.25 and 1.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true"></i>
     							<span th:if="${manitas.mediaValoracionesDouble() > 1.75 and 2 > manitas.mediaValoracionesDouble() }" class="fa fa-star" aria-hidden="true"></span>
     							<span th:if="${manitas.mediaValoracionesDouble() >= 2}" class="fa fa-star" ></span>
-    							<i th:if="${2 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o"></i>
+    							<i th:if="${1.25 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o"></i>
     							
     									
     							<i th:if="${manitas.mediaValoracionesDouble() >= 2.25 and 2.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true" ></i>
     							<span th:if="${manitas.mediaValoracionesDouble() > 2.75 and 3 > manitas.mediaValoracionesDouble() }" class="fa fa-star" aria-hidden="true"></span>
     							<span th:if="${manitas.mediaValoracionesDouble() >= 3}" class="fa fa-star" ></span>
-    							<i th:if="${3 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o"></i>
+    							<i th:if="${2.25 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o"></i>
     							
     									
     							<i th:if="${manitas.mediaValoracionesDouble() >= 3.25 and 3.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true"></i>
     							<span th:if="${manitas.mediaValoracionesDouble() > 3.75 and 4 > manitas.mediaValoracionesDouble() }" class="fa fa-star" aria-hidden="true"></span>
     							<span th:if="${manitas.mediaValoracionesDouble() >= 4}" class="fa fa-star" ></span>
-    							
+    							<i th:if="${3.25 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o"></i>
     									
     							<i th:if="${manitas.mediaValoracionesDouble() >= 4.25 and 4.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true"></i>
     							<span th:if="${manitas.mediaValoracionesDouble() > 4.75 and 5 > manitas.mediaValoracionesDouble() }" class="fa fa-star" aria-hidden="true"></span>
     							<span th:if="${manitas.mediaValoracionesDouble() == 5}" class="fa fa-star" ></span>
-    							<i th:if="${4 >= manitas.mediaValoracionesDouble() }" class="fa fa-star-o"></i>
+    							<i th:if="${4.25 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o"></i>
+    							
     						
     						
 							(<th:block th:text="${manitas.mediaValoracionesString()}"/>)
@@ -127,36 +129,39 @@
 				<div class="col-sm-6">
 					<div class="rating-block">
 						<h4>Valoración Media</h4>
+						<th:block th:if="${!manitas.getOpiniones().isEmpty()}">
 						<h2 class="bold padding-bottom-7">
 							<th:block th:text="${manitas.mediaValoracionesString()}"/> <small>/ 5</small>
 						</h2>
-						
 						
 								<span class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
 									 
 								<i th:if="${manitas.mediaValoracionesDouble() >= 1.25 and 1.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true" style="color:orange;font-size:24px"></i>
     							<span th:if="${manitas.mediaValoracionesDouble() > 1.75 and 2 > manitas.mediaValoracionesDouble() }" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
     							<span th:if="${manitas.mediaValoracionesDouble() >= 2}" class="fa fa-star estrellaOpinion" ></span>
-    							<i th:if="${2 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o" style="color:orange;font-size:24px"></i>
+    							<i th:if="${1.25 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o" style="color:orange;font-size:24px"></i>
     							
     									
     							<i th:if="${manitas.mediaValoracionesDouble() >= 2.25 and 2.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true" style="color:orange;font-size:24px"></i>
     							<span th:if="${manitas.mediaValoracionesDouble() > 2.75 and 3 > manitas.mediaValoracionesDouble() }" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
     							<span th:if="${manitas.mediaValoracionesDouble() >= 3}" class="fa fa-star estrellaOpinion" ></span>
-    							<i th:if="${3 > manitas.mediaValoracionesDouble() }" class="fa fa-star-o" style="color:orange;font-size:24px"></i>
+    							<i th:if="${2.25  > manitas.mediaValoracionesDouble() }" class="fa fa-star-o" style="color:orange;font-size:24px"></i>
     							
     									
     							<i th:if="${manitas.mediaValoracionesDouble() >= 3.25 and 3.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true" style="color:orange;font-size:24px"></i>
     							<span th:if="${manitas.mediaValoracionesDouble() > 3.75 and 4 > manitas.mediaValoracionesDouble() }" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
     							<span th:if="${manitas.mediaValoracionesDouble() >= 4}" class="fa fa-star estrellaOpinion" ></span>
-    							
+    							<i th:if="${3.25  > manitas.mediaValoracionesDouble() }" class="fa fa-star-o" style="color:orange;font-size:24px"></i>
     									
     							<i th:if="${manitas.mediaValoracionesDouble() >= 4.25 and 4.75 >= manitas.mediaValoracionesDouble()}" class="fa fa-star-half-o" aria-hidden="true" style="color:orange;font-size:24px"></i>
     							<span th:if="${manitas.mediaValoracionesDouble() > 4.75 and 5 > manitas.mediaValoracionesDouble() }" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
     							<span th:if="${manitas.mediaValoracionesDouble() == 5}" class="fa fa-star estrellaOpinion" ></span>
-    							<i th:if="${4 >= manitas.mediaValoracionesDouble() }" class="fa fa-star-o" style="color:orange;font-size:24px"></i>
+    							<i th:if="${4.25 >= manitas.mediaValoracionesDouble() }" class="fa fa-star-o" style="color:orange;font-size:24px"></i>
     						
-    						
+    						</th:block>
+							<th:block th:if="${manitas.getOpiniones().isEmpty()}">
+							No hay valoraciones
+							</th:block>
     									
 
 					</div>
@@ -302,34 +307,33 @@
 
 
 		<div th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('cliente')}" role="tabpanel" class="tab-pane fade" id="añadirOpinion">
-		<form action="/opinion/crear" method="post">
+		<form th:action="${(opinionClienteManitas==null)?'/opinion/crear':'/opinion/modificar'}" method="post">
 			<div class="row justify-content-center" style="margin-bottom:0px;margin-top:0px">
 
 				
 				<div class="col-sm-6">
 					<div class="rating-block">
 						<h5>Seleccione su valoración</h5>
-						<button type="button" class="btn btn-default btn-grey btn-sm"
-							aria-label="Left Align" onclick="fijarColor(this)"
-							onmouseover="cambiarColor(this)" id="boton1">
+						<button type="button" class="btn btn-warning btn-sm"
+							aria-label="Left Align" onclick="fijarColor(this)" id="boton1">
 							<span class="fa fa-star" aria-hidden="true"></span>
 						</button>
-						<button type="button" class="btn btn-default btn-grey btn-sm"
+						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas=>2)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
 							aria-label="Left Align" onclick="fijarColor(this)"
 							onmouseover="cambiarColor(this)" id="boton2">
 							<span class="fa fa-star" aria-hidden="true"></span>
 						</button>
-						<button type="button" class="btn btn-default btn-grey btn-sm"
+						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas=>3)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
 							aria-label="Left Align" onclick="fijarColor(this)"
 							onmouseover="cambiarColor(this)" id="boton3">
 							<span class="fa fa-star" aria-hidden="true"></span>
 						</button>
-						<button type="button" class="btn btn-default btn-grey btn-sm"
+						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas=>4)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
 							aria-label="Left Align" onclick="fijarColor(this)"
 							onmouseover="cambiarColor(this)" id="boton4">
 							<span class="fa fa-star" aria-hidden="true"></span>
 						</button>
-						<button type="button" class="btn btn-default btn-grey btn-sm"
+						<button type="button" th:class="${(opinionClienteManitas!=null and opinionClienteManitas=>5)?'btn btn-warning btn-sm':'btn btn-default btn-grey btn-sm'}"
 							aria-label="Left Align" onclick="fijarColor(this)"
 							onmouseover="cambiarColor(this)" id="boton5">
 							<span class="fa fa-star" aria-hidden="true"></span>
@@ -340,17 +344,17 @@
 				<div class="col-sm-6" id="rating">
 					
 						<input hidden="hidden" type="text" name="idmanitas" th:value="${manitas.id}"/>
-						<input hidden="hidden" id="valoracionHidden" type="text" name="valoracion" />
+						<input hidden="hidden" id="valoracionHidden" type="text" name="valoracion" th:value="${(opinionClienteManitas!=null)?opinionClienteManitas.titulo:'1'}" />
 						<h5>Resuma brevemente su experiencia</h5>
 						<div class="d-flex justify-content-center">
 					
-							<textarea class="form-control opinion" id="titulo" rows="2" name="titulo" style="max-height: 100px;min-height:50px"></textarea>
+							<textarea class="form-control opinion" id="titulo" rows="2" name="titulo" style="max-height: 100px;min-height:50px" th:text="${(opinionClienteManitas!=null)?opinionClienteManitas.titulo:''}"></textarea>
 	
 						</div>
 						<h5>Escriba su opinión</h5>
 						<div class="d-flex justify-content-center">
 					
-							<textarea class="form-control opinion" id="comentario" rows="4" name="comentario" style="max-height: 250px;min-height:50px"></textarea>
+							<textarea class="form-control opinion" id="comentario" rows="4" name="comentario" style="max-height: 250px;min-height:50px" th:text="${(opinionClienteManitas!=null)?opinionClienteManitas.comentario:''}"></textarea>
 	
 						</div>
 						
