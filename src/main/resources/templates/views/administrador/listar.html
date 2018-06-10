@@ -34,7 +34,7 @@
 					<!-- MODAL PARA ELIMINAR ADMINISTRADOR -->
 					<div class="modal fade" th:id="${administrador.id}" role="dialog">
 						<div class="modal-dialog">
-							<form action="borrar" method="post" onsubmit="return validar(this)">
+							<form action="/administrador/borrar" method="post" onsubmit="return validar(this)">
 							<div class="modal-content">
 								<div class="modal-header">
 									<h4 class="modal-title">¿Desea borrar este administrador?</h4>
@@ -43,54 +43,20 @@
 								<div class="modal-body">
 									<input type="text" name="id" th:value="${administrador.id}" required="true" hidden="true"/>
 									<div class="row">
-		            					<div class="d-none d-md-block col-md-12 field-label-responsive">
-		                				<label for="passwordsin">Contraseña</label>
-	            						</div>
-						          		<div class="col-md-12">
-						                <div class="form-group has-danger">
-						                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-						                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
-						                        <input type="password" name="passwordsin" class="form-control" id="password"
-						                               placeholder="Introduzca su contraseña" required="true"  />
-						                       	<input type="password" name="password" hidden="true"/>
-						                    </div>
-						               	 </div>
-						           	 	</div>
-					        		</div>
-					         		<div class="row">
-							            <div class="col-md-12">
-							                <div id="errorPwd" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
-							                        <span>
-							                            Contraseña no valida
-							                        </span>
-							                </div>
-							            </div>
-					       			</div>
-					       			 <div class="row">
 							            <div class="d-none d-md-block col-md-12 field-label-responsive">
-							                <label for="password-confirmation">Confirme su contraseña</label>
+							                <label>Contraseña Actual</label>
 							            </div>
 							            <div class="col-md-12">
-							                <div class="form-group">
+							                <div class="form-group has-danger">
 							                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-							                        <div class="input-group-addon" style="width: 2.6rem">
-							                            <i class="fa fa-repeat"></i>
-							                        </div>
-							                        <input type="password" name="password-confirmation" class="form-control"
-							                               id="password-confirm" placeholder="Confirme su contraseña" required="true" />
-						                    </div>
-						               	 </div>
-						           		 </div>
-						        	</div>
-						         <div class="row">
-							        	<div class="col-md-12">
-							                <div id="errorPwdConfirm" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
-							                        <span>
-							                            <i class="fa fa-close">Repita correctamente su contraseña</i>
-							                        </span>
+							                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+							                        <input type="password" name="passwordactual" class="form-control"
+							                               placeholder="Introduzca su contraseña" required="true"/>
+							                       	<input type="password" name="passwordactualhash" hidden="true"/>
+							                    </div>
 							                </div>
 							            </div>
-							     </div>
+							        </div>
 								</div>
 								<div class="modal-footer">
 									<button type="submit" class="btn btn-info" >Confirmar</button>
@@ -108,12 +74,3 @@
 	</tbody>
 </table>
 </div>
-<!-- <button class="btn btn-info">
-          <span class="fa fa-envelope"></span> Correo 
-        </button>
-        <button class="btn btn-info">
-          <span class="fa fa-pencil"></span> Crear 
-        </button>
-        <button class="btn btn-info">
-          <span class="fa fa-trash"></span> Borrar 
-        </button>  -->

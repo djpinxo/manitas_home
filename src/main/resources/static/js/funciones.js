@@ -8,22 +8,23 @@ function validar(form) {
 	}
 	 */
 	if(validarCampos(form)&&comparacontraseña(form)){
-		codContraseña();
+		codContraseña(form);
 		salida=true;
 	}
 	return salida;
 }
 
 
-function codContraseña() {//modificar para que acepte varios campos password en una pagina
+function codContraseña(form) {//modificar para que acepte varios campos password en una pagina
 	var campo = document.getElementsByName("passwordsin")[0];
-	var campo2 = document.getElementsByName("passwordactual")[0];
+	var campo2 = form.passwordactual;
+	
 	if(campo!=null){
 		document.getElementsByName("password")[0].value = shake_256(campo.value,1023);
 		campo.disabled = true;
 	}
 	if(campo2!=null){
-		document.getElementsByName("passwordactualhash")[0].value = shake_256(campo2.value,1023);
+		form.passwordactualhash.value = shake_256(campo2.value,1023);
 		campo2.disabled = true;
 	}
 }
@@ -734,7 +735,7 @@ function validarCampos(form) {
 	* e informar al usuario del nivel de seguridad de su contraseña
 	*/
 	expRegPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
-	if (form['passwordsin']){
+	if (form['passwordsin']!=null){
 	pwd = form['passwordsin'].value;
 	pwdCorrecta=false;
 	
@@ -755,7 +756,7 @@ function validarCampos(form) {
 	}
 	
 	/* CONFIRMAR PWD */
-	if (form['password-confirmation']){
+	if (form['password-confirmation']!=null){
 	pwd2 = form['password-confirmation'].value;
 	pwdConfirm=false;
 	
@@ -781,14 +782,7 @@ function validarCampos(form) {
 		pwdActual = form['passwordactual'].value;
 		pwdNueva=false;
 		
-		if(pwdActual == pwd || pwdActual == pwd2){
-			if(divsError['errorPwdActual']){
-				divsError['errorPwd'].hidden=false;
-				divsError['errorPwd'].getElementsByTagName('span')[0].innerHTML="La nueva contraseña no puede coincidir con la anterior.";
-			}
 		
-		}
-		else {
 			if (expRegPwd.test(pwdActual)){
 				pwdNueva=true;
 				if(divsError['errorPwdActual']){
@@ -803,7 +797,7 @@ function validarCampos(form) {
 				}
 			}
 		}
-	}
+	
 	
 	
 	// RADIO DE ACCION
