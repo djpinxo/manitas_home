@@ -2,8 +2,6 @@ package com.manitas_home.controller;
 
 
 
-import static org.mockito.Mockito.never;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.manitas_home.domain.Cliente;
 import com.manitas_home.domain.Mensaje;
 import com.manitas_home.domain.Usuario;
 import com.manitas_home.funciones.funcionstart;
@@ -74,7 +70,7 @@ public class ChatController {
 		m.put("view","chat/contactos");
 		m.put("usuarioactivo", session.getAttribute("user"));
 		if(session.getAttribute("user")!=null)
-		m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
+			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 		return (session.getAttribute("user")!=null)?"views/_t/main":"redirect:/login/login";
 	}
 	@GetMapping("/chat/conversacion")//TODO modificar
