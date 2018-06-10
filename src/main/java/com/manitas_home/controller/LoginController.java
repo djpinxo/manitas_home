@@ -58,7 +58,8 @@ public class LoginController {
 	}
 	@PostMapping("/login/login")
 	public String login(@RequestParam(value="email", defaultValue="")String email,@RequestParam(value="password", defaultValue="")String password,HttpSession session,ModelMap m,HttpServletRequest r) {
-		if(!email.equals("")&&!password.equals("")){
+		email=email.trim();
+		if(!email.equals("")&&password.length()==254&&Pattern.matches("^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_-]+([.]([a-zA-Z0-9_-]+[a-zA-Z0-9]|[a-zA-Z0-9]))+$", email)){
 		if(RCliente.findOneByEmailAndPassword(email, password)!=null){
 			session.setAttribute("user", RCliente.findOneByEmailAndPassword(email, password));
 			session.setAttribute("tipo","cliente");
@@ -71,6 +72,7 @@ public class LoginController {
 			session.setAttribute("user", RAdministrador.findOneByEmailAndPassword(email, password));
 			session.setAttribute("tipo","administrador");
 		}
+		}
 		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
 			if(session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null){
 				m.put("resultado", "OK");
@@ -80,22 +82,20 @@ public class LoginController {
 			}
 			return "result";
 		}
-		}
-		return "redirect:/login/login";
+		else
+			return "redirect:/login/login";
 	}
 	@GetMapping("/login/logout")
 	public String logout(HttpSession session) {
 		session.setAttribute("user",null);
 		session.setAttribute("tipo",null);
-		
 		return "redirect:/";
 	}
 	@GetMapping("/login/crear")
 	public String crear(HttpSession session,ModelMap m) {
-		
+		//TODO revisar
 		m.put("view","login/crear");
 		m.put("empleos", REmpleo.findAll());
-		//return funciones.funcionstart.funcionArranque(session,m,this.RAdministrador,"views/_t/main");
 		return (permisos("redirect:/",hayadmin("views/_t/main", "redirect:/administrador/crear"),session));
 	}
 	@PostMapping("/login/crear")//TODO modificar añadir el empleo a manitas
@@ -187,18 +187,18 @@ public class LoginController {
           System.out.println("email enviado a al gestor con exito");
 
      } catch (MessagingException e) {
-          /*String username="homemanitas@gmail.com";
+          String username="homemanitas@gmail.com";
           String passwordgmail="R7wbBoGzcyCdcNMf";
 
-  		props = new Properties();
-  		props.put("mail.smtp.auth", "true");
-  		props.put("mail.smtp.starttls.enable", "true");
-  		props.put("mail.smtp.host", "smtp.gmail.com");
-  		props.put("mail.smtp.port", "587");
-  	    props.put("mail.smtp.socketFactory.port", "587");
-  	    props.put("mail.smtp.socketFactory.fallback", "false");
+  		Properties props1 = new Properties();
+  		props1.put("mail.smtp.auth", "true");
+  		props1.put("mail.smtp.starttls.enable", "true");
+  		props1.put("mail.smtp.host", "smtp.gmail.com");
+  		props1.put("mail.smtp.port", "587");
+  		props1.put("mail.smtp.socketFactory.port", "587");
+  		props1.put("mail.smtp.socketFactory.fallback", "false");
 
-  		Session sessiongmail = Session.getInstance(props,
+  		Session sessiongmail = Session.getInstance(props1,
   		  new javax.mail.Authenticator() {
   			protected PasswordAuthentication getPasswordAuthentication() {
   				return new PasswordAuthentication(username, passwordgmail);
@@ -212,7 +212,7 @@ public class LoginController {
   			mensajegmail.setRecipients(Message.RecipientType.TO,
   				InternetAddress.parse(emailDestino));
   			mensajegmail.setSubject("Email de confirmacion");
-            mensajegmail.setText("http://djpinxo.ddns.net/login/activation?valor="+URLEncoder.encode(funcionstart.encrypt(emailDestino+"---"+System.currentTimeMillis()))+"\nno responda a este email para contactar dirijase a la pagina seccion contactanos indicando su email y su problema");
+            mensajegmail.setText("http://"+host+"/login/activation?valor="+URLEncoder.encode(funcionstart.encrypt(emailDestino+"---"+System.currentTimeMillis()))+"\nno responda a este email para contactar dirijase a la pagina seccion contactanos indicando su email y su problema");
             Transport.send(mensajegmail);
 
   			System.out.println("enviado por gmail");
@@ -220,10 +220,12 @@ public class LoginController {
   		} catch (MessagingException a) {
   			resultado=false;
   			System.out.println("error en el envio");
-  			throw new RuntimeException(a);
-  		}*/
-    	 resultado=false;
+  		}
     }
 	return resultado;
 }
+	public static void logoutStatic(HttpSession session){
+		session.setAttribute("user",null);
+		session.setAttribute("tipo",null);
+	}
 }
