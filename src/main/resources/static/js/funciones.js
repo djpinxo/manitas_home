@@ -370,13 +370,13 @@ function crearTablaMensajes(conexion){
 		sTable="<h3>No hay ningun mensaje</h3>";
 	}
 	else{
-	sTable="<table class='table table-striped'>";
+	sTable="<table class='table table-striped'><thead>";
 	sTable+="<tr>";
 	for(var i=2;i< mensajes.children[0].children.length-1;i++){
 		sTable+="<th>"+ mensajes.children[0].children[i].nodeName.charAt(0).toUpperCase()+mensajes.children[0].children[i].nodeName.slice(1)+"</th>";
 	}
 	sTable+="<th>Acciones</th>";
-	sTable+="</tr>";
+	sTable+="</tr></thead><tbody class='myTable'>";
 	for(var a=0;a< mensajes.children.length;a++){
 		sTable+="<tr>";
 		for(var i=2;i< mensajes.children[a].children.length;i++){
@@ -399,7 +399,7 @@ function crearTablaMensajes(conexion){
 		sTable+='</td>';
 		sTable+="</tr>";
 	}
-	sTable+="</table>";
+	sTable+="</tbody></table>";
 	}
 	document.getElementById("tablaDatos").innerHTML=sTable;
 	document.getElementById("botonRotatorio").children[0].className='fa fa-refresh';
@@ -418,13 +418,13 @@ function crearTablaCategoriaOEmpleo(conexion){
 		sTable="<h3>No hay "+catemp.nodeName+"</h3>";
 	}
 	else{
-	sTable="<table class='table table-striped'>";
+	sTable="<table class='table table-striped'><thead>";
 	sTable+="<tr>";
 	for(var i=1;i< catemp.children[0].children.length;i++){
 		sTable+="<th>"+ catemp.children[0].children[i].nodeName.charAt(0).toUpperCase() + catemp.children[0].children[i].nodeName.slice(1)+"</th>";
 	}
 	sTable+="<th>Acciones</th>";
-	sTable+="</tr>";
+	sTable+="</tr></thead><tbody class='myTable'>";
 	for(var a=0;a< catemp.children.length;a++){
 		sTable+="<tr>";
 		for(var i=1;i< catemp.children[a].children.length;i++){
@@ -437,7 +437,7 @@ function crearTablaCategoriaOEmpleo(conexion){
 		sTable+='</td>';
 		sTable+="</tr>";
 	}
-	sTable+="</table>";
+	sTable+="</tbody></table>";
 	}
 	document.getElementById("tablaDatos").innerHTML=sTable;
 	document.getElementById("botonRotatorio").children[0].className='fa fa-refresh';
@@ -451,17 +451,17 @@ function crearTablaAdministradores(conexion){
 	var xml=new DOMParser().parseFromString(conexion.responseText,"text/xml");
 	var administradores=xml.getElementsByTagName("administradores")[0];
 	var emailactual=xml.getElementsByTagName("emailactual")[0].innerHTML;
-	if(administradores.children.length<1){
+	if(administradores.children.length<=1){
 		sTable="<h3>No hay "+administradores.nodeName+"</h3>";
 	}
 	else{
-	sTable="<table class='table table-striped'>";
+	sTable="<table class='table table-striped'><thead>";
 	sTable+="<tr>";
 	for(var i=1;i< administradores.children[0].children.length;i++){
 		sTable+="<th>"+ administradores.children[0].children[i].nodeName.charAt(0).toUpperCase() + administradores.children[0].children[i].nodeName.slice(1)+"</th>";
 	}
 	sTable+="<th>Acciones</th>";
-	sTable+="</tr>";
+	sTable+="</tr></thead><tbody class='myTable'>";
 	for(var a=0;a< administradores.children.length;a++){
 		if(administradores.children[a].getElementsByTagName("email")[0].innerHTML!=emailactual){
 			sTable+="<tr>";
@@ -478,7 +478,7 @@ function crearTablaAdministradores(conexion){
 			sTable+="</tr>";
 		}
 	}
-	sTable+="</table>";
+	sTable+="</tbody></table>";
 	}
 	document.getElementById("tablaDatos").innerHTML=sTable;
 	document.getElementById("botonRotatorio").children[0].className='fa fa-refresh';
@@ -494,13 +494,13 @@ function crearTablaClientes(conexion){
 		sTable="<h3>No hay "+clientes.nodeName+"</h3>";
 	}
 	else{
-	sTable="<table class='table table-striped'>";
+	sTable="<table class='table table-striped'><thead>";
 	sTable+="<tr>";
 	for(var i=1;i< clientes.children[0].children.length;i++){
 		sTable+="<th>"+ clientes.children[0].children[i].nodeName.charAt(0).toUpperCase() + clientes.children[0].children[i].nodeName.slice(1)+"</th>";
 	}
 	sTable+="<th>Acciones</th>";
-	sTable+="</tr>";
+	sTable+="</tr></thead><tbody class='myTable'>";
 	for(var a=0;a< clientes.children.length;a++){
 			sTable+="<tr>";
 			for(var i=1;i< clientes.children[a].children.length;i++){
@@ -513,7 +513,7 @@ function crearTablaClientes(conexion){
 			sTable+='</td>';
 			sTable+="</tr>";
 	}
-	sTable+="</table>";
+	sTable+="</tbody></table>";
 	}
 	document.getElementById("tablaDatos").innerHTML=sTable;
 	document.getElementById("botonRotatorio").children[0].className='fa fa-refresh';
@@ -691,7 +691,7 @@ function validarCampos(form) {
 	if (form['email']){
 	email = form['email'].value;
 	emailCorrecto=false;
-	expRegEmail= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	expRegEmail= /^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_-]+([.]([a-zA-Z0-9_-]+[a-zA-Z0-9]|[a-zA-Z0-9]))+$/;
 	if(expRegEmail.test(email)){
 				emailCorrecto=true;
 				if(divsError['errorEmail']){
@@ -735,7 +735,7 @@ function validarCampos(form) {
 	* e informar al usuario del nivel de seguridad de su contraseña
 	*/
 	expRegPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
-	if (form['passwordsin']!=null){
+	if (form['passwordsin']){
 	pwd = form['passwordsin'].value;
 	pwdCorrecta=false;
 	
@@ -756,7 +756,7 @@ function validarCampos(form) {
 	}
 	
 	/* CONFIRMAR PWD */
-	if (form['password-confirmation']!=null){
+	if (form['password-confirmation']){
 	pwd2 = form['password-confirmation'].value;
 	pwdConfirm=false;
 	
