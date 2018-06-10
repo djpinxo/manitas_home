@@ -1,5 +1,7 @@
 package com.manitas_home.controller;
 
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -30,28 +32,32 @@ public class EmpleoController {
 	
 	@GetMapping("/empleo/crear")
 	public String crear(HttpSession session,ModelMap m) {//TODO probar
-		m.put("usuarioactivo", session.getAttribute("user"));
-		if(session.getAttribute("user")!=null)
-			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
-		m.put("categorias", CRepository.findAll());
-		m.put("view","empleo/crear");
-		return (permisos(session))?"views/_t/main":"redirect:/empleo/listar";
+		if (permisos(session)) {
+			m.put("usuarioactivo", session.getAttribute("user"));
+			m.put("usuarioemails", RMensaje.countByDestinatarioAndLeido(((Usuario) session.getAttribute("user")).getEmail(), false));
+			m.put("categorias", CRepository.findAll());
+			m.put("view", "empleo/crear");
+			return "views/_t/main";
+		}
+		else
+			return "redirect:/empleo/listar";
 	}
 	@PostMapping("/empleo/crear")
 	public String crear(@RequestParam(value="nombre", defaultValue="")String nombre,@RequestParam(value="idcategoria", defaultValue="")Long idcategoria,HttpSession session,ModelMap m,HttpServletRequest r) {//TODO probar
-			if(!nombre.equals("") && idcategoria!=null &&permisos(session)&&ERepository.findOneByNombre(nombre)==null){//TODO validaciones expreg
-				Categoria c=CRepository.findOne(idcategoria);
-				if(c!=null){
-					ERepository.save(new Empleo(nombre.toLowerCase(),c));
-					m.put("resultado", "OK");
-				}
-				else m.put("resultado", "ERROR - La categoría no existe");
+		nombre=nombre.trim();
+		if(idcategoria!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session)&&ERepository.findOneByNombre(nombre)==null){//TODO validaciones expreg
+			Categoria c=CRepository.findOne(idcategoria);
+			if(c!=null){
+				ERepository.save(new Empleo(nombre.toLowerCase(),c));
+				m.put("resultado", "OK");
 			}
-			else m.put("resultado", "ERROR - El empleo ya existe.");
-			if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
-				return "result";
-			else
-				return "redirect:/empleo/listar";
+			else m.put("resultado", "ERROR - La categoría no existe");
+		}
+		else m.put("resultado", "ERROR - El empleo ya existe.");
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
+			return "result";
+		else
+			return "redirect:/empleo/listar";
 	}
 	@GetMapping("/empleo/modificar")
 	public String modificar(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m) {//TODO probar
@@ -68,7 +74,8 @@ public class EmpleoController {
 	}
 	@PostMapping("/empleo/modificar")
 	public String modificar(@RequestParam(value="id", defaultValue="")Long id,@RequestParam(value="nombre", defaultValue="")String nombre,@RequestParam(value="idcategoria", defaultValue="")Long idcategoria,HttpSession session,ModelMap m, HttpServletRequest r) {//TODO probar
-		if(id!=null&&idcategoria!=null&&!nombre.equals("")&&permisos(session)){//TODO añadir validaciones expreg
+		nombre=nombre.trim();
+		if(id!=null&&idcategoria!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) &&permisos(session)){//TODO añadir validaciones expreg
 			nombre=nombre.toLowerCase();
 			Empleo e=ERepository.findOne(id);
 			if(e!=null){
@@ -103,8 +110,9 @@ public class EmpleoController {
 	}
 	@GetMapping("/empleo/listar")
 	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {//TODO probar
-		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")&&permisos(session)){
-			m.put("empleos",ERepository.findAll());
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
+			if(permisos(session))
+				m.put("empleos",ERepository.findAll());
 			return "xml/empleo/listar";
 		}
 		else {
@@ -130,14 +138,9 @@ public class EmpleoController {
 				}
 				e.getManitas().clear();
 				ERepository.delete(id);
-				m.put("resultado", "OK");
 			}
-			else
-				m.put("resultado", "ERROR - El empleo no existe.");
 		}
-		else m.put("resultado", "ERROR - No se puede realizar la operación.");
-		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")) return "result";
-		else return "redirect:/empleo/listar";
+		return "redirect:/empleo/listar";
 	}
 	
 	private boolean permisos(HttpSession s){

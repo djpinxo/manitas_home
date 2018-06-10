@@ -132,17 +132,11 @@ class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSocketConf
 class HttpHandshakeInterceptor implements HandshakeInterceptor {
 
 	@Override
-	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
-			Map<String, Object> attributes) throws Exception {
+	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,Map<String, Object> attributes) throws Exception {
 		if (request instanceof ServletServerHttpRequest) {
 			ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
-			HttpServletRequest r = servletRequest.getServletRequest();
-			System.out.println(r.getRemoteAddr());
 			HttpSession session = servletRequest.getServletRequest().getSession();
 			attributes.put("HttpSession",session);
-			session.setAttribute("ip", r.getRemoteAddr());
-			session.setAttribute("remitente", "nacho");
-			attributes.put("sessionId", session.getId());
 		}
 		return true;
 	}

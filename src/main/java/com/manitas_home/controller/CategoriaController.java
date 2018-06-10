@@ -29,15 +29,19 @@ public class CategoriaController {
 	
 	@GetMapping("/categoria/crear")
 	public String crear(HttpSession session,ModelMap m) {//TODO probar
-		m.put("view","categoria/crear");
-		m.put("usuarioactivo", session.getAttribute("user"));
-		if(session.getAttribute("user")!=null)
-			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
-		return (permisos(session))?"views/_t/main":"redirect:/categoria/listar";
+		if (permisos(session)) {
+			m.put("view", "categoria/crear");
+			m.put("usuarioactivo", session.getAttribute("user"));
+			m.put("usuarioemails", RMensaje.countByDestinatarioAndLeido(((Usuario) session.getAttribute("user")).getEmail(), false));
+			return "views/_t/main";
+		}
+		else
+			return "redirect:/empleo/listar";
 	}
 
 	@PostMapping("/categoria/crear")
 	public String crear(@RequestParam(value = "nombre", defaultValue = "") String nombre, HttpSession session,ModelMap m, HttpServletRequest r) {//TODO probar
+		nombre=nombre.trim();
 		if (!nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session) && CRepository.findOneByNombre(nombre) == null) {
 			nombre = nombre.toLowerCase();
 			CRepository.save(new Categoria(nombre));
@@ -52,10 +56,10 @@ public class CategoriaController {
 	@GetMapping("/categoria/modificar")
 	public String modificar(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m) {//TODO probar
 		if (id != null && permisos(session) && CRepository.exists(id)) {
-				m.put("usuarioactivo", session.getAttribute("user"));
-				m.put("usuarioemails", RMensaje.countByDestinatarioAndLeido(((Usuario) session.getAttribute("user")).getEmail(), false));
-				m.put("categoria", CRepository.findOne(id));
-				m.put("view", "categoria/modificar");
+			m.put("usuarioactivo", session.getAttribute("user"));
+			m.put("usuarioemails", RMensaje.countByDestinatarioAndLeido(((Usuario) session.getAttribute("user")).getEmail(), false));
+			m.put("categoria", CRepository.findOne(id));
+			m.put("view", "categoria/modificar");
 			return "views/_t/main";
 		}
 		else
@@ -63,6 +67,7 @@ public class CategoriaController {
 	}
 	@PostMapping("/categoria/modificar")//TODO probar
 	public String modificar(@RequestParam(value="id", defaultValue="")Long id,@RequestParam(value="nombre", defaultValue="")String nombre,HttpSession session,ModelMap m, HttpServletRequest r) {
+		nombre=nombre.trim();
 		if(id!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session) && CRepository.findOneByNombre(nombre)==null){
 			Categoria c=CRepository.findOne(id);
 			if (c != null) {
@@ -77,7 +82,6 @@ public class CategoriaController {
 				m.put("resultado", "ERROR - La categoría no existe.");
 		}
 		else m.put("resultado", "ERROR - La categoría ya existe.");
-
 		if(r.getHeader("X-Requested-With")!=null && r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
 			return "result";
 		else
@@ -85,8 +89,9 @@ public class CategoriaController {
 	}
 	@GetMapping("/categoria/listar")
 	public String listar(HttpSession session,ModelMap m,HttpServletRequest r) {//TODO probar
-		if(r.getHeader("X-Requested-With")!=null && r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest") && permisos(session)){
-			m.put("categorias",CRepository.findAll());
+		if(r.getHeader("X-Requested-With")!=null && r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
+			if(permisos(session))
+				m.put("categorias",CRepository.findAll());
 			return "xml/categoria/listar";
 		}
 		else {
@@ -108,11 +113,8 @@ public class CategoriaController {
 				CRepository.delete(id);
 				m.put("resultado", "OK");
 			}
-			else m.put("resultado", "ERROR - La categoría contiene relaciones con algun Empleo.");
 		}
-		else m.put("resultado", "ERROR - No se puede realizar la operación.");
-		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")) return "result";
-		else return "redirect:/categoria/listar";
+		return "redirect:/categoria/listar";
 	}
 	
 	private boolean permisos(HttpSession s){
