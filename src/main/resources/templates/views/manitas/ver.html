@@ -1,4 +1,15 @@
+<script th:inline="javascript">
 
+
+window.onload = ubicacion;
+
+function ubicacion(){
+	var direccion = [[${manitas.direccion}]];
+	var campo = document.getElementById("ubicacion");
+	convertirDireccion(direccion,campo);
+}
+
+</script>
 <div id="perfil">
 
 	<ul class="nav nav-tabs" role="tablist">
@@ -34,7 +45,7 @@
 						<i class="fa fa-at" aria-hidden="true"></i> Correo: <th:block th:text="${manitas.email}"/>
 					</p>
 					<p class="txtInfo" id="ubicacion">
-						<i class="fa fa-map-marker " aria-hidden="true"></i> Ubicación:<th:block th:text="${manitas.direccion}"/>
+						<i class="fa fa-map-marker " aria-hidden="true"></i>
 					</p>
 					<p class="txtInfo" id="valoraciones">
 						<i class="fa fa-certificate " aria-hidden="true"></i> Valoracion:

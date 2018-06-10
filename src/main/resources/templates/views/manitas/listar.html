@@ -7,15 +7,8 @@
 <table id="myTable" class="table table-striped">
   <thead>
   <tr>
-   <!--When a header is clicked, run the sortTable function, with a parameter, 0 for sorting by names, 1 for sorting by country:-->  
-    <th>Nombre <a role="button" aria-expanded="true" onclick="sortTable(this,0)" class="fa fa-sort"></a>
-          <!--
-          <div>
-          	<a role="button" aria-expanded="true" onclick="sortTable(this,0)" class="dropdown-toggle"></a>
-            <button id="botonesOrdenar" onclick="sortTable('asc',0)" name="asc"><i class="fa fa-angle-double-up"></i></button>
-            <button id="botonesOrdenar" name="desc" onclick="sortTable('desc',0)"><i class="fa fa-angle-double-down"></i></button>
-          </div>
-           -->
+   <th>Nombre <a role="button" aria-expanded="true" onclick="sortTable(this,0)" class="fa fa-sort"></a>
+          
     </th>
     <th>
     	Empleos <a role="button" aria-expanded="true" onclick="sortTable(this,1)" class="fa fa-sort"></a> 
@@ -26,17 +19,12 @@
     	Teléfono <a role="button" aria-expanded="true" onclick="sortTable(this,3)" class="fa fa-sort"></a>
     </th>
     <th th:if="${usuarioactivo!=null}">
-    	Descripcion <a role="button" aria-expanded="true" onclick="sortTable(this,4)" class="fa fa-sort"></a>
+    	Descripción <a role="button" aria-expanded="true" onclick="sortTable(this,4)" class="fa fa-sort"></a>
     </th>
     
     
     <th th:if="${usuarioactivo!=null}">Email <a role="button" aria-expanded="true" onclick="sortTable(this,5)" class="fa fa-sort"></a>
-      <!-- 
-      <div>
-        <button id="botonesOrdenar" onclick="sortTable('asc',1)"><i class="fa fa-angle-double-up"></i></button>
-        <button id="botonesOrdenar" onclick="sortTable('desc',1)"><i class="fa fa-angle-double-down"></i></button>
-      </div>
-       -->
+    
     </th>
     
     <th th:if="${usuarioactivo!=null}">Acciones</th>
@@ -46,23 +34,92 @@
 	<tbody class="myTable">
   
   
-  <tr th:each="unmanitas:${manitas}" th:onclick="${'location.assign(''/manitas/ver?id='+unmanitas.id+''')'}" style="cursor:pointer">
-    <td th:text="${unmanitas.nombre}"></td>
-    <td>
-    <ul style="list-style: none">
+  <tr th:each="unmanitas:${manitas}">
+    <td th:text="${unmanitas.nombre}" th:onclick="${'location.assign(''/manitas/ver?id='+unmanitas.id+''')'}" style="cursor:pointer"></td>
+    <td th:onclick="${'location.assign(''/manitas/ver?id='+unmanitas.id+''')'}" style="cursor:pointer">
+    <ul style="list-style: none" >
     	<li th:each="empleo:${unmanitas.empleos}" th:text="'('+${empleo.categoria.nombre}+')-'+${empleo.nombre}"/>
     </ul>
     </td>
-    <td th:text="${(!unmanitas.getOpiniones().isEmpty())?unmanitas.mediaValoracionesString():'-'}"></td>
-    <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.telefono}"></td>
-    <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.descripcion}"></td>
-    <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.email}"></td>
+    <td th:text="${(!unmanitas.getOpiniones().isEmpty())?unmanitas.mediaValoracionesString():'-'}"  th:onclick="${'location.assign(''/manitas/ver?id='+unmanitas.id+''')'}" style="cursor:pointer"></td>
+    <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.telefono}"  th:onclick="${'location.assign(''/manitas/ver?id='+unmanitas.id+''')'}" style="cursor:pointer"></td>
+    <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.descripcion}"  th:onclick="${'location.assign(''/manitas/ver?id='+unmanitas.id+''')'}" style="cursor:pointer"></td>
+    <td th:if="${usuarioactivo!=null}" th:text="${unmanitas.email}"  th:onclick="${'location.assign(''/manitas/ver?id='+unmanitas.id+''')'}" style="cursor:pointer"></td>
     <td class="acciones" th:if="${usuarioactivo!=null}">
          <a th:href="'/mensaje/crear?emaildestinatario='+${unmanitas.email}" class="btn btn-info" role="button"><span class="fa fa-envelope"></span></a>
 
         <a th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" th:href="${'/manitas/modificar?id='+unmanitas.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>
 
-        <a th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" th:href="${'/manitas/borrar?id='+unmanitas.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
+        <a th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" data-toggle="modal" th:href="'#'+${unmanitas.id}" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a>
+
+<div class="modal fade" th:id="${unmanitas.id}" role="dialog">
+					<div class="modal-dialog">
+						<form action="borrar" method="post" onsubmit="return validar(this)">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">¿Desea borrar este manitas?</h4>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+							<div class="modal-body">
+								<input type="text" name="id" th:value="${unmanitas.id}" required="true" hidden="true"/>
+								<div class="row">
+	            					<div class="d-none d-md-block col-md-12 field-label-responsive">
+	                					<label for="passwordsin">Contraseña</label>
+	            					</div>
+						            <div class="col-md-12">
+						                <div class="form-group has-danger">
+						                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+						                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+						                        <input type="password" name="passwordsin" class="form-control" id="password"
+						                               placeholder="Introduzca su contraseña" required="true"  />
+						                       	<input type="password" name="password" hidden="true"/>
+						                    </div>
+						                </div>
+						            </div>
+					        	</div>
+					         	<div class="row">
+						            <div class="col-md-12">
+						                <div id="errorPwd" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+						                        <span>
+						                            Contraseña no valida
+						                        </span>
+						                </div>
+						            </div>
+					       	 </div>
+					       	 <div class="row">
+						            <div class="d-none d-md-block col-md-12 field-label-responsive">
+						                <label for="password-confirmation">Confirme su contraseña</label>
+						            </div>
+						            <div class="col-md-12">
+						                <div class="form-group">
+						                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+						                        <div class="input-group-addon" style="width: 2.6rem">
+						                            <i class="fa fa-repeat"></i>
+						                        </div>
+						                        <input type="password" name="password-confirmation" class="form-control"
+						                               id="password-confirm" placeholder="Confirme su contraseña" required="true" />
+						                    </div>
+						                </div>
+						            </div>
+						        </div>
+						         <div class="row">
+							        	<div class="col-md-12">
+							                <div id="errorPwdConfirm" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+							                        <span>
+							                            <i class="fa fa-close">Repita correctamente su contraseña</i>
+							                        </span>
+							                </div>
+							            </div>
+							     </div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-info" >Confirmar</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+							</div>
+						</div>
+						</form>
+					</div>
+				</div>
 
     </td>
   </tr>

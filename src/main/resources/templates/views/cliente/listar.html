@@ -23,23 +23,77 @@
 			<td class="acciones">
 				<a th:href="${'/mensaje/crear?emaildestinatario='+cliente.email}" class="btn btn-info" role="button"><span class="fa fa-envelope"></span></a>
 				<a  th:href="${'/cliente/modificar?id='+cliente.id}" class="btn btn-info" role="button"><span class="fa fa-pencil"></span></a>
-				<!--  a  th:href="${'/cliente/borrar?id='+cliente.id}" onclick="return confirm('¿Desea borrarlo?')" class="btn btn-info" role="button"><span class="fa fa-trash"></span></a -->
+				
 				<a class="btn btn-info" data-toggle="modal" th:href="'#'+${cliente.id}" role="button">
 					<span class="fa fa-trash"></span>
 				</a> 
 				
 				<div class="modal fade" th:id="${cliente.id}" role="dialog">
 					<div class="modal-dialog">
+						<form action="borrar" method="post" onsubmit="return validar(this)">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h4 class="modal-title">¿Desea borrar este cliente?</h4>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 							<div class="modal-body">
-								<a th:href="${'/cliente/borrar?id='+cliente.id}" class="btn btn-info" role="button">Confirmar</a>
+								<input type="text" name="id" th:value="${cliente.id}" required="true" hidden="true"/>
+								<div class="row">
+	            					<div class="d-none d-md-block col-md-12 field-label-responsive">
+	                					<label for="passwordsin">Contraseña</label>
+	            					</div>
+						            <div class="col-md-12">
+						                <div class="form-group has-danger">
+						                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+						                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+						                        <input type="password" name="passwordsin" class="form-control" id="password"
+						                               placeholder="Introduzca su contraseña" required="true"  />
+						                       	<input type="password" name="password" hidden="true"/>
+						                    </div>
+						                </div>
+						            </div>
+					        	</div>
+					         	<div class="row">
+						            <div class="col-md-12">
+						                <div id="errorPwd" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+						                        <span>
+						                            Contraseña no valida
+						                        </span>
+						                </div>
+						            </div>
+					       	 </div>
+					       	 <div class="row">
+						            <div class="d-none d-md-block col-md-12 field-label-responsive">
+						                <label for="password-confirmation">Confirme su contraseña</label>
+						            </div>
+						            <div class="col-md-12">
+						                <div class="form-group">
+						                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+						                        <div class="input-group-addon" style="width: 2.6rem">
+						                            <i class="fa fa-repeat"></i>
+						                        </div>
+						                        <input type="password" name="password-confirmation" class="form-control"
+						                               id="password-confirm" placeholder="Confirme su contraseña" required="true" />
+						                    </div>
+						                </div>
+						            </div>
+						        </div>
+						         <div class="row">
+							        	<div class="col-md-12">
+							                <div id="errorPwdConfirm" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
+							                        <span>
+							                            <i class="fa fa-close">Repita correctamente su contraseña</i>
+							                        </span>
+							                </div>
+							            </div>
+							     </div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-info" >Confirmar</button>
 								<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 							</div>
 						</div>
+						</form>
 					</div>
 				</div>
 			

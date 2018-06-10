@@ -87,7 +87,6 @@ function initialize() {
             markers = [];
           addMarker(event.latLng);
         map.panTo(event.latLng);
-		convertirDireccion(document.getElementById("coordenadas").value);
 		document.getElementById("direccion").disabled = false;
         });
       function addMarker(location) {
@@ -143,7 +142,6 @@ function codeAddress2(direccion) {
       map.setCenter(results[0].geometry.location);
       addMarker(results[0].geometry.location);
       document.getElementById("coordenadas").value=markers[0].position;
-      convertirDireccion(document.getElementById("coordenadas").value);
       document.getElementById("direccion").disabled = false;
     } else {
       errorPosicionar(status);
@@ -176,16 +174,19 @@ function errorPosicionar(error) {
 
 
 /* Convertir coordenadas a una dirección en formato texto */
-function convertirDireccion(coordenadas) {
+function convertirDireccion(coordenadas,campo) {
 	var direccion = "";
+	
 	  var latlngStr = coordenadas.split(',', 2);
 	  latlngStr[0] = latlngStr[0].substr(1,);
-	  latlngStr[1] = latlngStr[1].substr(0,latlngStr[1].length-1);
+	  latlngStr[1] = parseFloat(latlngStr[1].substr(0,latlngStr[1].length-1));
+	  var geocoder = new google.maps.Geocoder;
 	  var point = new google.maps.LatLng(latlngStr[0], latlngStr[1]);
 	  geocoder.geocode({'latLng': point}, function(results, status) {
 	    if (status === 'OK') {
+	    	
 	    	direccion=results[1].formatted_address;
-    		sacarDatos(direccion);
+    		sacarDatos(direccion,campo);
 	    	if (results[1]) {
 	      } 
 	    } 
@@ -195,8 +196,14 @@ function convertirDireccion(coordenadas) {
 /* Sacar datos de ConvertirDireccion y guardarlos en el input que enviará
  * la dirección
  */
-function sacarDatos(datos){
-	  document.getElementById("coordenadas").value=datos;
+function sacarDatos(datos,campo){
+	 escribirDireccion(datos,campo);
+}
+
+function escribirDireccion(datos,campo){
+	if(campo) {
+		campo.innerHTML = "<i class='fa fa-map-marker ' aria-hidden='true'></i>" + " Ubicación: " + datos;
+	}
 }
 
 
@@ -593,6 +600,7 @@ function validarCampos(form) {
 	if (form['nombre']){
 	nombre = form['nombre'].value;
 	nombre=nombre.trim();
+	form['nombre'].value = nombre;
 	nombreCorrecto=false;
 	expRegNombre = /^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\s|\ç|\Ç|\-]*)+$/;
 	
@@ -624,6 +632,7 @@ function validarCampos(form) {
 	if (form['apellidos']){
 	apellidos = form['apellidos'].value;
 	apellidos=apellidos.trim();
+	form['apellidos'].value = apellidos;
 	apellidosCorrectos=false;
 	expRegApellidos = /^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\s|\ç|\Ç|\-]*)+$/;
 	tipo="";
@@ -807,7 +816,7 @@ function validarCampos(form) {
 			if (form['radio']){
 				radio = form['radio'].value;
 				radioCorrecto=false;
-				if(radio<1 || radio>500){
+				if(radio<1 || radio>1000){
 						if(divsError['errorRadioAccion']){
 							if(radio<1){
 								divsError['errorRadioAccion'].hidden=false;
@@ -815,7 +824,7 @@ function validarCampos(form) {
 							}
 							else {
 								divsError['errorRadioAccion'].hidden=false;
-								divsError['errorRadioAccion'].getElementsByTagName('span')[0].innerHTML="Rango incorrecto, no puedo introducir un rango superior a 500.";
+								divsError['errorRadioAccion'].getElementsByTagName('span')[0].innerHTML="Rango incorrecto, no puedo introducir un rango superior a 1000.";
 							}
 					}
 				}
@@ -831,11 +840,7 @@ function validarCampos(form) {
 	}
 	
 
-	// DIRECCION
-	if (form['coordenadas']){
-		convertirDireccion(form['coordenadas'].value);
-		form['direccion'].disabled = false;
-	}
+	
 	
 	
 	
