@@ -370,7 +370,7 @@ function crearTablaMensajes(conexion){
 		sTable="<h3>No hay ningun mensaje</h3>";
 	}
 	else{
-	sTable="<table class='table table-striped'><thead>";
+	sTable="<table id='myTable' class='table table-striped'><thead>";
 	sTable+="<tr>";
 	for(var i=2;i< mensajes.children[0].children.length-1;i++){
 		sTable+="<th>"+ mensajes.children[0].children[i].nodeName.charAt(0).toUpperCase()+mensajes.children[0].children[i].nodeName.slice(1)+"</th>";
@@ -418,10 +418,10 @@ function crearTablaCategoriaOEmpleo(conexion){
 		sTable="<h3>No hay "+catemp.nodeName+"</h3>";
 	}
 	else{
-	sTable="<table class='table table-striped'><thead>";
+	sTable="<table id='myTable' class='table table-striped'><thead>";
 	sTable+="<tr>";
 	for(var i=1;i< catemp.children[0].children.length;i++){
-		sTable+="<th>"+ catemp.children[0].children[i].nodeName.charAt(0).toUpperCase() + catemp.children[0].children[i].nodeName.slice(1)+"</th>";
+		sTable+="<th>"+ catemp.children[0].children[i].nodeName.charAt(0).toUpperCase() + catemp.children[0].children[i].nodeName.slice(1)+" <a role='button' aria-expanded='true' onclick='sortTable(this,"+(i-1)+")' class='fa fa-sort'></a></th>";
 	}
 	sTable+="<th>Acciones</th>";
 	sTable+="</tr></thead><tbody class='myTable'>";
@@ -455,10 +455,10 @@ function crearTablaAdministradores(conexion){
 		sTable="<h3>No hay "+administradores.nodeName+"</h3>";
 	}
 	else{
-	sTable="<table class='table table-striped'><thead>";
+	sTable="<table id='myTable' class='table table-striped'><thead>";
 	sTable+="<tr>";
 	for(var i=1;i< administradores.children[0].children.length;i++){
-		sTable+="<th>"+ administradores.children[0].children[i].nodeName.charAt(0).toUpperCase() + administradores.children[0].children[i].nodeName.slice(1)+"</th>";
+		sTable+="<th>"+ administradores.children[0].children[i].nodeName.charAt(0).toUpperCase() + administradores.children[0].children[i].nodeName.slice(1)+" <a role='button' aria-expanded='true' onclick='sortTable(this,"+(i-1)+")' class='fa fa-sort'></a></th>";
 	}
 	sTable+="<th>Acciones</th>";
 	sTable+="</tr></thead><tbody class='myTable'>";
@@ -494,10 +494,10 @@ function crearTablaClientes(conexion){
 		sTable="<h3>No hay "+clientes.nodeName+"</h3>";
 	}
 	else{
-	sTable="<table class='table table-striped'><thead>";
+	sTable="<table id='myTable' class='table table-striped'><thead>";
 	sTable+="<tr>";
 	for(var i=1;i< clientes.children[0].children.length;i++){
-		sTable+="<th>"+ clientes.children[0].children[i].nodeName.charAt(0).toUpperCase() + clientes.children[0].children[i].nodeName.slice(1)+"</th>";
+		sTable+="<th>"+ clientes.children[0].children[i].nodeName.charAt(0).toUpperCase() + clientes.children[0].children[i].nodeName.slice(1)+" <a role='button' aria-expanded='true' onclick='sortTable(this,"+(i-1)+")' class='fa fa-sort'></a></th>";
 	}
 	sTable+="<th>Acciones</th>";
 	sTable+="</tr></thead><tbody class='myTable'>";
