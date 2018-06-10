@@ -492,4 +492,11 @@ padding-top: 0;
 background-color: #ff8e1c;
 border: solid 1px lightgray;
 }
+a.close{
+	padding:0;
+	background-color:transparent;
+	border:0;
+	-webkit-appearance:none;
+	cursor: pointer;
+}
 /*--------------------------------------------------------------MINIMIZADOR DE CSS---------------------------https://www.wextensible.com/herramientas/web-tools-online/-------------*/
