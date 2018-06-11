@@ -60,7 +60,7 @@ public class ClienteController {
 		Cliente clien=null;
 		if(id!=null)
 		clien=RCliente.findOne(id);
-		if(clien==null&&session.getAttribute("tipo").equals("cliente")&&((Usuario)session.getAttribute("user")).getId().equals(id)) LoginController.logoutStatic(session);
+		if(clien==null&&session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("cliente")&&((Usuario)session.getAttribute("user")).getId().equals(id)) LoginController.logoutStatic(session);
 		if(clien!=null&&permisos(id,session)){
 				m.put("usuarioactivo", session.getAttribute("user"));
 				m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));

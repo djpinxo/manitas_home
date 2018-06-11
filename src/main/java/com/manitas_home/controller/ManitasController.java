@@ -89,7 +89,7 @@ public class ManitasController {
 		Manitas mani=null;
 		if(id!=null)
 			mani=RManitas.findOne(id);
-		if(mani==null&&session.getAttribute("tipo").equals("manitas")&&((Usuario)session.getAttribute("user")).getId().equals(id)) LoginController.logoutStatic(session);
+		if(mani==null&&session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("manitas")&&((Usuario)session.getAttribute("user")).getId().equals(id)) LoginController.logoutStatic(session);
 		if(mani!=null&&permisos(id,session)){
 				m.put("usuarioactivo", session.getAttribute("user"));
 				m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));

@@ -71,7 +71,7 @@ var map;
 var markers = [];
 
 function initialize() {
-   var query="España";
+   var query=posicionUsuarioActual;
    geocoder = new google.maps.Geocoder;
    var infowindow = new google.maps.InfoWindow;
 

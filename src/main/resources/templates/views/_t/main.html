@@ -11,9 +11,22 @@
 <script src="/js/stomp.min.js"></script>
 <script src="/js/sha3.min.js"></script>
 <script src="/js/funciones.js"></script>
+<script>
+	var posicionUsuarioActual="España";
+</script>
 
 <script th:if="${usuarioactivo!=null}" th:inline="javascript">
 	var mensajesSinLeer=[[${usuarioemails}]];
+</script>
+<script th:if="${manitas!=null}" th:inline="javascript">
+posicionUsuarioActual=
+[[${(manitas!=null and !manitas.getClass().getSimpleName().equals('ArrayList') and manitas.direccion!=null and !manitas.direccion.trim().equals(''))?manitas.direccion.substring(1,manitas.direccion.length()-1):'España'}]]
+;
+</script>
+<script th:if="${cliente!=null}" th:inline="javascript">
+posicionUsuarioActual=
+[[${(cliente!=null and !cliente.getClass().getSimpleName().equals('ArrayList') and cliente.direccion!=null and !cliente.direccion.trim().equals(''))?cliente.direccion.substring(1,cliente.direccion.length()-1):'España'}]]
+;
 </script>
 
 <meta charset="utf-8" />

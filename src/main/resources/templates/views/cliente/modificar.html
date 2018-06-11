@@ -211,7 +211,7 @@
                         
                             
                                 <div class="input-group add-on" style="width: auto">
-                                  <input type="text" class="form-control" placeholder="Introduzca su dirección y seleccione un punto en el mapa" id="direccion"/>
+                                  <input type="text" class="form-control" placeholder="Introduzca su dirección y seleccione un punto en el mapa" id="direccion" th:value="${cliente.direccion}"/>
                                   <input type="text" hidden="true" name="coordenadas" id="coordenadas" th:value="${cliente.direccion}" />
                                   <div class="input-group-btn">
                                     <input type="button"  class="btn btn-info" id="buscar" onclick="buscarCalle()" value=">"></input>
