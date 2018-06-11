@@ -126,6 +126,7 @@ public class LoginController {
 					else m.put("resultado", "ERROR - El email ya está en uso.");
 				}
 			}
+			else m.put("resultado", "ERROR - Falta rellenar campos.");
 		}
 		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
 			return "result";
