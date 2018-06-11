@@ -6,11 +6,8 @@ function validar(form) {
 		codContraseña();
 		salida=true;
 	}
+	 
 	 */
-	if(form.name="formLogin"){
-		codContraseña(form);
-		salida=true;
-	}
 	
 	if(validarCampos(form)&&comparacontraseña(form)){
 		codContraseña(form);
@@ -588,7 +585,7 @@ function resultadoLogin(conexion){
 	var respuesta=conexion.responseText;
 	var divrespuesta=document.getElementById("resultado");
 	if(respuesta=="OK")
-		window.location.replace("login");
+		location.reload("login");
 	else if(respuesta.includes("ERROR")){
 		divrespuesta.innerHTML=respuesta;
 		divrespuesta.className="alert alert-danger";
@@ -862,6 +859,15 @@ function validarCampos(form) {
 	}
 	
 
+	if(form.name="formLogin"){
+		 if((emailCorrecto == false) ||  (pwdCorrecta == false) ){
+			 var divrespuesta=document.getElementById("resultado");
+				divrespuesta.innerHTML="ERROR - Usuario y/o contraseña incorrectos.";
+				divrespuesta.className="alert alert-danger";
+				formLogin.passwordsin.disabled=false;
+				setTimeout(function(){ divrespuesta.innerHTML=""; divrespuesta.className=""; }, 5000);
+		 }
+	}
 	
 	
 	
