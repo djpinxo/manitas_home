@@ -63,7 +63,7 @@ public class ManitasController {
 			}
 		}
 		else lista=listaBruta;
-		if(!categoria.equals("")){//TODO filtrado por categoria
+		/*if(!categoria.equals("")){//TODO filtrado por categoria
 			listaBruta = new ArrayList<Manitas>();
 			for(int i=0;i<lista.size();i++){
 				List<Empleo> empleos = lista.get(i).getEmpleos();
@@ -75,7 +75,7 @@ public class ManitasController {
 				}
 			}
 			lista=listaBruta;
-		}
+		}*/
 		m.put("usuarioactivo", session.getAttribute("user"));
 		if(session.getAttribute("user")!=null)
 			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
