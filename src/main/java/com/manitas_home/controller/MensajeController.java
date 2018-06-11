@@ -65,7 +65,7 @@ public class MensajeController {
 			contactoanonimo=contactoanonimo.trim();
 			if(!contactoanonimo.equals("")&&session.getAttribute("tipo")==null&&session.getAttribute("user")==null){
 				emailremitente="anonimo";
-				mensaje="Forma de contacto:"+contactoanonimo+"\n"+mensaje;
+				mensaje="Forma de contacto: "+contactoanonimo+"\n"+"Mensaje: "+mensaje;
 				List <Administrador> administradores=RAdministrador.findAll();
 				for(Administrador admin:administradores){
 					emailsdestinatarios.add(admin.getEmail());

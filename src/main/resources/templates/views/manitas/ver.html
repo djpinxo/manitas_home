@@ -115,7 +115,7 @@ function ubicacion(){
 
 		</div>
 		<div role="tabpanel" class="tab-pane fade" id="mensaje" th:if="${usuarioactivo!=null}">
-			<form  action="/chat/contactos" method="post">
+			<form  action="/mensaje/crear" method="post">
 	           <div class="row justify-content-center">	
 					<div class="col-10">	
 							 <div class="media-body">
@@ -301,7 +301,7 @@ function ubicacion(){
     									<span th:if="${opinion.valoracion >= 5}" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
     									<i th:unless="${opinion.valoracion >= 5}" class="fa fa-star-o" style="color:orange"></i>
     									
-										<a type="button"  th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" th:href="${'opinion/borrar?id='+opinion.id}" class="close">&times;</a>
+										<a type="button"  th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" th:href="${'/opinion/borrar?id='+opinion.id}" class="close">&times;</a>
 								
 								</div>
 								<div class="review-block-title" th:text="${opinion.titulo}"></div>
@@ -379,8 +379,9 @@ function ubicacion(){
 			<div class="row valoracion"  style="margin-top:0px">
 				<div class="col-sm-12 divBotonOpinion">
 
-					<button type="submit" class="btn btn-info " aria-label="Left Align"
-						id="botonVotar" onclick="detectarEstrellas(this)">Enviar opinión</button>
+					<button type="submit" class="btn btn-info " aria-label="Left Align" id="botonVotar" onclick="detectarEstrellas(this)">Enviar opinión</button>
+					<a class="btn btn-info " th:if="${usuarioactivo!=null and opinionClienteManitas!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('cliente')}" th:href="${'/opinion/borrar?id='+opinionClienteManitas.id}" >Borrar</a>
+								
 				</div>
 			</div>
 			</form>
