@@ -78,7 +78,7 @@ public class LoginController {
 				m.put("resultado", "OK");
 			}
 			else{
-				m.put("resultado", "ERROR - En la autentificación");
+				m.put("resultado", "ERROR - Usuario y/o contraseña incorrectos.");
 			}
 			return "result";
 		}
@@ -99,20 +99,48 @@ public class LoginController {
 		return (permisos("redirect:/",hayadmin("views/_t/main", "redirect:/administrador/crear"),session));
 	}
 	@PostMapping("/login/crear")//TODO modificar añadir el empleo a manitas
-	public String crear(@RequestParam("tipo")String tipo ,@RequestParam("nombre")String nombre ,@RequestParam("apellidos")String apellidos ,@RequestParam("telefono")String telefono ,@RequestParam("email")String email ,@RequestParam("coordenadas")String direccion ,@RequestParam(value = "descripcion", defaultValue="")String descripcion,@RequestParam("password")String password,@RequestParam(value = "radio", defaultValue="10")String radio, @RequestParam(value = "idempleo", defaultValue="")ArrayList <Long> idsempleos ,HttpSession session) {
-		if(session.getAttribute("user")!=null);
-		else if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null){
-			if(tipo.equals("cliente")&&envioMail(email)){
-				RCliente.save(new Cliente(nombre,apellidos,telefono,email,password,direccion));//TODO
+	public String crear(@RequestParam("tipo")String tipo ,@RequestParam("nombre")String nombre ,@RequestParam("apellidos")String apellidos ,@RequestParam("telefono")String telefono ,@RequestParam("email")String email ,@RequestParam("coordenadas")String direccion ,@RequestParam(value = "descripcion", defaultValue="")String descripcion,@RequestParam("password")String password,@RequestParam(value = "radio", defaultValue="10")String radio, @RequestParam(value = "idempleo", defaultValue="")ArrayList <Long> idsempleos ,HttpSession session ,ModelMap m,HttpServletRequest r) {
+		
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
+			if(session.getAttribute("user")!=null);
+			else if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null){
+				if(tipo.equals("cliente")&&envioMail(email)){
+					RCliente.save(new Cliente(nombre,apellidos,telefono,email,password,direccion));//TODO
+					m.put("resultado", "OK");
+				}
+				else if(tipo.equals("manitas")&&envioMail(email)){
+					Manitas manitas=new Manitas(nombre,apellidos,telefono,email,password,direccion,descripcion,Integer.parseInt(radio));
+					for(int i=0;i<idsempleos.size();i++)
+						manitas.getEmpleos().add(REmpleo.findOne(idsempleos.get(i)));
+					RManitas.save(manitas);//TODO
+					m.put("resultado", "OK");
+				}
 			}
-			else if(tipo.equals("manitas")&&envioMail(email)){
-				Manitas manitas=new Manitas(nombre,apellidos,telefono,email,password,direccion,descripcion,Integer.parseInt(radio));
-				for(int i=0;i<idsempleos.size();i++)
-					manitas.getEmpleos().add(REmpleo.findOne(idsempleos.get(i)));
-				RManitas.save(manitas);//TODO
+			
+			else {
+				m.put("resultado", "ERROR - El email ya está en uso.");
 			}
+			return "result";
 		}
-		return "redirect:/";
+		
+		else {
+			if(session.getAttribute("user")!=null);
+			else if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null){
+				if(tipo.equals("cliente")&&envioMail(email)){
+					RCliente.save(new Cliente(nombre,apellidos,telefono,email,password,direccion));//TODO
+				}
+				else if(tipo.equals("manitas")&&envioMail(email)){
+					Manitas manitas=new Manitas(nombre,apellidos,telefono,email,password,direccion,descripcion,Integer.parseInt(radio));
+					for(int i=0;i<idsempleos.size();i++)
+						manitas.getEmpleos().add(REmpleo.findOne(idsempleos.get(i)));
+					RManitas.save(manitas);//TODO
+				}
+			}
+			return "redirect:/";
+		}
+		
+		
+		
 	}
 	@GetMapping("/login/activation")
 	public String activation(@RequestParam(value = "valor", defaultValue="")String valor,HttpSession session,HttpServletRequest r) {

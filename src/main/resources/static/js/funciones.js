@@ -7,10 +7,17 @@ function validar(form) {
 		salida=true;
 	}
 	 */
+	if(form.name="formLogin"){
+		codContraseña(form);
+		salida=true;
+	}
+	
 	if(validarCampos(form)&&comparacontraseña(form)){
 		codContraseña(form);
 		salida=true;
 	}
+	
+	
 	return salida;
 }
 
@@ -576,17 +583,38 @@ function resultadoModificarCategoriaOEmpleo(conexion){
 
 	             
 }
+// Mostrar error al introducir credenciales incorrectas.
 function resultadoLogin(conexion){
 	var respuesta=conexion.responseText;
 	var divrespuesta=document.getElementById("resultado");
 	if(respuesta=="OK")
-		location.reload();
+		window.location.replace("login");
 	else if(respuesta.includes("ERROR")){
 		divrespuesta.innerHTML=respuesta;
 		divrespuesta.className="alert alert-danger";
 		formLogin.passwordsin.disabled=false;
 	}
 	setTimeout(function(){ divrespuesta.innerHTML=""; divrespuesta.className=""; }, 5000);
+}
+
+// Mostrar notificación al introducir un email ya registrado en la BD.
+function resultadoEmailRepetido(conexion){
+	var respuesta=conexion.responseText;
+	var divrespuesta=document.getElementById("errorEmail");
+	if(respuesta=="OK") {
+		location.reload();
+		divrespuesta.hidden=true;
+	}
+	else if(respuesta.includes("ERROR")){
+		divrespuesta.innerHTML=respuesta;
+		document.getElementById("password").disabled=false;
+		document.getElementById("password-confirmation").disabled=false;
+		document.getElementById("direccion").disabled=false;
+		document.getElementById("email").focus();
+
+		divrespuesta.hidden=false;
+	}
+	setTimeout(function(){ divrespuesta.innerHTML=""; divrespuesta.hidden=true; }, 5000);
 }
 
 /*Validaciones*/
