@@ -3,6 +3,7 @@ package com.manitas_home.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import com.manitas_home.domain.Categoria;
 import com.manitas_home.domain.Cliente;
 import com.manitas_home.domain.Empleo;
 import com.manitas_home.domain.Manitas;
+import com.manitas_home.domain.Opinion;
 import com.manitas_home.domain.Usuario;
 import com.manitas_home.funciones.funcionstart;
 import com.manitas_home.repositories.AdministradorRepository;
@@ -25,6 +27,7 @@ import com.manitas_home.repositories.ClienteRepository;
 import com.manitas_home.repositories.EmpleoRepository;
 import com.manitas_home.repositories.ManitasRepository;
 import com.manitas_home.repositories.MensajeRepository;
+import com.manitas_home.repositories.OpinionRepository;
 
 @Controller
 public class ManitasController {
@@ -40,32 +43,9 @@ public class ManitasController {
 	private CategoriaRepository RCategoria;
 	@Autowired
 	private MensajeRepository RMensaje;
+	@Autowired
+	private OpinionRepository ROpinion;
 	
-	/*@GetMapping("/manitas/listar")
-	public String listar(@RequestParam(value = "filtro", defaultValue="")ArrayList <String> filtros ,HttpSession session,ModelMap m){//TODO añadir poder buscar por otras coordenadas y los filtros -actualizandose
-		List<Manitas> listaBruta = RManitas.findAll();
-		List<Manitas> lista = new ArrayList<Manitas>();
-		if(session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("cliente")&&session.getAttribute("user")!=null){
-			Cliente cliente=(Cliente)session.getAttribute("user");
-			double clienteLat=Double.valueOf(cliente.getDireccion().substring(1, cliente.getDireccion().indexOf(",")));
-			double clienteLng=Double.valueOf(cliente.getDireccion().substring(cliente.getDireccion().indexOf(",")+1,cliente.getDireccion().length()-1));
-			for(int i=0;i<listaBruta.size();i++){
-				double manitasLat=Double.valueOf(listaBruta.get(i).getDireccion().substring(1, listaBruta.get(i).getDireccion().indexOf(",")));
-				double manitasLng=Double.valueOf(listaBruta.get(i).getDireccion().substring(listaBruta.get(i).getDireccion().indexOf(",")+1,listaBruta.get(i).getDireccion().length()-1));
-				if(manitasLat+((double)listaBruta.get(i).getRadioAccion()/100)>clienteLat&&manitasLat-((double)listaBruta.get(i).getRadioAccion()/100)<clienteLat&&manitasLng+((double)listaBruta.get(i).getRadioAccion()/100)>clienteLng&&manitasLng-((double)listaBruta.get(i).getRadioAccion()/100)<clienteLng)
-					lista.add(listaBruta.get(i));
-			}
-		}
-		else lista=listaBruta;
-		
-		if(filtros.size()>0){//TODO kitar el false
-			lista=filtrar((ArrayList<Manitas>) lista, filtros);
-		}
-		m.put("usuarioactivo", session.getAttribute("user"));
-		m.put("manitas", lista);
-		m.put("view","manitas/listar");
-		return hayadmin("views/_t/main", "redirect:/administrador/crear");
-	}*/
 	@GetMapping("/manitas/listar")
 	public String listar(@RequestParam(value = "filtro", defaultValue="")String categoria ,HttpSession session,ModelMap m){//TODO añadir poder buscar por otras coordenadas y los filtros
 		List<Manitas> listaBruta = RManitas.findAll();
@@ -97,7 +77,7 @@ public class ManitasController {
 		}
 		m.put("usuarioactivo", session.getAttribute("user"));
 		if(session.getAttribute("user")!=null)
-		m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
+			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 		m.put("manitas", lista);
 		m.put("view","manitas/listar");
 		return hayadmin("views/_t/main", "redirect:/administrador/crear");
@@ -105,79 +85,90 @@ public class ManitasController {
 	@GetMapping("/manitas/modificar")
 	public String modificar(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m) {
 		if(id==null && session.getAttribute("user")!=null&&session.getAttribute("user").getClass().getName().equals("com.manitas_home.domain.Manitas")) id=((Manitas)session.getAttribute("user")).getId();
-		System.out.println(session.getAttribute("tipo"));
 		if(permisos(id,session)){
 				m.put("usuarioactivo", session.getAttribute("user"));
 				m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 				m.put("view","manitas/modificar");
 				m.put("empleos", REmpleo.findAll());
 				m.put("manitas", RManitas.findOne(id));
+				return "views/_t/main";
 			}
 		
-		return permisos("views/_t/main","redirect:/manitas/listar",id,session);
+		return "redirect:/manitas/listar";
 	}
 	@PostMapping("/manitas/modificar")
-	public String modificar(@RequestParam("id")Long id,@RequestParam("nombre")String nombre ,@RequestParam("apellidos")String apellidos ,@RequestParam("telefono")String telefono ,@RequestParam("email")String email ,@RequestParam("coordenadas")String direccion ,@RequestParam(value = "descripcion", defaultValue="")String descripcion,@RequestParam("password")String password,@RequestParam("passwordactualhash")String passwordactual,@RequestParam(value = "radio", defaultValue="10")String radio, @RequestParam(value = "idempleo", defaultValue="")ArrayList <Long> idsempleos ,HttpSession session) {
-		if(permisos(id,session)&&((Usuario)session.getAttribute("user")).getPassword().equals(passwordactual)){
+	public String modificar(@RequestParam("id")Long id,@RequestParam("nombre")String nombre ,@RequestParam("apellidos")String apellidos ,@RequestParam("telefono")String telefono ,@RequestParam("email")String email ,@RequestParam("coordenadas")String direccion ,@RequestParam(value = "descripcion", defaultValue="")String descripcion,@RequestParam("password")String password,@RequestParam("passwordactualhash")String passwordactual,@RequestParam(value = "radio", defaultValue="10")int radio, @RequestParam(value = "idempleo", defaultValue="")ArrayList <Long> idsempleos ,HttpSession session,ModelMap m,HttpServletRequest r) {
+		if(permisos(id,session)&&((Usuario)session.getAttribute("user")).getPassword().equals(passwordactual)){//TODO validaciones
 			Manitas manitas=RManitas.findOne(id);
-			if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null){
-				ThreadModificarMensajes hilo1 = new ThreadModificarMensajes(RMensaje,email,manitas.getEmail());
-				hilo1.start();
-				manitas.setEmail(email);
+			m.put("resultado", "OK");
+			if(manitas!=null){
+				email=email.toLowerCase();
+				if(!manitas.getEmail().equals(email)){
+					if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null){
+						ThreadModificarMensajes hilo1 = new ThreadModificarMensajes(RMensaje,email,manitas.getEmail());
+						hilo1.start();
+						manitas.setEmail(email);
+					}
+					else m.put("resultado", "ERROR - El email esta ya en uso.");
+				}
+				if(!password.equals("250e9ad7d417a14a75a46c27601ca89898554ae68dc76417eb3d1476fe24e6cd67b02858640665b13566dd2994b71cb64004cd0d8bdda30b595a3f40271eaff00df2a06d62ffd749c26d63d2844fcad907b6821c0e4a1c2c885760ba10cbb4adefc66e4c42fb0b28fb7c632e9f0894f2493552d9ff599e683c660b19b129b3"))
+					manitas.setPassword(password);
+				manitas.setNombre(nombre.toLowerCase());
+				manitas.setApellidos(apellidos.toLowerCase());
+				manitas.setTelefono(telefono);
+				manitas.setDireccion(direccion);
+				manitas.setDescripcion(descripcion);
+				manitas.setRadioAccion(radio);
+				List <Empleo>listaEmpleos=new ArrayList<Empleo>();
+				for(Long idempleo:idsempleos)
+					listaEmpleos.add(REmpleo.findOne(idempleo));
+				manitas.setEmpleos(listaEmpleos);
+				RManitas.save(manitas);
+				if(session.getAttribute("tipo")!=null&&!session.getAttribute("tipo").equals("administrador")) LoginController.logoutStatic(session);
 			}
-			if(!password.equals("250e9ad7d417a14a75a46c27601ca89898554ae68dc76417eb3d1476fe24e6cd67b02858640665b13566dd2994b71cb64004cd0d8bdda30b595a3f40271eaff00df2a06d62ffd749c26d63d2844fcad907b6821c0e4a1c2c885760ba10cbb4adefc66e4c42fb0b28fb7c632e9f0894f2493552d9ff599e683c660b19b129b3"))
-				manitas.setPassword(password);
-			manitas.setNombre(nombre);
-			manitas.setApellidos(apellidos);
-			manitas.setTelefono(telefono);
-			manitas.setDireccion(direccion);
-			manitas.setDescripcion(descripcion);
-			manitas.setRadioAccion(Integer.parseInt(radio));
-			ArrayList<Empleo> listaEmpleos=new ArrayList<Empleo>();
-			for(int i=0;i<idsempleos.size();i++)
-				listaEmpleos.add(REmpleo.findOne(idsempleos.get(i)));
-			manitas.setEmpleos(listaEmpleos);
-			RManitas.save(manitas);
+			else m.put("resultado", "ERROR - El cliente no existe.");
 		}
-		return ((session.getAttribute("user")!=null&&session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("manitas")&&((Manitas)session.getAttribute("user")).getId().equals(id)))?"redirect:/login/logout":"redirect:/manitas/listar";
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")) return "result";
+		else return "redirect:/manitas/listar";
 	}
 	@GetMapping("/manitas/borrar")
-	public String borrar(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m) {
+	public String borrar(@RequestParam(value="id", defaultValue="")Long id,@RequestParam(value="passwordactualhash", defaultValue="")String passwordactual,HttpSession session,ModelMap m) {
 		if(id==null && session.getAttribute("user")!=null&&session.getAttribute("user").getClass().getName().equals("com.manitas_home.domain.Manitas")) id=((Manitas)session.getAttribute("user")).getId();
-		if(permisos(id,session)){
-			if(RManitas.exists(id)&&permisos(id,session))
+		if(permisos(id,session)&&((Usuario)session.getAttribute("user")).getPassword().equals(passwordactual)){//TODO si se cambia la modal sino eliminar el password ){
+			Manitas manitas=RManitas.findOne(id);
+			if(manitas!=null){
+				for(Opinion op:manitas.getOpiniones())
+					ROpinion.delete(op);
+				manitas.getOpiniones().clear();
 				RManitas.delete(id);
+				if(session.getAttribute("tipo")!=null&&!session.getAttribute("tipo").equals("administrador")) LoginController.logoutStatic(session);
+			}
 		}
-		return ((session.getAttribute("user")!=null&&session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("manitas")&&((Manitas)session.getAttribute("user")).getId().equals(id)))?"redirect:/login/logout":"redirect:/manitas/listar";
+		return "redirect:/manitas/listar";
 	}
 	@GetMapping("/manitas/ver")
 	public String ver(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m){
-		boolean existeMan=false;
+		Manitas manitas=null;
 		if(id!=null){
-			existeMan=RManitas.exists(id);
-			if(existeMan){
+			manitas=RManitas.findOne(id);
+			if(manitas!=null){
 				m.put("usuarioactivo", session.getAttribute("user"));
-				if(session.getAttribute("user")!=null)
-				m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
+				if(session.getAttribute("user")!=null){
+					m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
+					if(session.getAttribute("tipo")!=null&&session.getAttribute("tipo").equals("cliente"))
+						m.put("opinionClienteManitas", ROpinion.findOneByClienteAndManitas(((Cliente)session.getAttribute("user")), manitas));
+				}
 				m.put("manitas", RManitas.findOne(id));
 				m.put("view","manitas/ver");
 			}
 		}
-		return hayadmin((id!=null&&existeMan)?"views/_t/main":"redirect:/manitas/listar", "redirect:/administrador/crear");
+		return hayadmin((manitas!=null)?"views/_t/main":"redirect:/manitas/listar", "redirect:/administrador/crear");
 	}
 	private String hayadmin(String existeDestino,String noExisteDestino){
 		String pagina=existeDestino;
 		if(funcionstart.getFirst(RAdministrador))
 			pagina=noExisteDestino;
 		return pagina;
-	}
-	private String permisos(String destinoOk,String destinoFail,Long id,HttpSession s){
-		String salida=destinoFail;
-		if(id!=null&&s.getAttribute("tipo")!=null&&s.getAttribute("tipo").equals("administrador"))
-			salida=destinoOk;
-		else if(id!=null&&s.getAttribute("tipo")!=null&&s.getAttribute("tipo").equals("manitas")&&s.getAttribute("user")!=null&&((Manitas)s.getAttribute("user")).getId().equals(id))
-			salida=destinoOk;
-		return salida;
 	}
 	private boolean permisos(Long id,HttpSession s){
 		boolean salida=false;

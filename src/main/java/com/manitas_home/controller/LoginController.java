@@ -99,48 +99,38 @@ public class LoginController {
 		return (permisos("redirect:/",hayadmin("views/_t/main", "redirect:/administrador/crear"),session));
 	}
 	@PostMapping("/login/crear")//TODO modificar añadir el empleo a manitas
-	public String crear(@RequestParam("tipo")String tipo ,@RequestParam("nombre")String nombre ,@RequestParam("apellidos")String apellidos ,@RequestParam("telefono")String telefono ,@RequestParam("email")String email ,@RequestParam("coordenadas")String direccion ,@RequestParam(value = "descripcion", defaultValue="")String descripcion,@RequestParam("password")String password,@RequestParam(value = "radio", defaultValue="10")String radio, @RequestParam(value = "idempleo", defaultValue="")ArrayList <Long> idsempleos ,HttpSession session ,ModelMap m,HttpServletRequest r) {
-		
-		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")){
-			if(session.getAttribute("user")!=null);
-			else if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null){
-				if(tipo.equals("cliente")&&envioMail(email)){
-					RCliente.save(new Cliente(nombre,apellidos,telefono,email,password,direccion));//TODO
-					m.put("resultado", "OK");
-				}
-				else if(tipo.equals("manitas")&&envioMail(email)){
-					Manitas manitas=new Manitas(nombre,apellidos,telefono,email,password,direccion,descripcion,Integer.parseInt(radio));
-					for(int i=0;i<idsempleos.size();i++)
-						manitas.getEmpleos().add(REmpleo.findOne(idsempleos.get(i)));
-					RManitas.save(manitas);//TODO
-					m.put("resultado", "OK");
+	public String crear(@RequestParam(value="tipo", defaultValue="")String tipo ,@RequestParam(value="nombre", defaultValue="")String nombre ,@RequestParam(value="apellidos", defaultValue="")String apellidos ,@RequestParam(value="telefono", defaultValue="")String telefono ,@RequestParam(value="email", defaultValue="")String email ,@RequestParam(value="coordenadas", defaultValue="")String direccion ,@RequestParam(value = "descripcion", defaultValue="")String descripcion,@RequestParam(value="password", defaultValue="")String password,@RequestParam(value = "radio", defaultValue="10")int radio, @RequestParam(value = "idempleo", defaultValue="")ArrayList <Long> idsempleos ,HttpSession session,ModelMap m,HttpServletRequest r) {
+		if (session.getAttribute("user") == null) {
+			tipo = tipo.trim().toLowerCase();
+			nombre = nombre.trim().toLowerCase();
+			email = email.trim().toLowerCase();
+			password = password.trim();
+			apellidos = apellidos.trim().toLowerCase();
+			telefono = telefono.trim();
+			direccion = direccion.trim();
+			if (!tipo.equals("") && !nombre.equals("") && !email.equals("") && password.length() == 254&& !telefono.equals("") && !direccion.equals("")) {
+				if(Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre)&& Pattern.matches("^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_-]+([.]([a-zA-Z0-9_-]+[a-zA-Z0-9]|[a-zA-Z0-9]))+$", email)&& Pattern.matches("^[9|6]{1}([\\d]{2}[-|\\s]*){3}[\\d]{2}$", telefono)){
+					if (RCliente.findOneByEmail(email) == null && RManitas.findOneByEmail(email) == null&& RAdministrador.findOneByEmail(email) == null) {
+						if (tipo.equals("cliente") && !apellidos.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", apellidos)&& envioMail(email)) {
+							RCliente.save(new Cliente(nombre, apellidos, telefono, email, password, direccion));// TODO
+							m.put("resultado", "OK");
+						}
+						else if (tipo.equals("manitas") && !idsempleos.isEmpty() && envioMail(email)) {
+							Manitas manitas = new Manitas(nombre, apellidos, telefono, email, password, direccion,descripcion, radio);
+							for (int i = 0; i < idsempleos.size(); i++)
+								manitas.getEmpleos().add(REmpleo.findOne(idsempleos.get(i)));
+							RManitas.save(manitas);// TODO
+							m.put("resultado", "OK");
+						}
+					}
+					else m.put("resultado", "ERROR - El email ya está en uso.");
 				}
 			}
-			
-			else {
-				m.put("resultado", "ERROR - El email ya está en uso.");
-			}
+		}
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
 			return "result";
-		}
-		
-		else {
-			if(session.getAttribute("user")!=null);
-			else if(RCliente.findOneByEmail(email)==null&&RManitas.findOneByEmail(email)==null&&RAdministrador.findOneByEmail(email)==null){
-				if(tipo.equals("cliente")&&envioMail(email)){
-					RCliente.save(new Cliente(nombre,apellidos,telefono,email,password,direccion));//TODO
-				}
-				else if(tipo.equals("manitas")&&envioMail(email)){
-					Manitas manitas=new Manitas(nombre,apellidos,telefono,email,password,direccion,descripcion,Integer.parseInt(radio));
-					for(int i=0;i<idsempleos.size();i++)
-						manitas.getEmpleos().add(REmpleo.findOne(idsempleos.get(i)));
-					RManitas.save(manitas);//TODO
-				}
-			}
+		else
 			return "redirect:/";
-		}
-		
-		
-		
 	}
 	@GetMapping("/login/activation")
 	public String activation(@RequestParam(value = "valor", defaultValue="")String valor,HttpSession session,HttpServletRequest r) {

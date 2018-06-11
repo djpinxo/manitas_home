@@ -57,7 +57,9 @@ public class ClienteController {
 	@GetMapping("/cliente/modificar")
 	public String modificar(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m) {//TODO probar
 		if(id==null && session.getAttribute("user")!=null&&session.getAttribute("user").getClass().getName().equals("com.manitas_home.domain.Cliente")) id=((Cliente)session.getAttribute("user")).getId();
-		Cliente clien=RCliente.findOne(id);
+		Cliente clien=null;
+		if(id!=null)
+		clien=RCliente.findOne(id);
 		if(clien==null&&session.getAttribute("tipo").equals("cliente")&&((Usuario)session.getAttribute("user")).getId().equals(id)) LoginController.logoutStatic(session);
 		if(clien!=null&&permisos(id,session)){
 				m.put("usuarioactivo", session.getAttribute("user"));
