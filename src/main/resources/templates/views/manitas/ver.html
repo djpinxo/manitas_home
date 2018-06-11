@@ -45,7 +45,7 @@ function ubicacion(){
 						<i class="fa fa-at" aria-hidden="true"></i> Correo: <th:block th:text="${manitas.email}"/>
 					</p>
 					<p class="txtInfo" id="ubicacion">
-						<i class="fa fa-map-marker " aria-hidden="true"></i>
+						<i class="fa fa-map-marker " aria-hidden="true"></i> Ubicación:<th:block th:text="${manitas.direccion}"/>
 					</p>
 					<p class="txtInfo" id="valoraciones">
 						<i class="fa fa-certificate " aria-hidden="true"></i> Valoracion:
@@ -278,10 +278,11 @@ function ubicacion(){
 					
 						<hr class="opinionHR" />
 						<div class="row justify-content-center">
-							<div class="col-3 nombreUsuario">
+							<div class="col-4 nombreUsuario">
 
-								<div class="review-block-name" th:text="${opinion.cliente.getNombreYApellidos()}">
+								<div class="review-block-name bold" th:text="${opinion.cliente.getNombreYApellidos()}">
 								</div>
+								<div class="review-block-date" th:text="${opinion.fecha}"></div>
 							</div>
 							<div class="col-7">
 								<div class="review-block-rate">
@@ -300,12 +301,13 @@ function ubicacion(){
     									<span th:if="${opinion.valoracion >= 5}" class="fa fa-star estrellaOpinion" aria-hidden="true"></span>
     									<i th:unless="${opinion.valoracion >= 5}" class="fa fa-star-o" style="color:orange"></i>
     									
-										 
+										<a type="button"  th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" th:href="${'opinion/borrar?id='+opinion.id}" class="close">&times;</a>
 								
 								</div>
 								<div class="review-block-title" th:text="${opinion.titulo}"></div>
 								<div class="review-block-description" th:text="${opinion.comentario}"></div>
 							</div>
+							
 							
 						
 						</div>
@@ -319,7 +321,7 @@ function ubicacion(){
 
 		<div th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('cliente')}" role="tabpanel" class="tab-pane fade" id="añadirOpinion">
 		<form th:action="${(opinionClienteManitas==null)?'/opinion/crear':'/opinion/modificar'}" method="post">
-		<input th:if="${opinionClienteManitas!=null}" type="text" hidden="true" name="id" th:value="${opinionClienteManitas.id}"/>
+			<input th:if="${opinionClienteManitas!=null}" type="text" hidden="true" name="id" th:value="${opinionClienteManitas.id}"/>
 			<div class="row justify-content-center" style="margin-bottom:0px;margin-top:0px">
 
 				
@@ -836,12 +838,30 @@ hr {
 	border-top: 1px solid rgba(0, 0, 0, .1);
 }
 
-#barra_vertical {
+
+@media (max-width:463px) {
+  #barra_vertical {
+		
+	margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+	p#cualidades.txtInfo{
+	
+	}
+}
+@media (min-width:463px) {
+  #barra_vertical {
 	float: left;
 	border-left: 1px solid #999999;
 	width: 1px;
 	margin-top: 0;
 	height: 150px;
+}
 }
 
 h3 {
@@ -942,11 +962,17 @@ button.btn.btn-warning.btn-sm>span.fa.fa-star:before, button.btn.btn-warning.btn
 	padding-top: 30px;
 	padding-left: 30px;
 }
-
-.nombreUsuario {
-	margin-top: 60px;
+.nombreUsuario{
+margin-left:20px;
 }
-
+.nombreUsuario >.review-block-name{
+	margin-top: 30px;
+	color:navy;
+}
+.review-block-date{
+font-size:14px;
+margin-bottom:25px;
+}
 .review-block-title {
 	padding-top: 20px;
 }
@@ -955,7 +981,9 @@ hr.opinionHR {
 	margin-top: 0;
 }
 
-
+p#cualidades.txtInfo{
+margin-top:0px;
+}
 
 h5 {
 	padding-top: 20px;

@@ -1,7 +1,50 @@
+<h1>Contactanos</h1>
+<hr/>
 <form action="/mensaje/crear" method="post">
+
+			<div class="row" th:if="!${anonimo}">
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-users"></i></div>
+                            <input th:hidden="${anonimo}" type="text" name="emaildestinatario" th:value="${emaildestinatario}" class="form-control" id="email" placeholder="Destinatarios separadios por = ';'" required="true" autofocus="true"/>
+                            <input th:if="${anonimo}" type="text" hidden="true" name="anonimo" value="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+ 			<div class="row">
+                
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                            <input type="text" name="email" class="form-control" id="email" placeholder="Introduce su email para contactar con usted" required="true" autofocus="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                 	<div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-envelope-open"></i></div>
+                            <textarea rows="10" cols="100" name="mensaje" class="form-control" id="mensaje" th:placeholder="${anonimo}?'Escriba su mensaje..'" style="max-height: 150px;min-height: 50px"></textarea>
+                        </div>
+                    </div>
+	           	 	
+	            </div>
+            </div>
+            <br/>
+            <button type="button" class="btn btn-outline-success"><span  class="fa fa-send"></span> Enviar mensaje</button>
+            
+            
 <h6 th:if="!${anonimo}">Destinatarios</h6>
 <input th:hidden="${anonimo}" type="text" name="emaildestinatario" th:value="${emaildestinatario}" placeholder="escriba los destinatarios separados por ;"/>
 <input th:if="${anonimo}" type="text" hidden="true" name="anonimo" value="true"/>
+
+
+
 <h6>Texto del mensaje</h6>
 <textarea rows="10" cols="100" name="mensaje" th:placeholder="${anonimo}?'escriba su correo para contactar con usted'"></textarea>
 <br/>
