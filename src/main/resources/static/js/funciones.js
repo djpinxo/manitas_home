@@ -71,7 +71,7 @@ var map;
 var markers = [];
 
 function initialize() {
-   var query=posicionUsuarioActual;
+	var query=posicionUsuarioActual;
    geocoder = new google.maps.Geocoder;
    var infowindow = new google.maps.InfoWindow;
 
@@ -312,7 +312,23 @@ $(document).ready(function(){
       $(this).toggle($(this).find("td:not(:last-child)").text().toLowerCase().indexOf(value.trim()) > -1)
     });
   });
+  
+  pasarFiltro();
 });
+
+//Obtener filtro por ruta y pasarlo a búsqueda.
+function pasarFiltro(){
+	var value = window.location.search;
+	value = value.replace("?filtro=","");
+	value=decodeURIComponent(value).toLowerCase();
+	if($(".form-control.busqueda")){
+		$(".form-control.busqueda").val(value);
+	}
+	 $(".myTable tr").filter(function() {
+	      $(this).toggle($(this).find("td:not(:last-child)").text().toLowerCase().indexOf(value.trim()) > -1)
+	    });
+	
+}
 
 
 /*ajax*/
@@ -748,7 +764,7 @@ function validarCampos(form) {
 	else {
 		if(divsError['errorTelefono']){
 			divsError['errorTelefono'].hidden=false;
-			divsError['errorTelefono'].getElementsByTagName('span')[0].innerHTML="Telefono incorrecto. Debe comenzar por 9 ó 6 y debe contener 9 cifras";
+			divsError['errorTelefono'].getElementsByTagName('span')[0].innerHTML="Teléfono incorrecto. Debe comenzar por 9 ó 6 y debe contener 9 cifras";
 		}
 	}
 	}
@@ -775,7 +791,7 @@ function validarCampos(form) {
 	else {	
 		if(divsError['errorPwd']){
 			divsError['errorPwd'].hidden=false;
-			divsError['errorPwd'].getElementsByTagName('span')[0].innerHTML="Contraseña incorrecta. Debe contener entre 8 y 15 caracteres y al menos mayusculas, cifras y caracteres especiales.";
+			divsError['errorPwd'].getElementsByTagName('span')[0].innerHTML="Contraseña incorrecta. Debe contener entre 8 y 15 caracteres y al menos mayúsculas, cifras y caracteres especiales.";
 		}
 	}
 	}
@@ -784,7 +800,6 @@ function validarCampos(form) {
 	if (form['password-confirmation']){
 	pwd2 = form['password-confirmation'].value;
 	pwdConfirm=false;
-	
 	
 
 	if(pwd == pwd2){
@@ -818,7 +833,7 @@ function validarCampos(form) {
 			else {
 				if(divsError['errorPwdActual']){
 					divsError['errorPwdActual'].hidden=false;
-					divsError['errorPwdActual'].getElementsByTagName('span')[0].innerHTML="Contraseña incorrecta. Debe contener entre 8 y 15 caracteres y al menos mayusculas, cifras y caracteres especiales.";
+					divsError['errorPwdActual'].getElementsByTagName('span')[0].innerHTML="Contraseña incorrecta. Debe contener entre 8 y 15 caracteres y al menos mayúsculas, cifras y caracteres especiales.";
 				}
 			}
 		}
@@ -839,11 +854,11 @@ function validarCampos(form) {
 						if(divsError['errorRadioAccion']){
 							if(radio<1){
 								divsError['errorRadioAccion'].hidden=false;
-								divsError['errorRadioAccion'].getElementsByTagName('span')[0].innerHTML="Rango incorrecto, no puedo introducir un rango inferior a 1.";
+								divsError['errorRadioAccion'].getElementsByTagName('span')[0].innerHTML="Rango incorrecto, no puedes introducir un rango inferior a 1.";
 							}
 							else {
 								divsError['errorRadioAccion'].hidden=false;
-								divsError['errorRadioAccion'].getElementsByTagName('span')[0].innerHTML="Rango incorrecto, no puedo introducir un rango superior a 1000.";
+								divsError['errorRadioAccion'].getElementsByTagName('span')[0].innerHTML="Rango incorrecto, no puedes introducir un rango superior a 1000.";
 							}
 					}
 				}
@@ -856,10 +871,25 @@ function validarCampos(form) {
 				}
 			}
 		}
+		
+		if(form['coordenadas']){
+			coordenadasCorrectas=false;
+			if ((typeof form['coordenadas'].value !== 'undefined' && form['coordenadas'].value != null && form['coordenadas'].value !="")){
+				coordenadasCorrectas=true;
+				divsError['errorCoordenadas'].hidden=true;
+			}
+			else {
+				coordenadasCorrectas=false;
+				divsError['errorCoordenadas'].hidden=false;
+				divsError['errorCoordenadas'].getElementsByTagName('span')[0].innerHTML="Haga click en el mapa o escriba su dirección.";
+			}
+		}
+		
+		
 	}
 	
 
-	if(form.name="formLogin"){
+	if(form.name=="formLogin"){
 		 if((emailCorrecto == false) ||  (pwdCorrecta == false) ){
 			 var divrespuesta=document.getElementById("resultado");
 				divrespuesta.innerHTML="ERROR - Usuario y/o contraseña incorrectos.";
@@ -872,6 +902,7 @@ function validarCampos(form) {
 	
 	
 	
+	
 	if ( ( (typeof nombreCorrecto == 'undefined') || (nombreCorrecto == true) ) &&
 		( (typeof apellidosCorrectos == 'undefined') || (apellidosCorrectos == true) ) &&
 		( (typeof emailCorrecto == 'undefined') || (emailCorrecto == true) ) &&
@@ -879,7 +910,8 @@ function validarCampos(form) {
 		( (typeof pwdCorrecta == 'undefined') || (pwdCorrecta == true) ) &&
 		( (typeof pwdConfirm == 'undefined') || (pwdConfirm == true) ) &&
 		( (typeof radioCorrecto == 'undefined') || (radioCorrecto == true) ) &&
-		( (typeof pwdNueva == 'undefined') || (pwdNueva == true) )
+		( (typeof pwdNueva == 'undefined') || (pwdNueva == true) )  &&
+		( (typeof coordenadasCorrectas == 'undefined') || (coordenadasCorrectas == true) )
 	){
 		return true;                                                                         
 	}
@@ -912,7 +944,13 @@ function validarCampos(form) {
 									form['passwordactual'].focus();
 								}
 								else {
-									form['radio'].focus();
+									if((typeof coordenadasCorrectas !== 'undefined') && coordenadasCorrectas==false){
+										form['direccion'].focus();
+									}
+									else {
+										form['radio'].focus();
+									}
+									
 								}
 								
 							}
