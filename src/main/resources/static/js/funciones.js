@@ -335,7 +335,7 @@ function pasarFiltro(){
 function peticionAjax(direccion,method="GET",funcionRespuesta=null,formulario=null){
 	var sFormulario="";
 	if(formulario!=null){
-		validar(formulario)
+		validar(formulario);
 		if(method=="GET") sFormulario="?";
 		sFormulario+=$(formulario).serialize();
 	}
@@ -615,7 +615,7 @@ function resultadoEmailRepetido(conexion){
 	var respuesta=conexion.responseText;
 	var divrespuesta=document.getElementById("errorEmail");
 	if(respuesta=="OK") {
-		location.reload();
+		location.replace("login");
 		divrespuesta.hidden=true;
 	}
 	else if(respuesta.includes("ERROR")){
@@ -876,7 +876,9 @@ function validarCampos(form) {
 			coordenadasCorrectas=false;
 			if ((typeof form['coordenadas'].value !== 'undefined' && form['coordenadas'].value != null && form['coordenadas'].value !="")){
 				coordenadasCorrectas=true;
-				divsError['errorCoordenadas'].hidden=true;
+				if(divsError['errorCoordenadas']){
+					divsError['errorCoordenadas'].hidden=true;
+				}
 			}
 			else {
 				coordenadasCorrectas=false;
