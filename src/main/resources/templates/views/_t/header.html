@@ -10,15 +10,13 @@
    
     <div class="navbar-collapse collapse text-center" id="collapsingNavbarLg">
         <ul class="navbar-nav  ml-auto">
-            <li class="nav-item">
-                <a class="nav-link active" href="/" id="anim-underline">HOME</a>
+            <li class="nav-item" th:if="${usuarioactivo!=null}">
+                <a class="nav-link active" href="/" id="anim-underline"><span class="fa fa-home" style="font-size: 1.5em"></span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" id="anim-underline">QUIENES SOMOS</a>
-            </li>
+           
 
              <li th:if="${usuarioactivo!=null and usuarioactivo.getClass().getSimpleName().toLowerCase().equals('administrador')}" class="nav-item dropdown">
-                    <a href="" class="nav-link dropdown-toggle collapsed" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="anim-underline">ADMINISTRACION</a>
+                    <a href="" class="nav-link dropdown-toggle collapsed" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="anim-underline"><span class="fa fa-gear" style="font-size: 1.5em"></span></a>
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                           <a class="dropdown-item" href="/administrador/listar">Ver Administradores</a>
@@ -31,18 +29,19 @@
 			<li th:if="${usuarioactivo!=null}">
               <a class="nav-link" id="anim-underline" href="/chat/contactos" th:title="${usuarioemails!=null and usuarioemails>0}?'VER CORREOS('+${usuarioemails}+' sin leer)':'VER CORREOS'"><i class="fa fa-envelope" style="font-size: 1.5em"/><div th:if="${usuarioemails!=null and usuarioemails>0}" style="display: inline-table;width: 1.5em;background-color:  red;border-radius: 1em;font-size: 0.75em;margin-left: -0.75em;" th:text="${usuarioemails}"/></a>
             </li>
-			<li th:if="${usuarioactivo!=null}">
-              <a class="nav-link" id="anim-underline" th:href="${'/'+usuarioactivo.getClass().getSimpleName().toLowerCase()+'/modificar'}" th:title="${usuarioactivo.nombre.toUpperCase()}"><i class="fa fa-user" style="font-size: 1.5em"/></a>
+			<li th:if="${usuarioactivo!=null}" class="nav-item dropdown">
+				 
+              <a class="nav-link dropdown-toggle collapsed" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="anim-underline" href="" ><i class="fa fa-user" style="font-size: 1.5em"/></a>
+            	 		<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                          <a class="nav-link" id="anim-underline" th:href="${'/'+usuarioactivo.getClass().getSimpleName().toLowerCase()+'/modificar'}" title="EDITAR TU USUARIO">EDITAR TU USUARIO</a>
+                          <a class="nav-link" id="anim-underline" href="/login/logout" th:text="${usuarioactivo.nombre.toUpperCase()}+' (DESCONECTAR)'" title="DESCONECTAR"><i class="fa fa-sign-out" style="font-size: 1.5em"/></a>
+              
+                        </div>
             </li>
             
-            <li th:if="${usuarioactivo!=null}" class="nav-item">
-                 <a class="nav-link" id="anim-underline" th:href="${'/'+usuarioactivo.getClass().getSimpleName().toLowerCase()+'/modificar'}" title="EDITAR TU USUARIO">EDITAR TU USUARIO <i class="fa fa-gear" style="font-size: 1.5em"/></a>
-            </li>
-          	<li th:if="${usuarioactivo!=null}">
-              <a class="nav-link" id="anim-underline" href="/login/logout" th:text="${usuarioactivo.nombre.toUpperCase()}+' (DESCONECTAR)'" title="DESCONECTAR"><i class="fa fa-sign-out" style="font-size: 1.5em"/></a>
-            </li>
+          
             <li th:if="${usuarioactivo==null}">
-              <a class="nav-link" id="anim-underline" href="/login/login" title="INICIA SESION">INICIA SESION <i class="fa fa-sign-in" style="font-size: 1.5em"/></a>
+              <a class="nav-link" id="anim-underline" href="/login/login" title="INICIA SESION"><i class="fa fa-sign-in" style="font-size: 1.5em"/></a>
             </li>
         </ul>
 
