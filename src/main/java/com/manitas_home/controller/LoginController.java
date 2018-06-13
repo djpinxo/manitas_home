@@ -24,12 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.manitas_home.domain.Cliente;
 import com.manitas_home.domain.Manitas;
+import com.manitas_home.funciones.funcionstart;
 import com.manitas_home.repositories.AdministradorRepository;
 import com.manitas_home.repositories.ClienteRepository;
 import com.manitas_home.repositories.EmpleoRepository;
 import com.manitas_home.repositories.ManitasRepository;
-
-import funciones.funcionstart;
 
 @Controller
 public class LoginController {

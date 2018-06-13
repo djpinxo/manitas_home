@@ -4,8 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.manitas_home.Date;
-
 @Entity
 public class Mensaje {
 	@Id

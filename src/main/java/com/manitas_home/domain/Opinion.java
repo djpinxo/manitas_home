@@ -5,8 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.manitas_home.Date;
-
 @Entity
 public class Opinion {
 	@Id
