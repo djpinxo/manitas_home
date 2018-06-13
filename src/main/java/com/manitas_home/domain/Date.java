@@ -1,4 +1,4 @@
-package com.manitas_home;
+package com.manitas_home.domain;
 public class Date extends java.sql.Date{
 
 	public Date(long date) {
