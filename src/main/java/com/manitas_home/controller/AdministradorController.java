@@ -35,7 +35,8 @@ public class AdministradorController {
 	public String crear(HttpSession session,ModelMap m) {//TODO probar
 		if(permisosCrear(session)){
 			m.put("usuarioactivo", session.getAttribute("user"));
-			m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
+			if(session.getAttribute("user")!=null)
+				m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 			m.put("view","administrador/crear");
 			return "views/_t/main";
 		}
