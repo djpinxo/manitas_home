@@ -45,17 +45,21 @@ public class EmpleoController {
 	@PostMapping("/empleo/crear")
 	public String crear(@RequestParam(value="nombre", defaultValue="")String nombre,@RequestParam(value="idcategoria", defaultValue="")Long idcategoria,HttpSession session,ModelMap m,HttpServletRequest r) {//TODO probar
 		nombre=nombre.trim();
-		if(idcategoria!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session)&&ERepository.findOneByNombre(nombre)==null){//TODO validaciones expreg
+		if(idcategoria!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session)){
 			Categoria c=CRepository.findOne(idcategoria);
 			if(c!=null){
-				ERepository.save(new Empleo(nombre.toLowerCase(),c));
-				m.put("resultado", "OK");
+				if(ERepository.findOneByNombre(nombre)==null){
+					ERepository.save(new Empleo(nombre.toLowerCase(),c));
+					m.put("resultado", "OK");
+				}
+				else m.put("resultado", "ERROR - El empleo ya existe.");
 			}
 			else m.put("resultado", "ERROR - La categoría no existe");
 		}
-		else m.put("resultado", "ERROR - El empleo ya existe.");
+		else
+			m.put("resultado", "ERROR - No se puede realizar la operación.");
 		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
-			return "result";
+			return "views/_t/resultado";
 		else
 			return "redirect:/empleo/listar";
 	}
@@ -105,7 +109,7 @@ public class EmpleoController {
 		else
 			m.put("resultado", "ERROR - No se puede realizar la operación.");
 		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
-			return "result";
+			return "views/_t/resultado";
 		else return "redirect:/empleo/listar";
 	}
 	@GetMapping("/empleo/listar")
@@ -139,8 +143,12 @@ public class EmpleoController {
 				e.getManitas().clear();
 				ERepository.delete(id);
 			}
+			m.put("resultado", "OK");
 		}
-		return "redirect:/empleo/listar";
+		else
+			m.put("resultado", "ERROR - No se puede realizar la operación.");
+		if(r.getHeader("X-Requested-With")!=null && r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")) return "views/_t/resultado";
+		else return "redirect:/empleo/listar";
 	}
 	
 	private boolean permisos(HttpSession s){

@@ -42,14 +42,17 @@ public class CategoriaController {
 	@PostMapping("/categoria/crear")
 	public String crear(@RequestParam(value = "nombre", defaultValue = "") String nombre, HttpSession session,ModelMap m, HttpServletRequest r) {//TODO probar
 		nombre=nombre.trim();
-		if (!nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session) && CRepository.findOneByNombre(nombre) == null) {
-			nombre = nombre.toLowerCase();
-			CRepository.save(new Categoria(nombre));
-			m.put("resultado", "OK");
+		if (!nombre.equals("")&& Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre)&& permisos(session)) {
+			if (CRepository.findOneByNombre(nombre) == null) {
+				nombre = nombre.toLowerCase();
+				CRepository.save(new Categoria(nombre));
+				m.put("resultado", "OK");
+			} else
+				m.put("resultado", "ERROR - La categoría ya existe.");
 		} else
-			m.put("resultado", "ERROR - La categoría ya existe.");
+			m.put("resultado", "ERROR - No se puede realizar la operación.");
 		if (r.getHeader("X-Requested-With") != null && r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
-			return "result";
+			return "views/_t/resultado";
 		else
 			return "redirect:/categoria/listar";
 	}
@@ -68,22 +71,26 @@ public class CategoriaController {
 	@PostMapping("/categoria/modificar")//TODO probar
 	public String modificar(@RequestParam(value="id", defaultValue="")Long id,@RequestParam(value="nombre", defaultValue="")String nombre,HttpSession session,ModelMap m, HttpServletRequest r) {
 		nombre=nombre.trim();
-		if(id!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session) && CRepository.findOneByNombre(nombre)==null){
+		if(id!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session)){
 			Categoria c=CRepository.findOne(id);
 			if (c != null) {
 				nombre = nombre.toLowerCase();
-				if (!c.getNombre().equals(nombre)) {
-					c.setNombre(nombre);
-					CRepository.save(c);
+				if (!c.getNombre().equals(nombre)){
+					if(CRepository.findOneByNombre(nombre)==null) {
+						c.setNombre(nombre);
+						CRepository.save(c);
+						m.put("resultado", "OK");
+					}
+					else m.put("resultado", "ERROR - La categoría ya existe.");
 				}
-				m.put("resultado", "OK");
+				else m.put("resultado", "OK");
 			}
-			else
-				m.put("resultado", "ERROR - La categoría no existe.");
+			else m.put("resultado", "ERROR - La categoría no existe.");
 		}
-		else m.put("resultado", "ERROR - La categoría ya existe.");
+		else
+			m.put("resultado", "ERROR - No se puede realizar la operación.");
 		if(r.getHeader("X-Requested-With")!=null && r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
-			return "result";
+			return "views/_t/resultado";
 		else
 			return "redirect:/categoria/listar";
 	}
@@ -109,12 +116,19 @@ public class CategoriaController {
 	public String borrar(@RequestParam(value="id", defaultValue="")Long id,HttpSession session,ModelMap m,HttpServletRequest r) {//TODO probar
 		if(id!=null&&permisos(session)){
 			Categoria c=CRepository.findOne(id);
-			if(c!=null&&REmpleo.findByCategoria(c).isEmpty()){
-				CRepository.delete(id);
-				m.put("resultado", "OK");
+			if(c!=null){
+				if(REmpleo.findByCategoria(c).isEmpty()){
+					CRepository.delete(id);
+					m.put("resultado", "OK");
+				}
+				else m.put("resultado", "ERROR - La categoría contiene relaciones con algun Empleo.");
 			}
+			else m.put("resultado", "OK");
 		}
-		return "redirect:/categoria/listar";
+		else
+			m.put("resultado", "ERROR - No se puede realizar la operación.");
+		if(r.getHeader("X-Requested-With")!=null && r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")) return "views/_t/resultado";
+		else return "redirect:/categoria/listar";
 	}
 	
 	private boolean permisos(HttpSession s){

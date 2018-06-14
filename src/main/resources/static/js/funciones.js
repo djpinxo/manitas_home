@@ -542,58 +542,34 @@ function crearTablaClientes(conexion){
 	}catch(err) {}
 	cambiotitulo=setInterval(function(){if(document.title=="Manitas Home")document.title="Lista De "+clientes.nodeName;else document.title="Manitas Home";},1500);
 }
-function resultadoCrearCategoriaOEmpleo(conexion){
-	var respuesta=conexion.responseText;
-	var divrespuesta=document.getElementById("resultado");
-	if (respuesta=="OK"){
-		divrespuesta.innerHTML="La operación se ha efectuado correctamente";
-		divrespuesta.className="alert alert-success";
-	}
-	else if(respuesta.includes("ERROR")){
-		divrespuesta.innerHTML=respuesta;
-		divrespuesta.className="alert alert-danger";
-	}
-	setTimeout(function(){ divrespuesta.innerHTML=""; divrespuesta.className=""; }, 5000);	
-	if(respuesta=="OK"){
-		window.setTimeout(function () {
-		      $('#crear').modal('hide');
-		}, 2000);
-		window.setTimeout(function () {
-			window.location.replace("listar");
-		}, 2000);
-	
-	}
-	             
-}
-function resultadoModificarCategoriaOEmpleo(conexion){
-	var respuesta=conexion.responseText;
-	
-	if (respuesta=="OK"){
-		$('.resultadoModificar').removeClass("alert alert-danger");
-		$('.resultadoModificar').html('La operación se ha efectuado correctamente');
-		$('.resultadoModificar').addClass("alert alert-success");
+	function resultadoOperacionCategoriaOEmpleo(conexion){
+		var respuesta=conexion.responseText;
+		if (respuesta=="OK"){
+			$('.resultado').removeClass("alert alert-danger");
+			$('.resultado').html('La operación se ha efectuado correctamente');
+			$('.resultado').addClass("alert alert-success");
+			
+		}
+		else if(respuesta.includes("ERROR")){
+			$(".resultado").removeClass("alert alert-success");
+			$('.resultado').html(respuesta);
+			$('.resultado').addClass("alert alert-danger");
+		}
+		setTimeout(function(){ 
+				$('.resultado').html(""); 
+				$(".resultado").removeClass("alert alert-success");
+				$('.resultado').removeClass("alert alert-danger");
+			}, 5000);
 		
+		if(respuesta=="OK"){
+			window.setTimeout(function () {
+			      $('.modal').modal('hide');
+			}, 2000);
+			window.setTimeout(function () {
+				window.location.replace("listar");
+			}, 2000);
+		             
 	}
-	else if(respuesta.includes("ERROR")){
-		$(".resultadoModificar").removeClass("alert alert-success");
-		$('.resultadoModificar').html(respuesta);
-		$('.resultadoModificar').addClass("alert alert-danger");
-	}
-	setTimeout(function(){ 
-			$('.resultadoModificar').html(""); 
-			$(".resultadoModificar").removeClass("alert alert-success");
-			$('.resultadoModificar').removeClass("alert alert-danger");
-		}, 5000);
-	
-	if(respuesta=="OK"){
-		window.setTimeout(function () {
-		      $('.modalesModificar').modal('hide');
-		}, 2000);
-		window.setTimeout(function () {
-			window.location.replace("listar");
-		}, 2000);
-	}
-
 	             
 }
 // Mostrar error al introducir credenciales incorrectas.

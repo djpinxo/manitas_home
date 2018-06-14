@@ -79,7 +79,7 @@ public class LoginController {
 			else{
 				m.put("resultado", "ERROR - Usuario y/o contraseña incorrectos.");
 			}
-			return "result";
+			return "views/_t/resultado";
 		}
 		else
 			return "redirect:/login/login";
@@ -128,7 +128,7 @@ public class LoginController {
 			else m.put("resultado", "ERROR - Falta rellenar campos.");
 		}
 		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest"))
-			return "result";
+			return "views/_t/resultado";
 		else
 			return "redirect:/";
 	}

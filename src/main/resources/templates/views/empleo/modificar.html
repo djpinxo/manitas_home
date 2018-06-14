@@ -1,15 +1,15 @@
-
-<form class="form-horizontal" role="form" method="POST"
-	onsubmit="return validar(this)">
+<form class="form-horizontal" role="form" onsubmit="peticionAjax('/empleo/modificar','POST',resultadoOperacionCategoriaOEmpleo,this); return false">
 	<div class="row">
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
-			<h2>Modificar empleo</h2>
+			<h2>
+			<a href="/empleo/listar" class="" style="color:black;"><span class="fa fa-arrow-left"></span></a>
+			Modificar empleo</h2>
 			<hr />
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-3">Nombre empleo actual</div>
+		<div class="col-md-3"/>
 		<div class="col-md-6">
 			<div class="form-group has-danger">
 				<label class="sr-only" for="empleoActual">Nombre empleo
@@ -18,6 +18,7 @@
 					<div class="input-group-addon" style="width: 2.6rem">
 						<i class="fa fa-pencil-square-o"></i>
 					</div>
+					 <input type="hidden" name="id" th:value="${empleo.id}" />
 					<input type="text" name="nombre" class="form-control"
 						id="empleoActual" th:value="${empleo.nombre}" required="true"
 						autofocus="true" />
@@ -38,7 +39,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-3">Categoría del empleo</div>
+		<div class="col-md-3"/>
 		<div class="col-md-6">
 			<div class="form-group has-danger">
 				<label class="sr-only" for="categoriaEmpleoActual">Categoría
@@ -48,13 +49,14 @@
 						<i class="fa fa-align-justify"></i>
 					</div>
 					<select name="idcategoria" class="custom-select">
-						<div th:each="categoria:${categorias}">
+						<th:block th:each="categoria:${categorias}">
 							<option th:value="${categoria.id}" th:text="${categoria.nombre}"
 								th:selected="${(empleo.categoria.id==categoria.id)?'true':'false'}"></option>
-						</div>
+						</th:block>
 					</select>
 				</div>
 			</div>
+			<div class="resultado"/>
 		</div>
 
 	</div>
@@ -63,7 +65,7 @@
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
 			<div class="form-group has-danger">
-				<button type="submit" class="btn btn-info">
+				<button class="btn btn-info">
 					<span class="fa fa-save"></span> Modificar
 				</button>
 			</div>

@@ -104,7 +104,7 @@ public class ClienteController {
 			}
 			else m.put("resultado", "ERROR - El cliente no existe.");
 		}
-		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")) return "result";
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")) return "views/_t/resultado";
 		else return "redirect:/cliente/listar";
 	}
 	@PostMapping("/cliente/borrar")

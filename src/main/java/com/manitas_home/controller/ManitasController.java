@@ -142,7 +142,7 @@ public class ManitasController {
 			else m.put("resultado", "ERROR - El manitas no existe.");
 		}
 		}
-		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")) return "result";
+		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")) return "views/_t/resultado";
 		else return "redirect:/manitas/listar";
 	}
 	@GetMapping("/manitas/borrar")
