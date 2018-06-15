@@ -41,7 +41,7 @@ function ubicacion(){
 					<p class="txtInfo" id="nombre">
 						<i class="fa fa-user-o" aria-hidden="true"></i> Nombre: <th:block th:text="${manitas.nombre}"/>
 					</p>
-					<p class="txtInfo" id="correo">
+					<p class="txtInfo" id="correo" th:if="${usuarioactivo!=null}">
 						<i class="fa fa-at" aria-hidden="true"></i> Correo: <th:block th:text="${manitas.email}"/>
 					</p>
 					<p class="txtInfo" id="ubicacion">
@@ -448,12 +448,6 @@ h3 {
 .tab-content>.active {
 	border: 1px solid #ddd;
 	
-	background-color:#ffe0739e;
-}
-a.nav-link.active{
-	background-color:#ffe0739e;
-}
-a.nav-link.active.show{
 	background-color:#ffe0739e;
 }
 .txtInfo {
