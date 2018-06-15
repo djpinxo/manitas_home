@@ -121,7 +121,7 @@ public class MensajeController {
 				hilo.start(messagingTemplate);
 			}
 		}
-		return "redirect:/mensaje/listar";
+		return "redirect:/chat/contactos";
 	}
 	//TODO message para ws
 	@Autowired

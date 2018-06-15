@@ -1,13 +1,18 @@
-<h1>Contactanos</h1>
-<hr/>
 <form action="/mensaje/crear" method="post">
-
+<div class="row">
+                <div class="col-md-3"/>
+                <div class="col-md-6">
+                <h1>Enviar Mensaje</h1>
+<hr/>
+</div>
+            </div>
 			<div class="row" th:if="!${anonimo}">
+			<div class="col-md-3"/>
                 <div class="col-md-6">
                     <div class="form-group has-danger">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-users"></i></div>
-                            <input th:hidden="${anonimo}" type="text" name="emaildestinatario" th:value="${emaildestinatario}" class="form-control" id="email" placeholder="Destinatarios separadios por = ';'" required="true" autofocus="true"/>
+                            <input th:hidden="${anonimo}" type="text" name="emaildestinatario" th:value="${emaildestinatario}" class="form-control" id="email" placeholder="Destinatarios separados por ;" required="true" autofocus="true"/>
                             <input th:if="${anonimo}" type="text" hidden="true" name="anonimo" value="true"/>
                         </div>
                     </div>
@@ -15,6 +20,7 @@
             </div>
  			<div class="row" th:if="${anonimo}">
                 
+                <div class="col-md-3"/>
                 <div class="col-md-6">
                     <div class="form-group has-danger">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
@@ -25,6 +31,7 @@
                 </div>
             </div>
             <div class="row">
+            <div class="col-md-3"/>
                 <div class="col-md-6">
                  	<div class="form-group has-danger">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
@@ -35,8 +42,11 @@
 	           	 	
 	            </div>
             </div>
+            <div class="row">
+			<div class="col-md-3"/>
+                <div class="col-md-6">
             <br/>
             <button class="btn btn-outline-success"><span  class="fa fa-send"></span> Enviar mensaje</button>
-            
+             </div></div>
  
 </form>

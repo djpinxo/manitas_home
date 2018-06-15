@@ -390,7 +390,7 @@ function crearTablaMensajes(conexion){
 		sTable="<h3>No hay ningun mensaje</h3>";
 	}
 	else{
-	sTable="<table id='myTable' class='table table-striped'><thead>";
+	sTable="<table id='myTable' class='table'><thead>";
 	sTable+="<tr>";
 	for(var i=2;i< mensajes.children[0].children.length-1;i++){
 		sTable+="<th>"+ mensajes.children[0].children[i].nodeName.charAt(0).toUpperCase()+mensajes.children[0].children[i].nodeName.slice(1)+"</th>";
@@ -398,7 +398,10 @@ function crearTablaMensajes(conexion){
 	sTable+="<th>Acciones</th>";
 	sTable+="</tr></thead><tbody class='myTable'>";
 	for(var a=0;a< mensajes.children.length;a++){
+		if(mensajes.children[a].children[5].innerHTML!="false"){
 		sTable+="<tr>";
+		}
+		else sTable+="<tr class='alert alert-warning'>";
 		for(var i=2;i< mensajes.children[a].children.length;i++){
 			if(mensajes.children[a].children[i].nodeName=="mensaje"||mensajes.children[a].children[i].nodeName=="remitente"){
 				if(mensajes.children[a].children[i].innerHTML.length>10)

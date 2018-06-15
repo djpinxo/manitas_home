@@ -41,6 +41,14 @@ public class HomeController{
 				m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
 			return hayadmin("views/_t/main", "redirect:/administrador/crear");
 	}
+	@GetMapping("/conocenos")
+	public String conocenos(HttpSession session,ModelMap m) {
+			m.put("view","home/acerca");
+			m.put("usuarioactivo", session.getAttribute("user"));
+			if(session.getAttribute("user")!=null)
+				m.put("usuarioemails",RMensaje.countByDestinatarioAndLeido(((Usuario)session.getAttribute("user")).getEmail(),false));
+			return hayadmin("views/_t/main", "redirect:/administrador/crear");
+	}
 	private String hayadmin(String existeDestino,String noExisteDestino){
 		String pagina=existeDestino;
 		if(funcionstart.getFirst(RAdministrador))

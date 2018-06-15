@@ -1,2 +1,39 @@
-<div class="content" style="border: 1px solid orange" th:text="${mensaje.remitente}"/>
-<div class="content" style="border: 1px solid orange" th:text="${mensaje.mensaje}"></div>
+<div class="row">
+                <div class="col-md-3"/>
+                <div class="col-md-6">
+<h1>
+<a href="/mensaje/listar" class="" style="color:black;"><span class="fa fa-arrow-left"></span></a>
+Mensaje</h1>
+<hr/>
+</div>
+            </div>
+<div class="row">
+<div class="col-md-3"/>
+                <div class="col-md-6">
+                 	<div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                            <input type="text" class="form-control" readonly="true" th:value="${mensaje.remitente}"/>
+                        </div>
+                    </div>
+	           	 	
+	            </div>
+            </div>
+<div class="row">
+<div class="col-md-3"/>
+                <div class="col-md-6">
+                 	<div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-envelope-open"></i></div>
+                            <textarea readonly="true" rows="10" cols="100" class="form-control" style="max-height: 150px;min-height: 50px" th:text="${mensaje.mensaje}"></textarea>
+                        </div>
+                    </div>
+	           	 	
+	            </div>
+            </div>
+            <div class="row">
+			<div class="col-md-3"/>
+                <div class="col-md-6">
+           		 <br/>
+            		<a class="btn btn-outline-success" th:href="${'/mensaje/crear?emaildestinatario='+mensaje.remitente}"><span  class="fa fa-send"></span> Responder mensaje</a>
+            </div></div>
