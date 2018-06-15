@@ -422,9 +422,10 @@ box-shadow: 0px 0px 138px -7px rgba(92,92,92,0.53);
     }
     #logoFooterHome{
      display: block;
-
     }
-   
+    #logoFooterHome img{
+    	height: 140px;
+    }
     #logoFooter{
      display: none;
     
