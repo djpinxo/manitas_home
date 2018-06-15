@@ -1,35 +1,19 @@
-<h1>Bandeja de entrada
-<a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/mensaje/listar','GET',crearTablaMensajes)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
+<h1>
+	Bandeja de entrada
+	<a class="btn btn-info" href="/mensaje/crear" style="margin-rigth: 0px;"><span class="fa fa-send"></span> Enviar un mensaje</a>
 </h1>
 <hr/>
-<style>
-.numMsg{
-  background-color: red;
-  text-align: center;
-  border-radius: 1000px;
-    padding: 0px;
-    width: 25px;
-    height: 25px;
-    color:white;
-
-} 
-.table th{
-   border-right: 0px solid white;
-    border-left: 0px solid white;
-   }
-</style>
 <table class="table table-striped">
-					
-					    <tbody>
-					      
-					        <tr th:each="dato:${datos}" style="cursor:pointer" th:onclick="${'location.assign(''/chat/conversacion?email='+dato.get(2).remitente+''')'}">
-					           
-					        	<td><b th:text="${(dato.get(0)!=null)?dato.get(0).getNombreYApellidos():dato.get(2).remitente}"></b></td>
-					        	<td th:text="${dato.get(2).mensaje}"></td>
-					        	<td th:text="${dato.get(2).fecha.toLocaleString()}"></td>
-					            <td><div class="numMsg" th:if="${!dato.get(1).equals('0')}" th:text="${dato.get(1)}"></div></td>
-					         </tr>
-					        
-					    </tbody>
-					
-				</table> 
+	<tbody>
+		<tr th:each="dato:${datos}" style="cursor: pointer"	th:onclick="${'location.assign(''/chat/conversacion?email='+dato.get(2).remitente+''')'}">
+			<td>
+				<b th:text="${(dato.get(0)!=null)?dato.get(0).getNombreYApellidos():dato.get(2).remitente}"></b>
+			</td>
+			<td th:text="${dato.get(2).mensaje}"></td>
+			<td th:text="${dato.get(2).fecha.toLocaleString()}"></td>
+			<td>
+				<div class="numMsg" th:if="${!dato.get(1).equals('0')}" th:text="${dato.get(1)}"></div>
+			</td>
+		</tr>
+	</tbody>
+</table>
