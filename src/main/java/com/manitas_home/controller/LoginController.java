@@ -60,12 +60,20 @@ public class LoginController {
 		email=email.trim();
 		if(!email.equals("")&&password.length()==254&&Pattern.matches("^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_-]+([.]([a-zA-Z0-9_-]+[a-zA-Z0-9]|[a-zA-Z0-9]))+$", email)){
 		if(RCliente.findOneByEmailAndPassword(email, password)!=null){
-			session.setAttribute("user", RCliente.findOneByEmailAndPassword(email, password));
-			session.setAttribute("tipo","cliente");
+			Cliente clien=RCliente.findOneByEmailAndPassword(email, password);
+			if(clien.isHabilitado()){
+				session.setAttribute("user", clien);
+				session.setAttribute("tipo","cliente");
+			}
+			else envioMail(clien.getEmail());
 		}
 		else if(RManitas.findOneByEmailAndPassword(email, password)!=null){
-			session.setAttribute("user", RManitas.findOneByEmailAndPassword(email, password));
-			session.setAttribute("tipo","manitas");
+			Manitas mani=RManitas.findOneByEmailAndPassword(email, password);
+			if(mani.isHabilitado()){
+				session.setAttribute("user", mani);
+				session.setAttribute("tipo","manitas");
+			}
+			else envioMail(mani.getEmail());
 		}
 		else if(RAdministrador.findOneByEmailAndPassword(email, password)!=null){
 			session.setAttribute("user", RAdministrador.findOneByEmailAndPassword(email, password));
