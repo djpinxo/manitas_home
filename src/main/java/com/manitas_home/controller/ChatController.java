@@ -74,8 +74,8 @@ public class ChatController {
 		return (session.getAttribute("user")!=null)?"views/_t/main":"redirect:/login/login";
 	}
 	@GetMapping("/chat/conversacion")//TODO modificar
-	public String coversacion(@RequestParam("email")String emaildestinatario,HttpSession session,ModelMap m) {
-		if(session.getAttribute("user")!=null){
+	public String coversacion(@RequestParam(value="email", defaultValue="")String emaildestinatario,HttpSession session,ModelMap m) {
+		if(!emaildestinatario.equals("")&&session.getAttribute("user")!=null){
 			List <Mensaje> mensajesRecibidos = RMensaje.findByRemitenteAndDestinatarioOrderByFechaAsc(emaildestinatario,((Usuario)session.getAttribute("user")).getEmail());
 			List <Mensaje> mensajesEnviados = RMensaje.findByRemitenteAndDestinatarioOrderByFechaAsc(((Usuario)session.getAttribute("user")).getEmail(),emaildestinatario);
 			ArrayList <Mensaje> mensajes = new ArrayList();
@@ -129,6 +129,6 @@ public class ChatController {
 			m.put("suscripcion", funcionstart.suscriptionCoder(((Usuario)session.getAttribute("user")).getEmail(),emaildestinatario.trim()));
 		}
 		m.put("view","chat/conversacion");
-		return (session.getAttribute("user")!=null)?"views/_t/main":"redirect:/login/login";
+		return (session.getAttribute("user")!=null)?(!emaildestinatario.equals(""))?"views/_t/main":"redirect:/chat/contactos":"redirect:/login/login";
 	}
 }

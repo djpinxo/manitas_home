@@ -145,7 +145,7 @@ public class ManitasController {
 		if(r.getHeader("X-Requested-With")!=null&&r.getHeader("X-Requested-With").toString().toLowerCase().equals("xmlhttprequest")) return "views/_t/resultado";
 		else return "redirect:/manitas/listar";
 	}
-	@GetMapping("/manitas/borrar")
+	@PostMapping("/manitas/borrar")
 	public String borrar(@RequestParam(value="id", defaultValue="")Long id,@RequestParam(value="passwordactualhash", defaultValue="")String passwordactual,HttpSession session,ModelMap m) {
 		if(id==null && session.getAttribute("user")!=null&&session.getAttribute("user").getClass().getName().equals("com.manitas_home.domain.Manitas")) id=((Manitas)session.getAttribute("user")).getId();
 		if(permisos(id,session)&&((Usuario)session.getAttribute("user")).getPassword().equals(passwordactual)){//TODO si se cambia la modal sino eliminar el password ){
