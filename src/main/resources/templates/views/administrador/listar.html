@@ -2,7 +2,7 @@
 <hr/>
 <div class="btn-group" role="group" style="width:100%;">
 	<a class="btn btn-info" id="botonRotatorio" onclick="this.children[0].className='fa fa-refresh fa-spin fa-fw';peticionAjax('/administrador/listar','GET',crearTablaAdministradores)" role="button" style="color:white;"><span class="fa fa-refresh" style="width: 1em;"></span></a>
-	<a th:if="${!usuarioactivo.borrable}" class="btn btn-info" href="/administrador/crear" style="margin-rigth:0px;"><span class="fa fa-plus"></span> Crear</a>
+	<a th:if="${!usuarioactivo.borrable}" class="btn btn-info" href="/administrador/crear" style="margin-rigth:0px;"><span class="fa fa-plus"></span></a>
 	<input class="form-control busqueda" type="text" placeholder="Busqueda.." style="border-radius: 0px 5px 5px 0px;"/>
 </div>
 
