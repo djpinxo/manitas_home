@@ -231,7 +231,7 @@
         	  <div class="col-md-6">
                 <div id="errorCoordenadas" class="form-control-feedback text-danger alert alert-danger align-middle" hidden="true">
                         <span>
-                           La direcciÛn no es v·lida.
+                           La direcci√≥n no es v√°lida.
                         </span>
                 </div>
             </div>
@@ -309,59 +309,14 @@
                 <button type="submit" class="btn btn-info"  onclick="desbilitarDireccion()"><i class="fa fa-user-plus"></i> Registrar</button>
             </div>
         </div>
+        <br/>
+         <div class="row">
+          	<div class="col-md-3"></div>
+            <div class="col-md-6">
+		      <div class="alert alert-primary" role="alert">
+		      	
+		 		*Revise su email y confirme su registro.
+			</div>
+			 </div>
+		</div>
 </form>
-		<script>
-			/* function mostrar(camposelect){
-				var form = camposelect.parentNode;
-				console.log(form);
-				if(camposelect.value=="manitas"){
-					//cambiar h6 (children[16])
-					form.children[21].style="";
-					form.children[19].style="";
-					form.radio.hidden="true"=false;
-					form.radio.disabled=false;
-				}
-				else {
-					form.children[19].style="display:none";
-					form.children[21].style="display:none";
-					form.radio.hidden="true"=true;
-					form.radio.disabled=true;
-				}
-			}*/
-			function mostrar(tipo){
-
-	            cuenta=tipo;
-	           
-	            
-	            if(cuenta=="manitas"){
-	                 
-	                    divDescripcion.hidden=false;
-	                    divRadio.hidden=false;
-	                    divEmpleo.hidden=false;
-	                    document.getElementById("registroH2").innerHTML = "Registrese como Manitas";
-	                    document.getElementById("tipo").value="manitas";
-	                    document.getElementById("radio").disabled=false;
-	                    document.getElementById("radio").required=true;
-	                    idempleo.disabled=false;
-	                    idempleo.required=true;
-	                }
-	                else {
-	                   divRadio.hidden=true;
-	                    divDescripcion.hidden=true;
-	                    divEmpleo.hidden=true;
-						errorRadioAccion.hidden=true;
-	                     document.getElementById("registroH2").innerHTML = "Registrese como Cliente";
-	                     document.getElementById("tipo").value="cliente";
-	                     document.getElementById("radio").disabled=true;
-	                     document.getElementById("errorRadioAccion").disabled=true;
-	                     document.getElementById("errorRadioAccion").hidden=true;
-	                     idempleo.disabled=true;
-	                     
-	                }
-	     }
-			function desbilitarDireccion(){
-				if(document.getElementById('coordenadas').value!="")
-					document.getElementById('direccion').disabled='true';
-				
-			}
-		</script>

@@ -1378,6 +1378,44 @@ function fijarColor(e) {
 }
 
 
+// Cambiar Tipo de usuario a registrar
+function mostrar(tipo){
+
+    cuenta=tipo;
+   
+    
+    if(cuenta=="manitas"){
+         
+            divDescripcion.hidden=false;
+            divRadio.hidden=false;
+            divEmpleo.hidden=false;
+            document.getElementById("registroH2").innerHTML = "Registrese como Manitas";
+            document.getElementById("tipo").value="manitas";
+            document.getElementById("radio").disabled=false;
+            document.getElementById("radio").required=true;
+            idempleo.disabled=false;
+            idempleo.required=true;
+        }
+        else {
+           divRadio.hidden=true;
+            divDescripcion.hidden=true;
+            divEmpleo.hidden=true;
+			errorRadioAccion.hidden=true;
+             document.getElementById("registroH2").innerHTML = "Registrese como Cliente";
+             document.getElementById("tipo").value="cliente";
+             document.getElementById("radio").disabled=true;
+             document.getElementById("errorRadioAccion").disabled=true;
+             document.getElementById("errorRadioAccion").hidden=true;
+             idempleo.disabled=true;
+             
+        }
+}
+function desbilitarDireccion(){
+	if(document.getElementById('coordenadas').value!="")
+		document.getElementById('direccion').disabled='true';
+	
+}
+
 
 
 /*--------------------------------------------------------------OFUSCADOR DE JS---------------------------https://javascriptobfuscator.com/Javascript-Obfuscator.aspx-------------*/

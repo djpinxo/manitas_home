@@ -201,12 +201,12 @@ public class LoginController {
     try {
 
           Message message = new MimeMessage(session);
-          message.setFrom(new InternetAddress("\"mensaje generico\" <"+user+">")); //Remetente
+          message.setFrom(new InternetAddress("\"Mensaje genérico\" <"+user+">")); //Remetente
 
           message.setRecipients(Message.RecipientType.TO, 
                             InternetAddress.parse(emailDestino));
-          message.setSubject("Email de confirmacion");
-          message.setText("Por favor verifique su email para completar el registro");
+          message.setSubject("Email de confirmación Manitas Home");
+          message.setText("Por favor verifique su email para completar el registro.");
           message.setText("http://"+host+"/login/activation?valor="+URLEncoder.encode(funcionstart.encrypt(emailDestino+"---"+System.currentTimeMillis()))+"\nno responda a este email para contactar dirijase a la pagina seccion contactanos indicando su email y su problema");
           Transport.send(message);
 
@@ -237,15 +237,15 @@ public class LoginController {
   			mensajegmail.setFrom(new InternetAddress("\"mensaje generico\" <"+username+">"));
   			mensajegmail.setRecipients(Message.RecipientType.TO,
   				InternetAddress.parse(emailDestino));
-  			mensajegmail.setSubject("Email de confirmacion");
-            mensajegmail.setText("http://"+host+"/login/activation?valor="+URLEncoder.encode(funcionstart.encrypt(emailDestino+"---"+System.currentTimeMillis()))+"\nno responda a este email para contactar dirijase a la pagina seccion contactanos indicando su email y su problema");
+  			mensajegmail.setSubject("Email de confirmación");
+  			mensajegmail.setText("Clicke en este enlace para activar su cuenta:\nhttp://"+host+"/login/activation?valor="+URLEncoder.encode(funcionstart.encrypt(emailDestino+"---"+System.currentTimeMillis()))+"\n\nNo responda a este email para contactar con nosotros, dirijase a la sección 'Contáctanos' de Manitas Home e indicando su email y su problema. Muchas gracias.");
             Transport.send(mensajegmail);
 
-  			System.out.println("enviado por gmail");
+  			System.out.println("Enviado por Gmail");
 
   		} catch (MessagingException a) {
   			resultado=false;
-  			System.out.println("error en el envio");
+  			System.out.println("Error en el envío");
   		}
     }
 	return resultado;
