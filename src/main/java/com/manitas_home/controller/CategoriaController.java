@@ -42,7 +42,7 @@ public class CategoriaController {
 	@PostMapping("/categoria/crear")
 	public String crear(@RequestParam(value = "nombre", defaultValue = "") String nombre, HttpSession session,ModelMap m, HttpServletRequest r) {//TODO probar
 		nombre=nombre.trim();
-		if (!nombre.equals("")&& Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre)&& permisos(session)) {
+		if (!nombre.equals("")&& Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü])+[\\s|\\ç|\\Ç|\\-]*)+$", nombre)&& permisos(session)) {
 			if (CRepository.findOneByNombre(nombre) == null) {
 				nombre = nombre.toLowerCase();
 				CRepository.save(new Categoria(nombre));
@@ -71,7 +71,7 @@ public class CategoriaController {
 	@PostMapping("/categoria/modificar")//TODO probar
 	public String modificar(@RequestParam(value="id", defaultValue="")Long id,@RequestParam(value="nombre", defaultValue="")String nombre,HttpSession session,ModelMap m, HttpServletRequest r) {
 		nombre=nombre.trim();
-		if(id!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session)){
+		if(id!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü])+[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session)){
 			Categoria c=CRepository.findOne(id);
 			if (c != null) {
 				nombre = nombre.toLowerCase();

@@ -45,7 +45,7 @@ public class EmpleoController {
 	@PostMapping("/empleo/crear")
 	public String crear(@RequestParam(value="nombre", defaultValue="")String nombre,@RequestParam(value="idcategoria", defaultValue="")Long idcategoria,HttpSession session,ModelMap m,HttpServletRequest r) {//TODO probar
 		nombre=nombre.trim();
-		if(idcategoria!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session)){
+		if(idcategoria!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü])+[\\s|\\ç|\\Ç|\\-]*)+$", nombre) && permisos(session)){
 			Categoria c=CRepository.findOne(idcategoria);
 			if(c!=null){
 				if(ERepository.findOneByNombre(nombre)==null){
@@ -79,7 +79,7 @@ public class EmpleoController {
 	@PostMapping("/empleo/modificar")
 	public String modificar(@RequestParam(value="id", defaultValue="")Long id,@RequestParam(value="nombre", defaultValue="")String nombre,@RequestParam(value="idcategoria", defaultValue="")Long idcategoria,HttpSession session,ModelMap m, HttpServletRequest r) {//TODO probar
 		nombre=nombre.trim();
-		if(id!=null&&idcategoria!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre) &&permisos(session)){//TODO añadir validaciones expreg
+		if(id!=null&&idcategoria!=null && !nombre.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü])+[\\s|\\ç|\\Ç|\\-]*)+$", nombre) &&permisos(session)){//TODO añadir validaciones expreg
 			nombre=nombre.toLowerCase();
 			Empleo e=ERepository.findOne(id);
 			if(e!=null){

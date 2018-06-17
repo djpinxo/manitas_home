@@ -79,7 +79,7 @@ public class ClienteController {
 		apellidos=apellidos.trim();
 		telefono=telefono.trim();
 		direccion=direccion.trim();
-		if(id!=null&&!nombre.equals("")&&!email.equals("")&&password.length()==254&&!apellidos.equals("")&&!telefono.equals("")&&!direccion.equals("")&& Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre)&& Pattern.matches("^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_-]+([.]([a-zA-Z0-9_-]+[a-zA-Z0-9]|[a-zA-Z0-9]))+$", email)&& Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", apellidos)&& Pattern.matches("^[9|6]{1}([\\d]{2}[-|\\s]*){3}[\\d]{2}$", telefono)&&permisos(id,session)&&((Usuario)session.getAttribute("user")).getPassword().equals(passwordactual)){
+		if(id!=null&&!nombre.equals("")&&!email.equals("")&&password.length()==254&&!apellidos.equals("")&&!telefono.equals("")&&!direccion.equals("")&& Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü])+[\\s|\\ç|\\Ç|\\-]*)+$", nombre)&& Pattern.matches("^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_-]+([.]([a-zA-Z0-9_-]+[a-zA-Z0-9]|[a-zA-Z0-9]))+$", email)&& Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", apellidos)&& Pattern.matches("^[9|6]{1}([\\d]{2}[-|\\s]*){3}[\\d]{2}$", telefono)&&permisos(id,session)&&((Usuario)session.getAttribute("user")).getPassword().equals(passwordactual)){
 			Cliente cliente=RCliente.findOne(id);
 			if(cliente==null&&session.getAttribute("tipo").equals("cliente")&&((Usuario)session.getAttribute("user")).getId().equals(id)) LoginController.logoutStatic(session);
 			m.put("resultado", "OK");

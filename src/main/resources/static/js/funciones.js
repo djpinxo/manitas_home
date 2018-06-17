@@ -623,7 +623,7 @@ function validarCampos(form) {
 	nombre=nombre.trim();
 	form['nombre'].value = nombre;
 	nombreCorrecto=false;
-	expRegNombre = /^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\s|\ç|\Ç|\-]*)+$/;
+	expRegNombre = /^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü])+[\s|\ç|\Ç|\-]*)+$/;
 	
 		if (nombre.length>=3 && nombre.length<30) {
 			if(expRegNombre.test(nombre)){

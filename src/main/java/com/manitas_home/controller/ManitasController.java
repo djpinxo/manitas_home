@@ -110,7 +110,7 @@ public class ManitasController {
 		telefono = telefono.trim();
 		direccion = direccion.trim();
 		passwordactual = passwordactual.trim();
-		if(id!=null&&!nombre.equals("") && !email.equals("") && password.length() == 254&& passwordactual.length() == 254&& !telefono.equals("") && !direccion.equals("")&&!idsempleos.isEmpty()&&Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre)&& Pattern.matches("^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_-]+([.]([a-zA-Z0-9_-]+[a-zA-Z0-9]|[a-zA-Z0-9]))+$", email)&& Pattern.matches("^[9|6]{1}([\\d]{2}[-|\\s]*){3}[\\d]{2}$", telefono)){
+		if(id!=null&&!nombre.equals("") && !email.equals("") && password.length() == 254&& passwordactual.length() == 254&& !telefono.equals("") && !direccion.equals("")&&!idsempleos.isEmpty()&&Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü])+[\\s|\\ç|\\Ç|\\-]*)+$", nombre)&& Pattern.matches("^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_-]+([.]([a-zA-Z0-9_-]+[a-zA-Z0-9]|[a-zA-Z0-9]))+$", email)&& Pattern.matches("^[9|6]{1}([\\d]{2}[-|\\s]*){3}[\\d]{2}$", telefono)){
 			if(permisos(id,session)&&((Usuario)session.getAttribute("user")).getPassword().equals(passwordactual)){
 			Manitas manitas=RManitas.findOne(id);
 			if(manitas==null&&session.getAttribute("tipo").equals("manitas")&&((Usuario)session.getAttribute("user")).getId().equals(id)) LoginController.logoutStatic(session);

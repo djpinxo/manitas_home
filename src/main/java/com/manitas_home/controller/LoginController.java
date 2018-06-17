@@ -116,7 +116,7 @@ public class LoginController {
 			telefono = telefono.trim();
 			direccion = direccion.trim();
 			if (!tipo.equals("") && !nombre.equals("") && !email.equals("") && password.length() == 254&& !telefono.equals("") && !direccion.equals("")) {
-				if(Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", nombre)&& Pattern.matches("^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_-]+([.]([a-zA-Z0-9_-]+[a-zA-Z0-9]|[a-zA-Z0-9]))+$", email)&& Pattern.matches("^[9|6]{1}([\\d]{2}[-|\\s]*){3}[\\d]{2}$", telefono)){
+				if(Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü])+[\\s|\\ç|\\Ç|\\-]*)+$", nombre)&& Pattern.matches("^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_-]+([.]([a-zA-Z0-9_-]+[a-zA-Z0-9]|[a-zA-Z0-9]))+$", email)&& Pattern.matches("^[9|6]{1}([\\d]{2}[-|\\s]*){3}[\\d]{2}$", telefono)){
 					if (RCliente.findOneByEmail(email) == null && RManitas.findOneByEmail(email) == null&& RAdministrador.findOneByEmail(email) == null) {
 						if (tipo.equals("cliente") && !apellidos.equals("") && Pattern.matches("^(([A-ZÑÁÉÍÓÚ]|[a-zñáéíóú]|[ÄËÏÖÜäëïöü]){3,}[\\s|\\ç|\\Ç|\\-]*)+$", apellidos)&& envioMail(email)) {
 							RCliente.save(new Cliente(nombre, apellidos, telefono, email, password, direccion));// TODO
