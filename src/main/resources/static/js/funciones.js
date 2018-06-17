@@ -1416,6 +1416,46 @@ function desbilitarDireccion(){
 	
 }
 
+function valoracionesPorcentaje(){
+	
+	var numVal1= document.getElementById("progressBar1").innerHTML;
+	numVal1=parseInt(numVal1);
+	var numVal2= document.getElementById("progressBar2").innerHTML;
+	numVal2=parseInt(numVal2);
+	var numVal3= document.getElementById("progressBar3").innerHTML;
+	numVal3=parseInt(numVal3);
+	var numVal4= document.getElementById("progressBar4").innerHTML;
+	numVal4=parseInt(numVal4);
+	var numVal5= document.getElementById("progressBar5").innerHTML;
+	numVal5=parseInt(numVal5);
+	
+	numeroTotalValoraciones= numVal1 + numVal2+ numVal3 + numVal4 + numVal5;
+	console.log(numeroTotalValoraciones);
+	porcentajePorValoracion=100/numeroTotalValoraciones;
+	
+	console.log(porcentajePorValoracion);
 
+	var numeroOpiniones= document.getElementById("progressBar1").innerHTML;
+	var porcentaje=numeroOpiniones*porcentajePorValoracion;
+	document.getElementById("progressPorcentaje1").style.width=porcentaje+"%";
+	
+	var numeroOpiniones= document.getElementById("progressBar2").innerHTML;
+	var porcentaje=numeroOpiniones*porcentajePorValoracion;
+	document.getElementById("progressPorcentaje2").style.width=porcentaje+"%";
+	
+	var numeroOpiniones= document.getElementById("progressBar3").innerHTML;
+	var porcentaje=numeroOpiniones*porcentajePorValoracion;
+	document.getElementById("progressPorcentaje3").style.width=porcentaje+"%";
+	
+	var numeroOpiniones= document.getElementById("progressBar4").innerHTML;
+	var porcentaje=numeroOpiniones*porcentajePorValoracion;
+	document.getElementById("progressPorcentaje4").style.width=porcentaje+"%";
+	
+	var numeroOpiniones= document.getElementById("progressBar5").innerHTML;
+	var porcentaje=numeroOpiniones*porcentajePorValoracion;
+	document.getElementById("progressPorcentaje5").style.width=porcentaje+"%";
+	
+	
+}
 
 /*--------------------------------------------------------------OFUSCADOR DE JS---------------------------https://javascriptobfuscator.com/Javascript-Obfuscator.aspx-------------*/
