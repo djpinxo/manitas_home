@@ -24,7 +24,7 @@
                         <li><a href="/">Home</a></li>
                         <li><a href="/conocenos">Información de la compañía</a></li>
                         <li><a th:href="${usuarioactivo==null}?'/mensaje/crear?anonimo=true':'/mensaje/crear?emaildestinatario=administradores'">Contacto</a></li>
-                        <li><a href="/login/crear">Registrate</a></li>
+                        <li><a href="/login/crear">Regístrate</a></li>
                     </ul>
                 </div>
                 
@@ -34,7 +34,7 @@
                         <a href="https://es-es.facebook.com/" class="facebook"><i class="fa fa-facebook"></i></a>
                         <a href="https://plus.google.com/discover?hl=es" class="google"><i class="fa fa-google-plus"></i></a>
                     </div>
-                    <a th:href="${usuarioactivo==null}?'/mensaje/crear?anonimo=true':'/mensaje/crear?emaildestinatario=administradores'" class="btn btn-default" role="button">Contactanos</a>
+                    <a th:href="${usuarioactivo==null}?'/mensaje/crear?anonimo=true':'/mensaje/crear?emaildestinatario=administradores'" class="btn btn-default" role="button">Contáctanos</a>
                     
                 </div>
             </div>
