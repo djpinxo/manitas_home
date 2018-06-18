@@ -53,7 +53,7 @@ public class MensajeController {
 			m.put("emaildestinatario", "administradores;");
 			m.put("view","mensaje/crear");
 		}
-		return ((session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null)||anonimo)?"views/_t/main":"redirect:/mensaje/listar";
+		return ((session.getAttribute("tipo")!=null&&session.getAttribute("user")!=null))?"views/_t/main":"redirect:/mensaje/listar";
 	}
 	@PostMapping("/mensaje/crear")
 	public String crear(@RequestParam(value="emaildestinatario",defaultValue="")String emaildestinatario,@RequestParam(value="mensaje",defaultValue="")String mensaje,@RequestParam(value="anonimo",defaultValue="false")boolean anonimo,@RequestParam(value="contactoanonimo",defaultValue="")String contactoanonimo,HttpSession session) {
